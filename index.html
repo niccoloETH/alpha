@@ -1,764 +1,1027 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alpha Score Rolling Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucid Icons (still kept for other icons like language and theme toggle) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <!-- Lucid Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            /* Light Mode Palette - Inspired by neobrutalism.dev */
-            --bg-light: #FFFBEB; /* Pale Cream/Yellow */
-            --text-light: #000000;
-            --card-bg-light: #FFFFFF;
-            --border-color: #000000; /* Universal black border */
-            --shadow-color: #000000; /* Universal black shadow */
-            
-            --button-primary-bg-light: #2563EB; /* Bright Blue (e.g., Simulate button) */
-            --button-primary-text-light: #FFFFFF;
-            --button-primary-hover-bg-light: #1D4ED8;
+      :root {
+        /* Light Mode Palette */
+        --bg-light: #fffbeb;
+        --text-light: #000000;
+        --card-bg-light: #ffffff;
+        --border-color: #000000;
+        --shadow-color: #000000;
+        --button-primary-bg-light: #2563eb;
+        --button-primary-text-light: #ffffff;
+        --button-primary-hover-bg-light: #1d4ed8;
+        --button-toggle-bg-light: #ffffff;
+        --button-toggle-text-light: #000000; /* Text on toggle buttons */
+        --button-toggle-icon-light: #000000; /* Icon color on toggle buttons */
+        --summary-card-bg-light: #facc15;
+        --summary-card-text-light: #000000;
+        --table-header-bg-light: #34d399;
+        --table-header-text-light: #000000;
+        --table-even-row-bg-light: #f3f4f6;
+        --table-odd-row-bg-light: #ffffff;
+        --table-data-text-light: var(--text-light);
+        --error-text-light: #9f1239;
+        --error-bg-light: #fecdd3;
+        --grid-line-color-light: rgba(0, 0, 0, 0.07);
+        --marquee-bg-light: #a78bfa;
+        --marquee-text-light: #ffffff;
 
-            --button-toggle-bg-light: #FFFFFF;
-            --button-toggle-text-light: #000000;
-            --button-toggle-icon-light: #000000;
+        /* Dark Mode Palette */
+        --bg-dark: #111827;
+        --text-dark: #f3f4f6;
+        --card-bg-dark: #1f2937;
+        --button-primary-bg-dark: #2563eb;
+        --button-primary-text-dark: #ffffff;
+        --button-primary-hover-bg-dark: #1d4ed8;
+        --button-toggle-bg-dark: #374151; /* UPDATED: Changed to a more distinct gray */
+        --button-toggle-text-dark: #f3f4f6; /* Light gray text for toggles */
+        --button-toggle-icon-dark: #ffffff; /* CORRECTED: Pure white icons for toggles */
+        --summary-card-bg-dark: #facc15;
+        --summary-card-text-dark: #000000;
+        --table-header-bg-dark: #34d399;
+        --table-header-text-dark: #000000;
+        --table-even-row-bg-dark: #374151;
+        --table-odd-row-bg-dark: #1f2937;
+        --table-data-text-dark: #ffffff;
+        --error-text-dark: #9f1239;
+        --error-bg-dark: #fecdd3;
+        --grid-line-color-dark: rgba(255, 255, 255, 0.05);
+        --marquee-bg-dark: #7c3aed;
+        --marquee-text-dark: #ffffff;
+      }
 
+      html,
+      body {
+        height: 100%;
+      }
 
-            --summary-card-bg-light: #FACC15; /* Vibrant Yellow */
-            --summary-card-text-light: #000000;
+      body {
+        font-family: "Poppins", "Kantumruy Pro", sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        transition: background-color 0.3s, color 0.3s;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-image: linear-gradient(
+            var(--grid-line-color-light) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to right,
+            var(--grid-line-color-light) 1px,
+            transparent 1px
+          );
+        background-size: 40px 40px;
+      }
+      body.dark-mode {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+        background-image: linear-gradient(
+            var(--grid-line-color-dark) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to right,
+            var(--grid-line-color-dark) 1px,
+            transparent 1px
+          );
+      }
+      .main-container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        flex-grow: 1;
+      }
+      @media (min-width: 640px) {
+        .main-container {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .main-container {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
 
-            --table-header-bg-light: #34D399; /* Vibrant Green */
-            --table-header-text-light: #000000;
-            --table-even-row-bg-light: #F3F4F6; /* Light Gray */
-            --table-odd-row-bg-light: #FFFFFF;
-            --table-data-text-light: var(--text-light); 
+      .neobrutalist-marquee {
+        background-color: var(--marquee-bg-light);
+        color: var(--marquee-text-light);
+        border: 3px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 6px 6px 0px var(--shadow-color);
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        font-size: 1rem;
+        overflow: hidden;
+        transition: background-color 0.3s, color 0.3s;
+        white-space: nowrap;
+      }
+      body.dark-mode .neobrutalist-marquee {
+        background-color: var(--marquee-bg-dark);
+        color: var(--marquee-text-dark);
+      }
+      .neobrutalist-marquee .marquee-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 1.5rem;
+        vertical-align: middle;
+      }
+      .neobrutalist-marquee .marquee-item .marquee-svg-item {
+        width: 20px;
+        height: 20px;
+        margin: 0 0.45rem;
+      }
+      .neobrutalist-marquee .marquee-item .marquee-svg-item path {
+        transition: fill 0.3s;
+      }
+      .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[fill="currentColor"] {
+        fill: var(--marquee-text-light);
+      }
+      body.dark-mode
+        .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[fill="currentColor"] {
+        fill: var(--marquee-text-dark);
+      }
+      .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[stroke="black"] {
+        stroke: var(--border-color);
+        fill: var(--marquee-text-light);
+      }
+      body.dark-mode
+        .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[stroke="black"] {
+        fill: var(--marquee-text-dark);
+      }
 
-            --error-text-light: #9F1239; /* Dark Rose text */
-            --error-bg-light: #FECDD3; /* Light Rose background */
+      .neobrutalist-card {
+        background-color: var(--card-bg-light);
+        border: 3px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 6px 6px 0px var(--shadow-color);
+        padding: 1rem; /* Updated padding */
+        margin-bottom: 1rem;
+        transition: background-color 0.3s;
+      }
+      body.dark-mode .neobrutalist-card {
+        background-color: var(--card-bg-dark);
+      }
 
-            --grid-line-color-light: rgba(0, 0, 0, 0.07); 
-            --marquee-bg-light: #A78BFA; /* Vibrant Purple for marquee */
-            --marquee-text-light: #FFFFFF;
-            
-            /* Dark Mode Palette */
-            --bg-dark: #111827; 
-            --text-dark: #F3F4F6; 
-            --card-bg-dark: #1F2937; 
-            
-            --button-primary-bg-dark: #2563EB; 
-            --button-primary-text-dark: #FFFFFF;
-            --button-primary-hover-bg-dark: #1D4ED8;
+      .input-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .input-label {
+        color: var(--text-dark);
+      }
 
-            --button-toggle-bg-dark: #1F2937; 
-            --button-toggle-text-dark: #F3F4F6;
-            --button-toggle-icon-dark: #F3F4F6;
+      .input-field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 3px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 1rem;
+        background-color: var(--card-bg-light);
+        font-weight: 500;
+        color: var(--text-light);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .input-field {
+        background-color: var(--card-bg-dark);
+        color: var(--text-dark);
+      }
+      .input-field:focus {
+        outline: none;
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        transform: translate(-1px, -1px);
+      }
 
-            --summary-card-bg-dark: #FACC15; 
-            --summary-card-text-dark: #000000;
+      .toggle-button {
+        background-color: var(--button-toggle-bg-light);
+        color: var(--button-toggle-text-light); /* Sets text color */
+        font-weight: 700;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        border: 3px solid var(--border-color);
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        min-width: auto;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      /* This rule applies the dark mode background to toggle buttons */
+      body.dark-mode .toggle-button {
+        background-color: var(
+          --button-toggle-bg-dark
+        ); /* Uses the updated variable */
+        color: var(--button-toggle-text-dark);
+      }
+      /* Lucid Icons styling */
+      .toggle-button .lucide {
+        width: 18px;
+        height: 18px;
+        stroke: var(--button-toggle-icon-light);
+        fill: none !important;
+        transition: stroke 0.3s;
+      }
+      body.dark-mode .toggle-button .lucide {
+        stroke: var(--button-toggle-icon-dark);
+      }
+      /* Custom Twitter Icon styling */
+      #twitterButton svg path {
+        fill: var(--button-toggle-icon-light);
+        transition: fill 0.3s;
+      }
+      body.dark-mode #twitterButton svg path {
+        fill: var(--button-toggle-icon-dark);
+      }
+      /* Text next to icons in toggle buttons */
+      .toggle-button span {
+        color: var(--button-toggle-text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .toggle-button span {
+        color: var(--button-toggle-text-dark);
+      }
+      #twitterButton span {
+        font-size: 0.75rem;
+        margin-left: 0.25rem;
+      }
 
-            --table-header-bg-dark: #34D399; 
-            --table-header-text-dark: #000000;
-            --table-even-row-bg-dark: #374151; 
-            --table-odd-row-bg-dark: #1F2937; 
-            --table-data-text-dark: #FFFFFF; 
+      .toggle-button:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0px var(--shadow-color);
+      }
 
-            --error-text-dark: #9F1239; 
-            --error-bg-dark: #FECDD3; 
+      .simulate-button {
+        width: 100%;
+        background-color: var(--button-primary-bg-light);
+        color: var(--button-primary-text-light);
+        font-weight: 800;
+        padding: 0.875rem 0;
+        border-radius: 0.375rem;
+        border: 3px solid var(--border-color);
+        font-size: 1.125rem;
+        box-shadow: 4px 4px 0px var(--shadow-color);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+        cursor: pointer;
+      }
+      body.dark-mode .simulate-button {
+        background-color: var(--button-primary-bg-dark);
+        color: var(--button-primary-text-dark);
+      }
+      .simulate-button:hover {
+        background-color: var(--button-primary-hover-bg-light);
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px var(--shadow-color);
+      }
+      body.dark-mode .simulate-button:hover {
+        background-color: var(--button-primary-hover-bg-dark);
+      }
+      .simulate-button:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px var(--shadow-color);
+      }
 
-            --grid-line-color-dark: rgba(255, 255, 255, 0.05); 
-            --marquee-bg-dark: #7C3AED; 
-            --marquee-text-dark: #FFFFFF;
-        }
+      .summary-card {
+        background-color: var(--summary-card-bg-light);
+        color: var(--summary-card-text-light);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .summary-card {
+        background-color: var(--summary-card-bg-dark);
+        color: var(--summary-card-text-dark);
+      }
+      .summary-text {
+        font-size: 1.125rem;
+        font-weight: 700;
+        text-align: center;
+      }
 
-        html, body {
-            height: 100%; 
-        }
+      .results-table {
+        width: 100%;
+        margin-top: 1rem;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+        border: 3px solid var(--border-color);
+      }
+      .results-table th,
+      .results-table td {
+        border: 2px solid var(--border-color);
+        padding: 0.5rem;
+        text-align: left;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .results-table th {
+        background-color: var(--table-header-bg-light);
+        color: var(--table-header-text-light);
+        font-weight: 700;
+        border-bottom-width: 3px;
+      }
+      body.dark-mode .results-table th {
+        background-color: var(--table-header-bg-dark);
+        color: var(--table-header-text-dark);
+      }
+      .results-table td {
+        color: var(--table-data-text-light);
+      }
+      body.dark-mode .results-table td {
+        color: var(--table-data-text-dark);
+      }
+      .results-table td.text-center {
+        text-align: center;
+      }
+      .results-table tr:nth-child(even) td {
+        background-color: var(--table-even-row-bg-light);
+      }
+      body.dark-mode .results-table tr:nth-child(even) td {
+        background-color: var(--table-even-row-bg-dark);
+      }
+      .results-table tr:nth-child(odd) td {
+        background-color: var(--table-odd-row-bg-light);
+      }
+      body.dark-mode .results-table tr:nth-child(odd) td {
+        background-color: var(--table-odd-row-bg-dark);
+      }
 
-        body {
-            font-family: 'Poppins', 'Kantumruy Pro', sans-serif; 
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            transition: background-color 0.3s, color 0.3s;
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            
-            background-image: 
-                linear-gradient(var(--grid-line-color-light) 1px, transparent 1px),
-                linear-gradient(to right, var(--grid-line-color-light) 1px, transparent 1px);
-            background-size: 40px 40px; 
-        }
-        body.dark-mode {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-            background-image: 
-                linear-gradient(var(--grid-line-color-dark) 1px, transparent 1px),
-                linear-gradient(to right, var(--grid-line-color-dark) 1px, transparent 1px);
-        }
-        .main-container { 
-            width: 100%;
-            max-width: 1280px; 
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;  
-            padding-right: 1rem; 
-            flex-grow: 1; 
-        }
-         @media (min-width: 640px) { 
-            .main-container {
-                padding-left: 1.5rem; 
-                padding-right: 1.5rem;
-            }
-        }
-        @media (min-width: 1024px) { 
-            .main-container {
-                padding-left: 2rem; 
-                padding-right: 2rem;
-            }
-        }
+      .error-message-style {
+        color: var(--error-text-light);
+        background-color: var(--error-bg-light);
+        border: 3px solid var(--border-color);
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        text-align: center;
+        font-weight: 600;
+        box-shadow: 4px 4px 0px var(--shadow-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .error-message-style {
+        color: var(--error-text-dark);
+        background-color: var(--error-bg-dark);
+      }
 
+      .page-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .page-title {
+        color: var(--text-dark);
+      }
+      .controls-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      #resultsCard h2 {
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode #resultsCard h2 {
+        color: var(--text-dark);
+      }
 
-        .neobrutalist-marquee {
-            background-color: var(--marquee-bg-light);
-            color: var(--marquee-text-light);
-            border: 3px solid var(--border-color);
-            border-radius: 0.5rem;
-            box-shadow: 6px 6px 0px var(--shadow-color);
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.5rem; 
-            font-weight: 700;
-            font-size: 1rem;
-            overflow: hidden; 
-            transition: background-color 0.3s, color 0.3s;
-            white-space: nowrap; 
+      @media (max-width: 640px) {
+        /* sm breakpoint */
+        .controls-container {
+          justify-content: center;
         }
-        body.dark-mode .neobrutalist-marquee {
-            background-color: var(--marquee-bg-dark);
-            color: var(--marquee-text-dark);
+        .toggle-button {
+          margin-top: 0.5rem;
         }
-        .neobrutalist-marquee .marquee-item {
-            display: inline-flex; 
-            align-items: center;
-            margin-right: 1.5rem; 
-            vertical-align: middle; 
-        }
-        .neobrutalist-marquee .marquee-item .marquee-svg-item { 
-            width: 20px;
-            height: 20px;
-            margin: 0 0.45rem; 
-        }
-        /* Ensures SVG fill inherits from marquee text color (which is white or light gray) */
-        /* This targets paths within SVGs that specifically use fill="currentColor" */
-        .neobrutalist-marquee .marquee-item .marquee-svg-item path[fill="currentColor"] {
-            fill: var(--marquee-text-light);
-            transition: fill 0.3s;
-        }
-        body.dark-mode .neobrutalist-marquee .marquee-item .marquee-svg-item path[fill="currentColor"] {
-            fill: var(--marquee-text-dark);
-        }
-        /* For the SVG with its own stroke, we want its fill to adapt too */
-         .neobrutalist-marquee .marquee-item .marquee-svg-item path[stroke="black"] {
-            stroke: var(--border-color); /* Keep stroke black as per SVG definition */
-            /* Fill will be handled by the fill="currentColor" on its path if present, or the rule above */
-        }
-
-
-        .neobrutalist-card {
-            background-color: var(--card-bg-light);
-            border: 3px solid var(--border-color);
-            border-radius: 0.5rem; 
-            box-shadow: 6px 6px 0px var(--shadow-color); 
-            padding: 1.5rem; 
-            margin-bottom: 1rem; 
-            transition: background-color 0.3s;
-        }
-        body.dark-mode .neobrutalist-card {
-            background-color: var(--card-bg-dark);
-        }
-
-        .input-label {
-            display: block;
-            margin-bottom: 0.5rem; 
-            font-size: 0.875rem; 
-            font-weight: 700; 
-            color: var(--text-light);
-            transition: color 0.3s;
-        }
-        body.dark-mode .input-label {
-            color: var(--text-dark);
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 0.75rem; 
-            border: 3px solid var(--border-color);
-            border-radius: 0.375rem; 
-            font-size: 1rem; 
-            background-color: var(--card-bg-light);
-            font-weight: 500;
-            color: var(--text-light); 
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .input-field {
-            background-color: var(--card-bg-dark);
-            color: var(--text-dark);
-        }
-        .input-field:focus {
-            outline: none;
-            box-shadow: 3px 3px 0px var(--shadow-color); 
-            transform: translate(-1px, -1px);
-        }
-        
-        .toggle-button { 
-            background-color: var(--button-toggle-bg-light);
-            color: var(--button-toggle-text-light);
-            font-weight: 700;
-            padding: 0.5rem 0.75rem; 
-            border-radius: 0.375rem;
-            border: 3px solid var(--border-color);
-            box-shadow: 3px 3px 0px var(--shadow-color);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-            cursor: pointer;
-            margin-left: 0.5rem;
-            font-size: 0.875rem; 
-            line-height: 1.5; 
-            min-width: auto; 
-            text-align: center;
-            display: inline-flex; 
-            align-items: center;
-            gap: 0.35rem; 
-        }
-        .toggle-button svg { 
-            width: 18px; 
-            height: 18px;
-            stroke: var(--button-toggle-icon-light); 
-            transition: stroke 0.3s;
-        }
-        body.dark-mode .toggle-button {
-            background-color: var(--button-toggle-bg-dark);
-            color: var(--button-toggle-text-dark);
-        }
-        body.dark-mode .toggle-button svg {
-            stroke: var(--button-toggle-icon-dark);
-        }
-        .toggle-button:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px var(--shadow-color);
-        }
-        #twitterButton span {
-            font-size: 0.75rem; 
-            margin-left: 0.25rem;
-        }
-
-
-        .simulate-button {
-            width: 100%;
-            background-color: var(--button-primary-bg-light); 
-            color: var(--button-primary-text-light);
-            font-weight: 800; 
-            padding: 0.875rem 0; 
-            border-radius: 0.375rem; 
-            border: 3px solid var(--border-color);
-            font-size: 1.125rem; 
-            box-shadow: 4px 4px 0px var(--shadow-color);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-            cursor: pointer;
-        }
-        body.dark-mode .simulate-button {
-            background-color: var(--button-primary-bg-dark);
-            color: var(--button-primary-text-dark);
-        }
-        .simulate-button:hover {
-            background-color: var(--button-primary-hover-bg-light); 
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--shadow-color);
-        }
-        body.dark-mode .simulate-button:hover {
-            background-color: var(--button-primary-hover-bg-dark);
-        }
-        .simulate-button:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px var(--shadow-color);
-        }
-
-        .summary-card {
-            background-color: var(--summary-card-bg-light);
-            color: var(--summary-card-text-light);
-            border: 3px solid var(--border-color);
-            border-radius: 0.5rem;
-            box-shadow: 6px 6px 0px var(--shadow-color);
-            padding: 1.5rem;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .summary-card {
-            background-color: var(--summary-card-bg-dark);
-            color: var(--summary-card-text-dark);
-        }
-        .summary-text {
-            font-size: 1.125rem; 
-            font-weight: 700; 
-            text-align: center;
-        }
-
-        .results-table {
-            width: 100%;
-            margin-top: 1rem; 
-            border-collapse: collapse;
-            font-size: 0.875rem; 
-            border: 3px solid var(--border-color); 
-        }
-        .results-table th, .results-table td {
-            border: 2px solid var(--border-color); 
-            padding: 0.5rem; 
-            text-align: left;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .results-table th {
-            background-color: var(--table-header-bg-light); 
-            color: var(--table-header-text-light);
-            font-weight: 700; 
-            border-bottom-width: 3px;
-        }
-        body.dark-mode .results-table th {
-            background-color: var(--table-header-bg-dark);
-            color: var(--table-header-text-dark);
-        }
-         .results-table td { 
-            color: var(--table-data-text-light);
-        }
-        body.dark-mode .results-table td {
-             color: var(--table-data-text-dark); 
-        }
-        .results-table td.text-center {
-            text-align: center;
-        }
-        .results-table tr:nth-child(even) td { 
-            background-color: var(--table-even-row-bg-light); 
-        }
-        body.dark-mode .results-table tr:nth-child(even) td {
-            background-color: var(--table-even-row-bg-dark);
-        }
-        .results-table tr:nth-child(odd) td {
-             background-color: var(--table-odd-row-bg-light); 
-        }
-        body.dark-mode .results-table tr:nth-child(odd) td {
-            background-color: var(--table-odd-row-bg-dark);
-        }
-
-        .error-message-style { 
-            color: var(--error-text-light); 
-            background-color: var(--error-bg-light); 
-            border: 3px solid var(--border-color); 
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem; 
-            text-align: center;
-            font-weight: 600;
-            box-shadow: 4px 4px 0px var(--shadow-color); 
-            transition: background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .error-message-style {
-            color: var(--error-text-dark);
-            background-color: var(--error-bg-dark);
-        }
-
         .page-title {
-            font-size: 1.75rem; 
-            font-weight: 800; 
-            text-align: center;
-            margin-bottom: 1.5rem; 
-            color: var(--text-light);
-            transition: color 0.3s;
+          font-size: 1.5rem;
         }
-        body.dark-mode .page-title {
-            color: var(--text-dark);
+        .results-table th,
+        .results-table td {
+          padding: 0.3rem;
+          font-size: 0.75rem;
         }
-        .controls-container { 
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap; 
+        .neobrutalist-marquee {
+          font-size: 0.875rem;
+          padding: 0.5rem 0.75rem;
         }
-        #resultsCard h2 {
-            color: var(--text-light);
-            transition: color 0.3s;
+        .neobrutalist-marquee .marquee-item svg {
+          width: 16px;
+          height: 16px;
         }
-        body.dark-mode #resultsCard h2 {
-            color: var(--text-dark);
-        }
-        
-
-
-         @media (max-width: 640px) { /* sm breakpoint */
-            .controls-container {
-                justify-content: center; 
-            }
-            .toggle-button {
-                margin-top: 0.5rem; 
-            }
-            .page-title {
-                font-size: 1.5rem;
-            }
-            .results-table th, .results-table td {
-                padding: 0.3rem;
-                font-size: 0.75rem;
-            }
-            .neobrutalist-marquee {
-                font-size: 0.875rem; 
-                padding: 0.5rem 0.75rem;
-            }
-            .neobrutalist-marquee .marquee-item svg { /* General SVG size for marquee on mobile */
-                width: 16px;
-                height: 16px;
-            }
-        }
-
+      }
     </style>
-</head>
-<body class="p-4 md:p-8">
+  </head>
+  <body class="p-4 md:p-8">
+    <div class="main-container">
+      <div class="controls-container">
+        <button id="languageToggleButton" class="toggle-button">
+          <i data-lucide="languages" class="lucide icon"></i>
+          <span data-translate="languageToggle">English</span>
+        </button>
+        <a
+          href="https://x.com/drv3v"
+          target="_blank"
+          rel="noopener noreferrer"
+          id="twitterButton"
+          class="toggle-button ml-2">
+          <!-- Twitter SVG - fill="currentColor" removed from path, will be controlled by CSS -->
+          <svg
+            class="icon"
+            style="width: 18px; height: 18px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512">
+            <path
+              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+          </svg>
+          <span>@drv3v</span>
+        </a>
+        <button id="darkModeToggle" class="toggle-button ml-2">
+          <!-- Icon will be set by JavaScript -->
+        </button>
+      </div>
 
-    <div class="main-container"> 
-        <div class="controls-container">
-            <button id="languageToggleButton" class="toggle-button">
-                <i data-lucide="languages" class="icon"></i>
-                <span data-translate="languageToggle">English</span>
-            </button>
-            <a href="https://x.com/drv3v" target="_blank" rel="noopener noreferrer" id="twitterButton" class="toggle-button ml-2">
-                <i data-lucide="twitter" class="icon"></i>
-                <span>@drv3v</span>
-            </a>
-            <button id="darkModeToggle" class="toggle-button ml-2">
-                <!-- Icon will be set by JavaScript -->
-            </button>
+      <marquee
+        class="neobrutalist-marquee"
+        behavior="scroll"
+        direction="left"
+        scrollamount="5">
+        <span class="marquee-item">HASHNODE</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              stroke="black"
+              stroke-width="6"
+              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">0xPRERICH</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">BINANCE ALPHA</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              data-fill-type="text"
+              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
+              clip-rule="evenodd"
+              fill-rule="evenodd"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">HASHNODE</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              stroke="black"
+              stroke-width="6"
+              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">0xPRERICH</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">BINANCE ALPHA</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              data-fill-type="text"
+              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
+              clip-rule="evenodd"
+              fill-rule="evenodd"></path>
+          </svg>
+        </span>
+      </marquee>
+
+      <div class="neobrutalist-card">
+        <h1 class="page-title" data-translate="pageTitle">
+          Alpha Score Rolling Simulator
+        </h1>
+
+        <div id="errorMessageContainer" class="mb-4">
+          <!-- Error messages will be injected here by JavaScript -->
         </div>
 
-        <marquee class="neobrutalist-marquee" behavior="scroll" direction="left" scrollamount="5">
-            <span class="marquee-item">HASHNODE</span>
-            <span class="marquee-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" stroke="black" stroke-width="6" d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path></svg>
-            </span>
-            <span class="marquee-item">0xPRERICH</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path></svg>
-            </span>
-            <span class="marquee-item">BINANCE ALPHA</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 200 200" class="marquee-svg-item"><path d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-            </span>
-             <!-- Repeat for continuous effect -->
-            <span class="marquee-item">HASHNODE</span>
-            <span class="marquee-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" stroke="black" stroke-width="6" d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path></svg>
-            </span>
-            <span class="marquee-item">0xPRERICH</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path></svg>
-            </span>
-            <span class="marquee-item">BINANCE ALPHA</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 200 200" class="marquee-svg-item"><path d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-            </span>
-        </marquee>
-
-
-        <div class="neobrutalist-card">
-            <h1 class="page-title" data-translate="pageTitle">Alpha Score Rolling Simulator</h1>
-            
-            <div id="errorMessageContainer" class="mb-4">
-                <!-- Error message will be injected here by JavaScript -->
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="fixedDailyScore" class="input-label" data-translate="fixedDailyScoreLabel">Fixed Daily Score</label>
-                    <input type="number" id="fixedDailyScore" class="input-field" value="18">
-                </div>
-                <div>
-                    <label for="totalDays" class="input-label" data-translate="totalDaysLabel">Total Days</label>
-                    <input type="number" id="totalDays" class="input-field" value="30" min="1">
-                </div>
-                <div>
-                    <label for="rollingWindow" class="input-label" data-translate="rollingWindowLabel">Rolling Window (days)</label>
-                    <input type="number" id="rollingWindow" class="input-field" value="15" min="1">
-                </div>
-                <div>
-                    <label for="thresholdScore" class="input-label" data-translate="thresholdScoreLabel">Threshold Score</label>
-                    <input type="number" id="thresholdScore" class="input-field" value="210">
-                </div>
-                <div>
-                    <label for="pointsConsumed" class="input-label" data-translate="pointsConsumedLabel">Points Consumed per Claim</label>
-                    <input type="number" id="pointsConsumed" class="input-field" value="15">
-                </div>
-                <div>
-                    <label for="rewardPerClaim" class="input-label" data-translate="rewardPerClaimLabel">Reward per Claim (U)</label>
-                    <input type="number" id="rewardPerClaim" class="input-field" value="90">
-                </div>
-            </div>
-            
-            <button id="simulateButton" class="simulate-button" data-translate="simulateButton">Simulate</button>
+        <!-- Input fields for simulation parameters -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
+          <div>
+            <label
+              for="fixedDailyScore"
+              class="input-label"
+              data-translate="fixedDailyScoreLabel"
+              >Fixed Daily Score</label
+            >
+            <input
+              type="number"
+              id="fixedDailyScore"
+              class="input-field"
+              value="18" />
+          </div>
+          <div>
+            <label
+              for="totalDays"
+              class="input-label"
+              data-translate="totalDaysLabel"
+              >Total Days</label
+            >
+            <input
+              type="number"
+              id="totalDays"
+              class="input-field"
+              value="30"
+              min="1" />
+          </div>
+          <div>
+            <label
+              for="rollingWindow"
+              class="input-label"
+              data-translate="rollingWindowLabel"
+              >Rolling Window (days)</label
+            >
+            <input
+              type="number"
+              id="rollingWindow"
+              class="input-field"
+              value="15"
+              min="1" />
+          </div>
+          <div>
+            <label
+              for="thresholdScore"
+              class="input-label"
+              data-translate="thresholdScoreLabel"
+              >Threshold Score</label
+            >
+            <input
+              type="number"
+              id="thresholdScore"
+              class="input-field"
+              value="210" />
+          </div>
+          <div>
+            <label
+              for="pointsConsumed"
+              class="input-label"
+              data-translate="pointsConsumedLabel"
+              >Points Consumed per Claim</label
+            >
+            <input
+              type="number"
+              id="pointsConsumed"
+              class="input-field"
+              value="15" />
+          </div>
+          <div>
+            <label
+              for="rewardPerClaim"
+              class="input-label"
+              data-translate="rewardPerClaimLabel"
+              >Reward per Claim (USD)</label
+            >
+            <input
+              type="number"
+              id="rewardPerClaim"
+              class="input-field"
+              value="90" />
+          </div>
         </div>
 
-        <div id="summaryCard" class="summary-card neobrutalist-card hidden">
-            <p id="summaryText" class="summary-text"></p>
+        <!-- Simulate button -->
+        <button
+          id="simulateButton"
+          class="simulate-button"
+          data-translate="simulateButton">
+          Simulate
+        </button>
+      </div>
+
+      <!-- Summary card for results -->
+      <div id="summaryCard" class="summary-card neobrutalist-card hidden">
+        <p id="summaryText" class="summary-text"></p>
+      </div>
+
+      <!-- Detailed results card and table -->
+      <div id="resultsCard" class="neobrutalist-card hidden">
+        <h2
+          class="text-xl font-semibold text-center mb-4"
+          data-translate="resultsTitle">
+          Simulation Details
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th data-translate="tableDay">Day</th>
+                <th data-translate="tableDailyScore">Daily Score</th>
+                <th data-translate="tableTotalInWindow">
+                  Total in Window (for Claim)
+                </th>
+                <th data-translate="tableClaimed">Claimed?</th>
+                <th data-translate="tablePtsConsumed">
+                  Pts Consumed (Before Today)
+                </th>
+                <th data-translate="tableRewardToday">Reward Today (USD)</th>
+                <th data-translate="tableWindowRange">Window Range</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+              <!-- Table rows will be injected here by JavaScript -->
+            </tbody>
+          </table>
         </div>
-
-        <div id="resultsCard" class="neobrutalist-card hidden">
-            <h2 class="text-xl font-semibold text-center mb-4" data-translate="resultsTitle">Simulation Details</h2>
-
-            <div class="overflow-x-auto">
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th data-translate="tableDay">Day</th>
-                            <th data-translate="tableDailyScore">Daily Score</th>
-                            <th data-translate="tableTotalInWindow">Total in Window (for Claim)</th>
-                            <th data-translate="tableClaimed">Claimed?</th>
-                            <th data-translate="tablePtsConsumed">Pts Consumed (Before Today)</th>
-                            <th data-translate="tableRewardToday">Reward Today (U)</th>
-                            <th data-translate="tableWindowRange">Window Range</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTableBody">
-                        <!-- Rows will be injected here by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+      </div>
     </div>
 
     <script>
-        lucide.createIcons(); // Initialize Lucid Icons
+      lucide.createIcons(); // Initialize Lucid Icons
 
-        const translations = {
-            en: {
-                languageToggle: "English", 
-                pageTitle: "Alpha Score Rolling Simulator",
-                fixedDailyScoreLabel: "Fixed Daily Score",
-                totalDaysLabel: "Total Days",
-                rollingWindowLabel: "Rolling Window (days)",
-                thresholdScoreLabel: "Threshold Score",
-                pointsConsumedLabel: "Points Consumed per Claim",
-                rewardPerClaimLabel: "Reward per Claim (USD)", 
-                simulateButton: "Simulate",
-                resultsTitle: "Simulation Details",
-                tableDay: "Day",
-                tableDailyScore: "Daily Score",
-                tableTotalInWindow: "Total in Window (for Claim)",
-                tableClaimed: "Claimed?",
-                tablePtsConsumed: "Pts Consumed (Before Today)",
-                tableRewardToday: "Reward Today (USD)", 
-                tableWindowRange: "Window Range",
-                errorNegativeScore: "Fixed Daily Score cannot be negative.",
-                errorTotalDays: "Total Days must be greater than 0.",
-                errorRollingWindow: "Rolling Window must be greater than 0.",
-                errorWindowExceedsTotal: "Rolling Window cannot exceed Total Days.",
-                errorThresholdScore: "Threshold Score must be greater than 0.",
-                errorPointsConsumed: "Points Consumed per Claim cannot be negative.",
-                errorRewardPerClaim: "Reward per Claim cannot be negative.",
-                summaryClaimedText: "✅ Claimed {count} times, total reward {reward} USD" 
-            },
-            km: {
-                languageToggle: "ភាសាខ្មែរ", 
-                pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
-                fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ", 
-                totalDaysLabel: "ចំនួនថ្ងៃសរុប",
-                rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)", 
-                thresholdScoreLabel: "គោលដៅពិន្ទុ", 
-                pointsConsumedLabel: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តង", 
-                rewardPerClaimLabel: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)", 
-                simulateButton: "គណនា", 
-                resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា", 
-                tableDay: "ថ្ងៃទី",
-                tableDailyScore: "ពិន្ទុប្រចាំថ្ងៃ",
-                tableTotalInWindow: "ពិន្ទុសរុប", 
-                tableClaimed: "ប្រហែលអាចទទួលបាន?", 
-                tablePtsConsumed: "ពិន្ទុប្រើប្រាស់ (មុនថ្ងៃនេះ)",
-                tableRewardToday: "រង្វាន់ថ្ងៃនេះ (USD)", 
-                tableWindowRange: "រយៈពេល", 
-                errorNegativeScore: "ពិន្ទុថេរប្រចាំថ្ងៃមិនអាចអវិជ្ជមានបានទេ។", 
-                errorTotalDays: "ចំនួនថ្ងៃសរុបត្រូវតែធំជាង 0។",
-                errorRollingWindow: "វិលត្រលប់ (ថ្ងៃ)ត្រូវតែធំជាង 0។", 
-                errorWindowExceedsTotal: "វិលត្រលប់ (ថ្ងៃ)មិនអាចលើសពីจำนวนថ្ងៃសរុបបានទេ។", 
-                errorThresholdScore: "គោលដៅពិន្ទុត្រូវតែធំជាង 0។", 
-                errorPointsConsumed: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តងមិនអាចអវិជ្ជមានបានទេ។", 
-                errorRewardPerClaim: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)មិនអាចអវិជ្ជមានបានទេ។", 
-                summaryClaimedText: "✅ ប្រហែលអាចទទួលបាន {count} ដង, រង្វាន់សរុប {reward} USD"
+      // Translations object for English and Khmer
+      const translations = {
+        en: {
+          languageToggle: "English",
+          pageTitle: "Alpha Score Rolling Simulator",
+          fixedDailyScoreLabel: "Fixed Daily Score",
+          totalDaysLabel: "Total Days",
+          rollingWindowLabel: "Rolling Window (days)",
+          thresholdScoreLabel: "Threshold Score",
+          pointsConsumedLabel: "Points Consumed per Claim",
+          rewardPerClaimLabel: "Reward per Claim (USD)",
+          simulateButton: "Simulate",
+          resultsTitle: "Simulation Details",
+          tableDay: "Day",
+          tableDailyScore: "Daily Score",
+          tableTotalInWindow: "Total in Window (for Claim)",
+          tableClaimed: "Claimed?",
+          tablePtsConsumed: "Pts Consumed (Before Today)",
+          tableRewardToday: "Reward Today (USD)",
+          tableWindowRange: "Window Range",
+          errorNegativeScore: "Fixed Daily Score cannot be negative.",
+          errorTotalDays: "Total Days must be greater than 0.",
+          errorRollingWindow: "Rolling Window must be greater than 0.",
+          errorWindowExceedsTotal: "Rolling Window cannot exceed Total Days.",
+          errorThresholdScore: "Threshold Score must be greater than 0.",
+          errorPointsConsumed: "Points Consumed per Claim cannot be negative.",
+          errorRewardPerClaim: "Reward per Claim cannot be negative.",
+          summaryClaimedText:
+            "✅ Claimed {count} times, total reward {reward} USD",
+        },
+        km: {
+          languageToggle: "ភាសាខ្មែរ",
+          pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
+          fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ",
+          totalDaysLabel: "ចំនួនថ្ងៃសរុប",
+          rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)",
+          thresholdScoreLabel: "គោលដៅពិន្ទុ",
+          pointsConsumedLabel: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តង",
+          rewardPerClaimLabel: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)",
+          simulateButton: "គណនា",
+          resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
+          tableDay: "ថ្ងៃទី",
+          tableDailyScore: "ពិន្ទុប្រចាំថ្ងៃ",
+          tableTotalInWindow: "ពិន្ទុសរុប",
+          tableClaimed: "ប្រហែលអាចទទួលបាន?",
+          tablePtsConsumed: "ពិន្ទុប្រើប្រាស់ (មុនថ្ងៃនេះ)",
+          tableRewardToday: "រង្វាន់ថ្ងៃនេះ (USD)",
+          tableWindowRange: "រយៈពេល",
+          errorNegativeScore: "ពិន្ទុថេរប្រចាំថ្ងៃមិនអាចអវិជ្ជមានបានទេ។",
+          errorTotalDays: "ចំនួនថ្ងៃសរុបត្រូវតែធំជាង 0។",
+          errorRollingWindow: "វិលត្រលប់ (ថ្ងៃ)ត្រូវតែធំជាង 0។",
+          errorWindowExceedsTotal:
+            "វិលត្រលប់ (ថ្ងៃ)មិនអាចលើសពីจำนวนថ្ងៃសរុបបានទេ។",
+          errorThresholdScore: "គោលដៅពិន្ទុត្រូវតែធំជាង 0។",
+          errorPointsConsumed:
+            "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តងមិនអាចអវិជ្ជមានបានទេ។",
+          errorRewardPerClaim:
+            "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)មិនអាចអវិជ្ជមានបានទេ។",
+          summaryClaimedText:
+            "✅ ប្រហែលអាចទទួលបាន {count} ដង, រង្វាន់សរុប {reward} USD",
+        },
+      };
+
+      let currentLanguage = "en"; // Default language
+      let isDarkMode = false; // Default theme
+
+      // DOM Elements
+      const fixedDailyScoreEl = document.getElementById("fixedDailyScore");
+      const totalDaysEl = document.getElementById("totalDays");
+      const rollingWindowEl = document.getElementById("rollingWindow");
+      const thresholdScoreEl = document.getElementById("thresholdScore");
+      const pointsConsumedEl = document.getElementById("pointsConsumed");
+      const rewardPerClaimEl = document.getElementById("rewardPerClaim");
+      const simulateButtonEl = document.getElementById("simulateButton");
+
+      const summaryCardEl = document.getElementById("summaryCard");
+      const summaryTextEl = document.getElementById("summaryText");
+
+      const resultsCardEl = document.getElementById("resultsCard");
+      const resultsTableBodyEl = document.getElementById("resultsTableBody");
+      const errorMessageContainerEl = document.getElementById(
+        "errorMessageContainer"
+      );
+
+      const languageToggleButton = document.getElementById(
+        "languageToggleButton"
+      );
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const twitterButton = document.getElementById("twitterButton");
+      const bodyEl = document.body;
+
+      /**
+       * Updates the UI text content based on the current language.
+       */
+      function updateUIText() {
+        document.querySelectorAll("[data-translate]").forEach((element) => {
+          const key = element.getAttribute("data-translate");
+          if (
+            translations[currentLanguage] &&
+            translations[currentLanguage][key]
+          ) {
+            // Handle the language toggle button's text span separately
+            if (element.id === "languageToggleButton") {
+              const textSpan = element.querySelector("span");
+              if (textSpan) {
+                textSpan.textContent =
+                  translations[currentLanguage]["languageToggle"];
+              }
+            } else {
+              element.textContent = translations[currentLanguage][key];
             }
+          }
+        });
+      }
+
+      /**
+       * Toggles the language between English and Khmer and updates the UI.
+       * Also re-translates the summary if it's visible.
+       */
+      function toggleLanguage() {
+        currentLanguage = currentLanguage === "en" ? "km" : "en";
+        bodyEl.lang = currentLanguage; // Set lang attribute on body for accessibility/styling
+        updateUIText(); // Update all translatable elements
+        // If summary card is visible, re-translate its content
+        if (!summaryCardEl.classList.contains("hidden")) {
+          const summaryData = JSON.parse(
+            summaryTextEl.dataset.summaryData || "{}"
+          );
+          if (
+            summaryData.count !== undefined &&
+            summaryData.reward !== undefined
+          ) {
+            summaryTextEl.textContent = translations[
+              currentLanguage
+            ].summaryClaimedText
+              .replace("{count}", summaryData.count)
+              .replace("{reward}", summaryData.reward.toFixed(2));
+          }
+        }
+      }
+
+      /**
+       * Sets the dark mode toggle button icon (sun or moon).
+       */
+      function setDarkModeIcon() {
+        darkModeToggle.innerHTML = isDarkMode
+          ? '<i data-lucide="sun" class="lucide icon"></i>'
+          : '<i data-lucide="moon" class="lucide icon"></i>';
+        lucide.createIcons(); // Re-render Lucid icons after changing innerHTML
+      }
+
+      // Event Listeners
+      languageToggleButton.addEventListener("click", toggleLanguage);
+
+      darkModeToggle.addEventListener("click", () => {
+        isDarkMode = !isDarkMode;
+        bodyEl.classList.toggle("dark-mode", isDarkMode);
+        setDarkModeIcon();
+      });
+
+      simulateButtonEl.addEventListener("click", runSimulation);
+
+      /**
+       * Displays an error message in the error message container.
+       * @param {string} messageKey - The key for the error message in the translations object.
+       */
+      function displayError(messageKey) {
+        const message =
+          translations[currentLanguage][messageKey] ||
+          "An unknown error occurred.";
+        errorMessageContainerEl.innerHTML = `<div class="error-message-style">${message}</div>`;
+      }
+
+      /**
+       * Clears any existing error messages.
+       */
+      function clearError() {
+        errorMessageContainerEl.innerHTML = "";
+      }
+
+      /**
+       * Validates the user inputs.
+       * @param {object} inputs - An object containing the parsed input values.
+       * @returns {string|null} The error message key if validation fails, otherwise null.
+       */
+      function validateInputs(inputs) {
+        if (inputs.fixedDailyScore < 0) return "errorNegativeScore";
+        if (inputs.totalDays <= 0) return "errorTotalDays";
+        if (inputs.rollingWindow <= 0) return "errorRollingWindow";
+        if (inputs.rollingWindow > inputs.totalDays)
+          return "errorWindowExceedsTotal";
+        if (inputs.thresholdScore <= 0) return "errorThresholdScore";
+        if (inputs.pointsConsumedPerClaim < 0) return "errorPointsConsumed"; // Corrected to check pointsConsumedPerClaim
+        if (inputs.rewardPerClaim < 0) return "errorRewardPerClaim";
+        return null; // All validations passed
+      }
+
+      /**
+       * Runs the alpha score simulation based on user inputs.
+       * It validates inputs, calculates daily scores, determines claims,
+       * and updates the results table and summary card.
+       */
+      function runSimulation() {
+        clearError(); // Clear previous errors
+        resultsTableBodyEl.innerHTML = ""; // Clear previous results
+        summaryCardEl.classList.add("hidden"); // Hide summary card initially
+        resultsCardEl.classList.add("hidden"); // Hide results card initially
+
+        // Parse input values, providing defaults if parsing fails
+        const inputs = {
+          fixedDailyScore: parseInt(fixedDailyScoreEl.value) || 0,
+          totalDays: parseInt(totalDaysEl.value) || 1,
+          rollingWindow: parseInt(rollingWindowEl.value) || 1,
+          thresholdScore: parseInt(thresholdScoreEl.value) || 0,
+          pointsConsumedPerClaim: parseInt(pointsConsumedEl.value) || 0,
+          rewardPerClaim: parseFloat(rewardPerClaimEl.value) || 0,
         };
 
-        let currentLanguage = 'en';
-        let isDarkMode = false;
-
-        // DOM Elements
-        const fixedDailyScoreEl = document.getElementById('fixedDailyScore');
-        const totalDaysEl = document.getElementById('totalDays');
-        const rollingWindowEl = document.getElementById('rollingWindow');
-        const thresholdScoreEl = document.getElementById('thresholdScore');
-        const pointsConsumedEl = document.getElementById('pointsConsumed');
-        const rewardPerClaimEl = document.getElementById('rewardPerClaim');
-        const simulateButtonEl = document.getElementById('simulateButton');
-        
-        const summaryCardEl = document.getElementById('summaryCard');
-        const summaryTextEl = document.getElementById('summaryText');
-        
-        const resultsCardEl = document.getElementById('resultsCard');
-        const resultsTableBodyEl = document.getElementById('resultsTableBody');
-        const errorMessageContainerEl = document.getElementById('errorMessageContainer');
-
-        const languageToggleButton = document.getElementById('languageToggleButton'); 
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const twitterButton = document.getElementById('twitterButton'); 
-        const bodyEl = document.body;
-
-        function updateUIText() {
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    if (element.id === 'languageToggleButton') {
-                        const textSpan = element.querySelector('span');
-                        if (textSpan) {
-                            textSpan.textContent = translations[currentLanguage]['languageToggle'];
-                        }
-                    } else {
-                        element.textContent = translations[currentLanguage][key];
-                    }
-                }
-            });
-        }
-        
-        function toggleLanguage() {
-            currentLanguage = (currentLanguage === 'en') ? 'km' : 'en';
-            bodyEl.lang = currentLanguage; 
-            updateUIText(); 
-            if (!summaryCardEl.classList.contains('hidden')) {
-                const summaryData = JSON.parse(summaryTextEl.dataset.summaryData || '{}');
-                 if(summaryData.count !== undefined && summaryData.reward !== undefined) {
-                     summaryTextEl.textContent = translations[currentLanguage].summaryClaimedText
-                        .replace('{count}', summaryData.count)
-                        .replace('{reward}', summaryData.reward.toFixed(2));
-                 }
-            }
+        // Validate inputs
+        const validationErrorKey = validateInputs(inputs);
+        if (validationErrorKey) {
+          displayError(validationErrorKey);
+          return; // Stop simulation if validation fails
         }
 
-        function setDarkModeIcon() {
-            darkModeToggle.innerHTML = isDarkMode ? '<i data-lucide="sun" class="icon"></i>' : '<i data-lucide="moon" class="icon"></i>';
-            lucide.createIcons(); 
-        }
+        let totalPointsConsumedByPreviousDays = 0;
+        let runningTotalReward = 0;
+        let runningClaimCount = 0;
+        // Assuming fixed daily score for simplicity in this version
+        const dailyScores = Array(inputs.totalDays).fill(
+          inputs.fixedDailyScore
+        );
 
-        languageToggleButton.addEventListener('click', toggleLanguage); 
+        // Loop through each day of the simulation
+        for (let dayIndex = 0; dayIndex < inputs.totalDays; dayIndex++) {
+          const currentDayNumber = dayIndex + 1;
+          // Determine the start and end of the rolling window for score calculation
+          const windowStartDayIndex = Math.max(
+            0,
+            dayIndex - inputs.rollingWindow + 1
+          );
+          const windowEndDayIndex = dayIndex; // Current day is the end of the window
 
-        darkModeToggle.addEventListener('click', () => {
-            isDarkMode = !isDarkMode;
-            bodyEl.classList.toggle('dark-mode', isDarkMode);
-            setDarkModeIcon();
-        });
+          // Calculate the raw score within the current rolling window
+          let rawScoreInWindow = 0;
+          for (let i = windowStartDayIndex; i <= windowEndDayIndex; i++) {
+            rawScoreInWindow += dailyScores[i];
+          }
 
-        simulateButtonEl.addEventListener('click', runSimulation);
+          // Adjust the score by subtracting points consumed by claims made on previous days
+          const scoreForCheck =
+            rawScoreInWindow - totalPointsConsumedByPreviousDays;
 
-        function displayError(messageKey) {
-             const message = translations[currentLanguage][messageKey] || "An unknown error occurred.";
-            errorMessageContainerEl.innerHTML = `<div class="error-message-style">${message}</div>`;
-        }
+          let claimedToday = false;
+          let rewardToday = 0;
+          const consumedForTableDisplay = totalPointsConsumedByPreviousDays; // Store before potential update
 
-        function clearError() {
-            errorMessageContainerEl.innerHTML = '';
-        }
+          // Check if a claim can be made
+          if (
+            scoreForCheck >= inputs.thresholdScore &&
+            inputs.pointsConsumedPerClaim >= 0
+          ) {
+            claimedToday = true;
+            rewardToday = inputs.rewardPerClaim;
+            runningTotalReward += rewardToday;
+            runningClaimCount++;
+            // Accumulate consumed points for the *next* day's calculation
+            totalPointsConsumedByPreviousDays += inputs.pointsConsumedPerClaim;
+          }
 
-        function validateInputs(inputs) {
-            if (inputs.fixedDailyScore < 0) return "errorNegativeScore";
-            if (inputs.totalDays <= 0) return "errorTotalDays";
-            if (inputs.rollingWindow <= 0) return "errorRollingWindow";
-            if (inputs.rollingWindow > inputs.totalDays) return "errorWindowExceedsTotal";
-            if (inputs.thresholdScore <= 0) return "errorThresholdScore";
-            if (inputs.pointsConsumed < 0) return "errorPointsConsumed";
-            if (inputs.rewardPerClaim < 0) return "errorRewardPerClaim";
-            return null; 
-        }
-
-        function runSimulation() {
-            clearError();
-            resultsTableBodyEl.innerHTML = '';
-            summaryCardEl.classList.add('hidden');
-            resultsCardEl.classList.add('hidden');
-
-            const inputs = {
-                fixedDailyScore: parseInt(fixedDailyScoreEl.value) || 0, 
-                totalDays: parseInt(totalDaysEl.value) || 1,
-                rollingWindow: parseInt(rollingWindowEl.value) || 1,
-                thresholdScore: parseInt(thresholdScoreEl.value) || 0,
-                pointsConsumedPerClaim: parseInt(pointsConsumedEl.value) || 0,
-                rewardPerClaim: parseFloat(rewardPerClaimEl.value) || 0
-            };
-
-            const validationErrorKey = validateInputs(inputs);
-            if (validationErrorKey) {
-                displayError(validationErrorKey);
-                return;
-            }
-            
-            let totalPointsConsumedByPreviousDays = 0;
-            let runningTotalReward = 0;
-            let runningClaimCount = 0;
-            const dailyScores = Array(inputs.totalDays).fill(inputs.fixedDailyScore);
-
-            for (let dayIndex = 0; dayIndex < inputs.totalDays; dayIndex++) {
-                const currentDayNumber = dayIndex + 1;
-                const windowStartDayIndex = Math.max(0, dayIndex - inputs.rollingWindow + 1);
-                const windowEndDayIndex = dayIndex;
-                
-                let rawScoreInWindow = 0;
-                for (let i = windowStartDayIndex; i <= windowEndDayIndex; i++) {
-                    rawScoreInWindow += dailyScores[i];
-                }
-                
-                const scoreForCheck = rawScoreInWindow - totalPointsConsumedByPreviousDays;
-                
-                let claimedToday = false;
-                let rewardToday = 0;
-                const consumedForTableDisplay = totalPointsConsumedByPreviousDays; 
-
-                if (scoreForCheck >= inputs.thresholdScore && inputs.pointsConsumedPerClaim >= 0) { 
-                    claimedToday = true;
-                    rewardToday = inputs.rewardPerClaim;
-                    runningTotalReward += rewardToday;
-                    runningClaimCount++;
-                    totalPointsConsumedByPreviousDays += inputs.pointsConsumedPerClaim; 
-                }
-                
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
+          // Create and append a new row to the results table
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
                     <td class="text-center">${currentDayNumber}</td>
                     <td class="text-center">${inputs.fixedDailyScore}</td>
                     <td class="text-center">${scoreForCheck.toFixed(2)}</td>
-                    <td class="text-center">${claimedToday ? '✅' : '❌'}</td>
+                    <td class="text-center">${claimedToday ? "✅" : "❌"}</td>
                     <td class="text-center">${consumedForTableDisplay}</td>
                     <td class="text-center">${rewardToday.toFixed(2)}</td>
-                    <td>Day ${windowStartDayIndex + 1} ~ Day ${currentDayNumber}</td>
+                    <td>Day ${
+                      windowStartDayIndex + 1
+                    } ~ Day ${currentDayNumber}</td>
                 `;
-                resultsTableBodyEl.appendChild(tr);
-            }
-            
-            summaryTextEl.dataset.summaryData = JSON.stringify({ count: runningClaimCount, reward: runningTotalReward });
-            summaryTextEl.textContent = translations[currentLanguage].summaryClaimedText
-                .replace('{count}', runningClaimCount)
-                .replace('{reward}', runningTotalReward.toFixed(2));
-
-            summaryCardEl.classList.remove('hidden');
-            resultsCardEl.classList.remove('hidden');
+          resultsTableBodyEl.appendChild(tr);
         }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            bodyEl.lang = currentLanguage; 
-            updateUIText(); 
-            setDarkModeIcon(); 
-            lucide.createIcons(); 
-        });
 
+        // Update and display the summary card
+        summaryTextEl.dataset.summaryData = JSON.stringify({
+          count: runningClaimCount,
+          reward: runningTotalReward,
+        }); // Store for re-translation
+        summaryTextEl.textContent = translations[
+          currentLanguage
+        ].summaryClaimedText
+          .replace("{count}", runningClaimCount)
+          .replace("{reward}", runningTotalReward.toFixed(2));
+
+        summaryCardEl.classList.remove("hidden");
+        resultsCardEl.classList.remove("hidden");
+      }
+
+      // Initial setup on DOM content loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        bodyEl.lang = currentLanguage; // Set initial lang attribute
+        updateUIText(); // Set initial UI text
+        setDarkModeIcon(); // Set initial dark mode icon
+        lucide.createIcons(); // Ensure Lucid icons are rendered
+      });
     </script>
-</body>
+  </body>
 </html>
