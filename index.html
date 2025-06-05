@@ -1,1030 +1,1869 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alpha Score Rolling Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet" />
     <!-- Lucid Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            /* Light Mode Palette */
-            --bg-light: #FFFBEB;
-            --text-light: #000000;
-            --card-bg-light: #FFFFFF;
-            --border-color: #000000;
-            --shadow-color: #000000;
-            --button-primary-bg-light: #2563EB;
-            --button-primary-text-light: #FFFFFF;
-            --button-primary-hover-bg-light: #1D4ED8;
-            --button-toggle-bg-light: #FFFFFF;
-            --button-toggle-text-light: #000000; 
-            --button-toggle-icon-light: #000000; 
-            --summary-card-bg-light: #FACC15;
-            --summary-card-text-light: #000000;
-            --table-header-bg-light: #34D399;
-            --table-header-text-light: #000000;
-            --table-even-row-bg-light: #F3F4F6;
-            --table-odd-row-bg-light: #FFFFFF;
-            --table-data-text-light: var(--text-light);
-            --error-text-light: #9F1239;
-            --error-bg-light: #FECDD3;
-            --grid-line-color-light: rgba(0, 0, 0, 0.07);
-            --marquee-bg-light: #A78BFA;
-            --marquee-text-light: #FFFFFF;
-            --disclaimer-text-light: #4B5563; 
-            --token-swap-section-bg-light: #F9FAFB; 
-            --badge-bg-light: #FEF3C7; /* amber-100 */
-            --badge-text-light: #92400E; /* amber-800 */
-            --wallet-badge-bg-light: #DBEAFE; /* blue-100 */
-            --wallet-badge-text-light: #1E40AF; /* blue-800 */
-            --guide-list-marker-light: #2563EB; /* blue-600 for list markers */
-            --token-swap-info-text-light: #374151; /* gray-700 */
-            --calc-result-strong-light: #1D4ED8; /* blue-700 */
-            --bnb-bonus-text-light: #059669; /* green-600 */
-            
-            /* Dark Mode Palette */
-            --bg-dark: #111827;
-            --text-dark: #F3F4F6;
-            --card-bg-dark: #1F2937;
-            --button-primary-bg-dark: #2563EB;
-            --button-primary-text-dark: #FFFFFF;
-            --button-primary-hover-bg-dark: #1D4ED8;
-            --button-toggle-bg-dark: #374151; 
-            --button-toggle-text-dark: #F3F4F6; 
-            --button-toggle-icon-dark: #FFFFFF; 
-            --summary-card-bg-dark: #FACC15;
-            --summary-card-text-dark: #000000;
-            --table-header-bg-dark: #34D399;
-            --table-header-text-dark: #000000;
-            --table-even-row-bg-dark: #374151;
-            --table-odd-row-bg-dark: #1F2937;
-            --table-data-text-dark: #FFFFFF;
-            --error-text-dark: #9F1239;
-            --error-bg-dark: #FECDD3;
-            --grid-line-color-dark: rgba(255, 255, 255, 0.05);
-            --marquee-bg-dark: #7C3AED;
-            --marquee-text-dark: #FFFFFF;
-            --disclaimer-text-dark: #9CA3AF; 
-            --token-swap-section-bg-dark: #374151; 
-            --badge-bg-dark: #B45309; /* amber-700 */
-            --badge-text-dark: #FEF3C7; /* amber-100 */
-            --wallet-badge-bg-dark: #1E3A8A; /* blue-800 */
-            --wallet-badge-text-dark: #BFDBFE; /* blue-200 */
-            --guide-list-marker-dark: #60A5FA; /* blue-400 for list markers */
-            --token-swap-info-text-dark: #D1D5DB; /* gray-300 */
-            --calc-result-strong-dark: #60A5FA; /* blue-400 */
-            --bnb-bonus-text-dark: #34D399; /* green-400 */
-        }
+      :root {
+        /* Light Mode Palette */
+        --bg-light: #fffbeb;
+        --text-light: #000000;
+        --card-bg-light: #ffffff;
+        --border-color: #000000;
+        --shadow-color: #000000;
+        --button-primary-bg-light: #2563eb;
+        --button-primary-text-light: #ffffff;
+        --button-primary-hover-bg-light: #1d4ed8;
+        --button-toggle-bg-light: #ffffff;
+        --button-toggle-text-light: #000000;
+        --button-toggle-icon-light: #000000;
+        --summary-card-bg-light: #facc15;
+        --summary-card-text-light: #000000;
+        --table-header-bg-light: #34d399;
+        --table-header-text-light: #000000;
+        --table-even-row-bg-light: #f3f4f6;
+        --table-odd-row-bg-light: #ffffff;
+        --table-data-text-light: var(--text-light);
+        --error-text-light: #9f1239;
+        --error-bg-light: #fecdd3;
+        --grid-line-color-light: rgba(0, 0, 0, 0.07);
+        --marquee-bg-light: #a78bfa;
+        --marquee-text-light: #ffffff;
+        --disclaimer-text-light: #4b5563;
+        --token-swap-section-bg-light: #f9fafb;
+        --badge-bg-light: #fef3c7; /* amber-100 */
+        --badge-text-light: #92400e; /* amber-800 */
+        --wallet-badge-bg-light: #dbeafe; /* blue-100 */
+        --wallet-badge-text-light: #1e40af; /* blue-800 */
+        --guide-list-marker-light: #2563eb; /* blue-600 for list markers */
+        --token-swap-info-text-light: #374151; /* gray-700 */
+        --calc-result-strong-light: #1d4ed8; /* blue-700 */
+        --bnb-bonus-text-light: #059669; /* green-600 */
 
-        html, body { height: 100%; }
+        /* Dark Mode Palette */
+        --bg-dark: #111827;
+        --text-dark: #f3f4f6;
+        --card-bg-dark: #1f2937;
+        --button-primary-bg-dark: #2563eb;
+        --button-primary-text-dark: #ffffff;
+        --button-primary-hover-bg-dark: #1d4ed8;
+        --button-toggle-bg-dark: #374151;
+        --button-toggle-text-dark: #f3f4f6;
+        --button-toggle-icon-dark: #ffffff;
+        --summary-card-bg-dark: #facc15;
+        --summary-card-text-dark: #000000;
+        --table-header-bg-dark: #34d399;
+        --table-header-text-dark: #000000;
+        --table-even-row-bg-dark: #374151;
+        --table-odd-row-bg-dark: #1f2937;
+        --table-data-text-dark: #ffffff;
+        --error-text-dark: #9f1239;
+        --error-bg-dark: #fecdd3;
+        --grid-line-color-dark: rgba(255, 255, 255, 0.05);
+        --marquee-bg-dark: #7c3aed;
+        --marquee-text-dark: #ffffff;
+        --disclaimer-text-dark: #9ca3af;
+        --token-swap-section-bg-dark: #374151;
+        --badge-bg-dark: #b45309; /* amber-700 */
+        --badge-text-dark: #fef3c7; /* amber-100 */
+        --wallet-badge-bg-dark: #1e3a8a; /* blue-800 */
+        --wallet-badge-text-dark: #bfdbfe; /* blue-200 */
+        --guide-list-marker-dark: #60a5fa; /* blue-400 for list markers */
+        --token-swap-info-text-dark: #d1d5db; /* gray-300 */
+        --calc-result-strong-dark: #60a5fa; /* blue-400 */
+        --bnb-bonus-text-dark: #34d399; /* green-400 */
+      }
 
-        body {
-            font-family: 'Poppins', 'Kantumruy Pro', sans-serif; 
-            background-color: var(--bg-light);
-            color: var(--text-light);
-            transition: background-color 0.3s, color 0.3s;
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            background-image: 
-                linear-gradient(var(--grid-line-color-light) 1px, transparent 1px),
-                linear-gradient(to right, var(--grid-line-color-light) 1px, transparent 1px);
-            background-size: 40px 40px; 
-        }
-        body.dark-mode {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-            background-image: 
-                linear-gradient(var(--grid-line-color-dark) 1px, transparent 1px),
-                linear-gradient(to right, var(--grid-line-color-dark) 1px, transparent 1px);
-        }
-        .main-container { 
-            width: 100%;
-            max-width: 1280px; 
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;  
-            padding-right: 1rem; 
-            flex-grow: 1; 
-            padding-bottom: 2rem; 
-        }
-         @media (min-width: 640px) { 
-            .main-container { padding-left: 1.5rem; padding-right: 1.5rem; }
-        }
-        @media (min-width: 1024px) { 
-            .main-container { padding-left: 2rem; padding-right: 2rem; }
-        }
+      html,
+      body {
+        height: 100%;
+      }
 
-        .neobrutalist-marquee {
-            background-color: var(--marquee-bg-light);
-            color: var(--marquee-text-light);
-            border: 3px solid var(--border-color);
-            border-radius: 0.5rem;
-            box-shadow: 6px 6px 0px var(--shadow-color);
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.5rem; 
-            font-weight: 700;
-            font-size: 1rem;
-            overflow: hidden; 
-            transition: background-color 0.3s, color 0.3s;
-            white-space: nowrap; 
+      body {
+        font-family: "Poppins", "Kantumruy Pro", sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-light);
+        transition: background-color 0.3s, color 0.3s;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-image: linear-gradient(
+            var(--grid-line-color-light) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to right,
+            var(--grid-line-color-light) 1px,
+            transparent 1px
+          );
+        background-size: 40px 40px;
+      }
+      body.dark-mode {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+        background-image: linear-gradient(
+            var(--grid-line-color-dark) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to right,
+            var(--grid-line-color-dark) 1px,
+            transparent 1px
+          );
+      }
+      .main-container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        flex-grow: 1;
+        padding-bottom: 2rem;
+      }
+      @media (min-width: 640px) {
+        .main-container {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
         }
-        body.dark-mode .neobrutalist-marquee {
-            background-color: var(--marquee-bg-dark);
-            color: var(--marquee-text-dark);
+      }
+      @media (min-width: 1024px) {
+        .main-container {
+          padding-left: 2rem;
+          padding-right: 2rem;
         }
-        .neobrutalist-marquee .marquee-item {
-            display: inline-flex; 
-            align-items: center;
-            margin-right: 1.5rem; 
-            vertical-align: middle; 
-        }
-        .neobrutalist-marquee .marquee-item .marquee-svg-item { 
-            width: 20px;
-            height: 20px;
-            margin: 0 0.45rem; 
-        }
-        .neobrutalist-marquee .marquee-item .marquee-svg-item path {
-            transition: fill 0.3s;
-        }
-        .neobrutalist-marquee .marquee-item .marquee-svg-item path[fill="currentColor"] {
-            fill: var(--marquee-text-light);
-        }
-        body.dark-mode .neobrutalist-marquee .marquee-item .marquee-svg-item path[fill="currentColor"] {
-            fill: var(--marquee-text-dark);
-        }
-         .neobrutalist-marquee .marquee-item .marquee-svg-item path[stroke="black"] {
-            stroke: var(--border-color); 
-            fill: var(--marquee-text-light); 
-        }
-         body.dark-mode .neobrutalist-marquee .marquee-item .marquee-svg-item path[stroke="black"] {
-            fill: var(--marquee-text-dark);
-        }
+      }
 
-        .neobrutalist-card {
-            background-color: var(--card-bg-light);
-            border: 3px solid var(--border-color);
-            border-radius: 0.5rem; 
-            box-shadow: 6px 6px 0px var(--shadow-color); 
-            padding: 1rem; 
-            margin-bottom: 1rem; 
-            transition: background-color 0.3s;
-        }
-        body.dark-mode .neobrutalist-card {
-            background-color: var(--card-bg-dark);
-        }
+      .neobrutalist-marquee {
+        background-color: var(--marquee-bg-light);
+        color: var(--marquee-text-light);
+        border: 3px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 6px 6px 0px var(--shadow-color);
+        padding: 0.75rem 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        font-size: 1rem;
+        overflow: hidden;
+        transition: background-color 0.3s, color 0.3s;
+        white-space: nowrap;
+      }
+      body.dark-mode .neobrutalist-marquee {
+        background-color: var(--marquee-bg-dark);
+        color: var(--marquee-text-dark);
+      }
+      .neobrutalist-marquee .marquee-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 1.5rem;
+        vertical-align: middle;
+      }
+      .neobrutalist-marquee .marquee-item .marquee-svg-item {
+        width: 20px;
+        height: 20px;
+        margin: 0 0.45rem;
+      }
+      .neobrutalist-marquee .marquee-item .marquee-svg-item path {
+        transition: fill 0.3s;
+      }
+      .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[fill="currentColor"] {
+        fill: var(--marquee-text-light);
+      }
+      body.dark-mode
+        .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[fill="currentColor"] {
+        fill: var(--marquee-text-dark);
+      }
+      .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[stroke="black"] {
+        stroke: var(--border-color);
+        fill: var(--marquee-text-light);
+      }
+      body.dark-mode
+        .neobrutalist-marquee
+        .marquee-item
+        .marquee-svg-item
+        path[stroke="black"] {
+        fill: var(--marquee-text-dark);
+      }
 
-        .input-label {
-            display: block;
-            margin-bottom: 0.5rem; 
-            font-size: 0.875rem; 
-            font-weight: 700; 
-            color: var(--text-light);
-            transition: color 0.3s;
-        }
-        body.dark-mode .input-label {
-            color: var(--text-dark);
-        }
+      .neobrutalist-card {
+        background-color: var(--card-bg-light);
+        border: 3px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 6px 6px 0px var(--shadow-color);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: background-color 0.3s;
+      }
+      body.dark-mode .neobrutalist-card {
+        background-color: var(--card-bg-dark);
+      }
 
-        .input-field {
-            width: 100%;
-            padding: 0.75rem; 
-            border: 3px solid var(--border-color);
-            border-radius: 0.375rem; 
-            font-size: 1rem; 
-            background-color: var(--card-bg-light); 
-            font-weight: 500;
-            color: var(--text-light); 
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .input-field {
-            background-color: var(--bg-dark); 
-            color: var(--text-dark);
-        }
-        .input-field:focus {
-            outline: none;
-            box-shadow: 3px 3px 0px var(--shadow-color); 
-            transform: translate(-1px, -1px);
-        }
-        
-        .toggle-button { 
-            background-color: var(--button-toggle-bg-light);
-            color: var(--button-toggle-text-light); 
-            font-weight: 700;
-            padding: 0.5rem 0.75rem; 
-            border-radius: 0.375rem;
-            border: 3px solid var(--border-color);
-            box-shadow: 3px 3px 0px var(--shadow-color);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-            cursor: pointer;
-            margin-left: 0.5rem;
-            min-width: auto; 
-            text-align: center;
-            display: inline-flex; 
-            align-items: center;
-            gap: 0.35rem; 
-        }
-        body.dark-mode .toggle-button {
-             background-color: var(--button-toggle-bg-dark); 
-             color: var(--button-toggle-text-dark);
-        }
-        .toggle-button .lucide { 
-            width: 18px; 
-            height: 18px;
-            stroke: var(--button-toggle-icon-light); 
-            fill: none !important; 
-            transition: stroke 0.3s;
-        }
-        body.dark-mode .toggle-button .lucide {
-            stroke: var(--button-toggle-icon-dark); 
-        }
-        #twitterButton svg path { 
-            fill: var(--button-toggle-icon-light); 
-            transition: fill 0.3s;
-        }
-        body.dark-mode #twitterButton svg path {
-            fill: var(--button-toggle-icon-dark); 
-        }
-        .toggle-button span {
-             font-size: 0.75rem; 
-             line-height: 1.5;   
-             color: var(--button-toggle-text-light); 
-             transition: color 0.3s;
-        }
-        body.dark-mode .toggle-button span {
-            color: var(--button-toggle-text-dark); 
-        }
-        #twitterButton span { 
-            margin-left: 0.25rem;
-        }
+      .input-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .input-label {
+        color: var(--text-dark);
+      }
 
+      .input-field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 3px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 1rem;
+        background-color: var(--card-bg-light);
+        font-weight: 500;
+        color: var(--text-light);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .input-field {
+        background-color: var(--bg-dark);
+        color: var(--text-dark);
+      }
+      .input-field:focus {
+        outline: none;
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        transform: translate(-1px, -1px);
+      }
 
-        .toggle-button:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px var(--shadow-color);
-        }
+      .toggle-button {
+        background-color: var(--button-toggle-bg-light);
+        color: var(--button-toggle-text-light);
+        font-weight: 700;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        border: 3px solid var(--border-color);
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+        cursor: pointer;
+        margin-left: 0.5rem;
+        min-width: auto;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      body.dark-mode .toggle-button {
+        background-color: var(--button-toggle-bg-dark);
+        color: var(--button-toggle-text-dark);
+      }
+      .toggle-button .lucide {
+        width: 18px;
+        height: 18px;
+        stroke: var(--button-toggle-icon-light);
+        fill: none !important;
+        transition: stroke 0.3s;
+      }
+      body.dark-mode .toggle-button .lucide {
+        stroke: var(--button-toggle-icon-dark);
+      }
+      #twitterButton svg path {
+        fill: var(--button-toggle-icon-light);
+        transition: fill 0.3s;
+      }
+      body.dark-mode #twitterButton svg path {
+        fill: var(--button-toggle-icon-dark);
+      }
+      .toggle-button span {
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: var(--button-toggle-text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .toggle-button span {
+        color: var(--button-toggle-text-dark);
+      }
+      #twitterButton span {
+        margin-left: 0.25rem;
+      }
 
-        .simulate-button { /* Also used for Calculate Trades button */
-            width: 100%;
-            background-color: var(--button-primary-bg-light); 
-            color: var(--button-primary-text-light);
-            font-weight: 800; 
-            padding: 0.875rem 0; 
-            border-radius: 0.375rem; 
-            border: 3px solid var(--border-color);
-            font-size: 1.125rem; 
-            box-shadow: 4px 4px 0px var(--shadow-color);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-            cursor: pointer;
-        }
-        body.dark-mode .simulate-button {
-            background-color: var(--button-primary-bg-dark);
-            color: var(--button-primary-text-dark);
-        }
-        .simulate-button:hover {
-            background-color: var(--button-primary-hover-bg-light); 
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px var(--shadow-color);
-        }
-        body.dark-mode .simulate-button:hover {
-            background-color: var(--button-primary-hover-bg-dark);
-        }
-        .simulate-button:active {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px var(--shadow-color);
-        }
+      .toggle-button:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0px var(--shadow-color);
+      }
 
-        .summary-card { 
-            background-color: var(--summary-card-bg-light);
-            color: var(--summary-card-text-light);
-            transition: background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .summary-card {
-            background-color: var(--summary-card-bg-dark);
-            color: var(--summary-card-text-dark);
-        }
-        .summary-text {
-            font-size: 1.125rem; 
-            font-weight: 700; 
-            text-align: center;
-        }
+      .simulate-button {
+        /* Also used for Calculate Trades button */
+        width: 100%;
+        background-color: var(--button-primary-bg-light);
+        color: var(--button-primary-text-light);
+        font-weight: 800;
+        padding: 0.875rem 0;
+        border-radius: 0.375rem;
+        border: 3px solid var(--border-color);
+        font-size: 1.125rem;
+        box-shadow: 4px 4px 0px var(--shadow-color);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+        cursor: pointer;
+      }
+      body.dark-mode .simulate-button {
+        background-color: var(--button-primary-bg-dark);
+        color: var(--button-primary-text-dark);
+      }
+      .simulate-button:hover {
+        background-color: var(--button-primary-hover-bg-light);
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px var(--shadow-color);
+      }
+      body.dark-mode .simulate-button:hover {
+        background-color: var(--button-primary-hover-bg-dark);
+      }
+      .simulate-button:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px var(--shadow-color);
+      }
 
-        .results-table {
-            width: 100%;
-            margin-top: 1rem; 
-            border-collapse: collapse;
-            font-size: 0.875rem; 
-            border: 3px solid var(--border-color); 
-        }
-        .results-table th, .results-table td {
-            border: 2px solid var(--border-color); 
-            padding: 0.5rem; 
-            text-align: left;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .results-table th {
-            background-color: var(--table-header-bg-light); 
-            color: var(--table-header-text-light);
-            font-weight: 700; 
-            border-bottom-width: 3px;
-        }
-        body.dark-mode .results-table th {
-            background-color: var(--table-header-bg-dark);
-            color: var(--table-header-text-dark);
-        }
-         .results-table td { 
-            color: var(--table-data-text-light);
-        }
-        body.dark-mode .results-table td {
-             color: var(--table-data-text-dark); 
-        }
-        .results-table td.text-center {
-            text-align: center;
-        }
-        .results-table tr:nth-child(even) td { 
-            background-color: var(--table-even-row-bg-light); 
-        }
-        body.dark-mode .results-table tr:nth-child(even) td {
-            background-color: var(--table-even-row-bg-dark);
-        }
-        .results-table tr:nth-child(odd) td {
-             background-color: var(--table-odd-row-bg-light); 
-        }
-        body.dark-mode .results-table tr:nth-child(odd) td {
-            background-color: var(--table-odd-row-bg-dark);
-        }
+      .summary-card {
+        background-color: var(--summary-card-bg-light);
+        color: var(--summary-card-text-light);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .summary-card {
+        background-color: var(--summary-card-bg-dark);
+        color: var(--summary-card-text-dark);
+      }
+      .summary-text {
+        font-size: 1.125rem;
+        font-weight: 700;
+        text-align: center;
+      }
 
-        .error-message-style { 
-            color: var(--error-text-light); 
-            background-color: var(--error-bg-light); 
-            border: 3px solid var(--border-color); 
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem; 
-            text-align: center;
-            font-weight: 600;
-            box-shadow: 4px 4px 0px var(--shadow-color); 
-            transition: background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .error-message-style {
-            color: var(--error-text-dark);
-            background-color: var(--error-bg-dark);
-        }
+      .results-table {
+        width: 100%;
+        margin-top: 1rem;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+        border: 3px solid var(--border-color);
+      }
+      .results-table th,
+      .results-table td {
+        border: 2px solid var(--border-color);
+        padding: 0.5rem;
+        text-align: left;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .results-table th {
+        background-color: var(--table-header-bg-light);
+        color: var(--table-header-text-light);
+        font-weight: 700;
+        border-bottom-width: 3px;
+      }
+      body.dark-mode .results-table th {
+        background-color: var(--table-header-bg-dark);
+        color: var(--table-header-text-dark);
+      }
+      .results-table td {
+        color: var(--table-data-text-light);
+      }
+      body.dark-mode .results-table td {
+        color: var(--table-data-text-dark);
+      }
+      .results-table td.text-center {
+        text-align: center;
+      }
+      .results-table tr:nth-child(even) td {
+        background-color: var(--table-even-row-bg-light);
+      }
+      body.dark-mode .results-table tr:nth-child(even) td {
+        background-color: var(--table-even-row-bg-dark);
+      }
+      .results-table tr:nth-child(odd) td {
+        background-color: var(--table-odd-row-bg-light);
+      }
+      body.dark-mode .results-table tr:nth-child(odd) td {
+        background-color: var(--table-odd-row-bg-dark);
+      }
 
+      .error-message-style {
+        color: var(--error-text-light);
+        background-color: var(--error-bg-light);
+        border: 3px solid var(--border-color);
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        text-align: center;
+        font-weight: 600;
+        box-shadow: 4px 4px 0px var(--shadow-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .error-message-style {
+        color: var(--error-text-dark);
+        background-color: var(--error-bg-dark);
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .page-title {
+        color: var(--text-dark);
+      }
+      .controls-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      #resultsCard h2,
+      #swapCard h2,
+      #guideCard h2,
+      #volumeCalcCard h2 {
+        color: var(--text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode #resultsCard h2,
+      body.dark-mode #swapCard h2,
+      body.dark-mode #guideCard h2,
+      body.dark-mode #volumeCalcCard h2 {
+        color: var(--text-dark);
+      }
+
+      .disclaimer-text {
+        font-size: 0.75rem;
+        text-align: center;
+        margin-top: 1.5rem;
+        padding: 0.5rem;
+        color: var(--disclaimer-text-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode .disclaimer-text {
+        color: var(--disclaimer-text-dark);
+      }
+
+      /* Styles for Token Swap Card */
+      .token-swap-section {
+        padding: 0.75rem;
+        border: 3px solid var(--border-color);
+        border-radius: 0.375rem;
+        background-color: var(--token-swap-section-bg-light);
+        margin-bottom: 0.75rem;
+      }
+      body.dark-mode .token-swap-section {
+        background-color: var(--token-swap-section-bg-dark);
+      }
+      .token-icon {
+        width: 2rem; /* 32px */
+        height: 2rem; /* 32px */
+        margin-right: 0.5rem;
+        border-radius: 9999px; /* full */
+        object-fit: cover;
+        border: 1px solid var(--border-color);
+      }
+      .token-icon-placeholder {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+        border-radius: 9999px;
+        background-color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #4b5563;
+        border: 1px solid var(--border-color);
+      }
+      body.dark-mode .token-icon-placeholder {
+        background-color: #4b5563;
+        color: #d1d5db;
+      }
+      .token-name {
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: var(--text-light);
+      }
+      body.dark-mode .token-name {
+        color: var(--text-dark);
+      }
+      .swap-button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .swap-button {
+        padding: 0.5rem;
+        border-radius: 9999px;
+        border: 3px solid var(--border-color);
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        background-color: var(--button-toggle-bg-light);
+        color: var(--button-toggle-icon-light);
+        cursor: pointer;
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+          background-color 0.3s, color 0.3s;
+      }
+      body.dark-mode .swap-button {
+        background-color: var(--button-toggle-bg-dark);
+        color: var(--button-toggle-icon-dark);
+      }
+      .swap-button:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0px var(--shadow-color);
+      }
+      .swap-button:active {
+        transform: translate(1px, 1px);
+        box-shadow: 2px 2px 0px var(--shadow-color);
+      }
+
+      .info-badges-container {
+        text-align: center;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .slippage-badge,
+      .wallet-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border: 2px solid var(--border-color);
+        box-shadow: 2px 2px 0px var(--shadow-color);
+        transition: background-color 0.3s, color 0.3s;
+        margin: 0.25rem;
+      }
+
+      .slippage-badge {
+        background-color: var(--badge-bg-light);
+        color: var(--badge-text-light);
+      }
+      body.dark-mode .slippage-badge {
+        background-color: var(--badge-bg-dark);
+        color: var(--badge-text-dark);
+      }
+      .wallet-badge {
+        background-color: var(--wallet-badge-bg-light);
+        color: var(--wallet-badge-text-light);
+      }
+      body.dark-mode .wallet-badge {
+        background-color: var(--wallet-badge-bg-dark);
+        color: var(--wallet-badge-text-dark);
+      }
+
+      .token-swap-additional-info {
+        font-size: 0.875rem;
+        text-align: center;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        color: var(--token-swap-info-text-light);
+        transition: color 0.3s;
+        line-height: 1.6;
+      }
+      body.dark-mode .token-swap-additional-info {
+        color: var(--token-swap-info-text-dark);
+      }
+      .token-swap-additional-info strong {
+        font-weight: 700;
+      }
+
+      /* Guide Card Styles */
+      #guideCard ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      #guideCard li {
+        position: relative;
+        padding-left: 1.75rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.6;
+      }
+      #guideCard li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-weight: bold;
+        color: var(--guide-list-marker-light);
+        transition: color 0.3s;
+      }
+      body.dark-mode #guideCard li::before {
+        color: var(--guide-list-marker-dark);
+      }
+      #guideCard strong {
+        font-weight: 700;
+        color: var(--button-primary-bg-light);
+      }
+      body.dark-mode #guideCard strong {
+        color: #93c5fd;
+      }
+
+      /* Volume Calculator Styles */
+      .bnb-chain-toggle-container {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        justify-content: flex-start;
+        padding-left: 0.25rem;
+      }
+      .bnb-chain-toggle-container input[type="checkbox"] {
+        margin-right: 0.75rem;
+        width: 1.25em;
+        height: 1.25em;
+        border: 2px solid var(--border-color);
+        border-radius: 0.125rem;
+        cursor: pointer;
+        appearance: none;
+        position: relative;
+      }
+      .bnb-chain-toggle-container input[type="checkbox"]:checked {
+        background-color: var(--button-primary-bg-light);
+        border-color: var(--button-primary-bg-light);
+      }
+      body.dark-mode
+        .bnb-chain-toggle-container
+        input[type="checkbox"]:checked {
+        background-color: var(--button-primary-bg-dark);
+        border-color: var(--button-primary-bg-dark);
+      }
+      .bnb-chain-toggle-container input[type="checkbox"]:checked::after {
+        content: "✔";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--button-primary-text-light);
+        font-size: 0.8em;
+      }
+      body.dark-mode
+        .bnb-chain-toggle-container
+        input[type="checkbox"]:checked::after {
+        color: var(--button-primary-text-dark);
+      }
+
+      .bnb-chain-toggle-container label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-light);
+        cursor: pointer;
+      }
+      body.dark-mode .bnb-chain-toggle-container label {
+        color: var(--text-dark);
+      }
+
+      #volumeCalcResults {
+        margin-top: 1.5rem; /* Tailwind mt-6 */
+      }
+      .calc-result-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0; /* Tailwind py-2 */
+        border-bottom: 1px dashed var(--grid-line-color-light);
+      }
+      body.dark-mode .calc-result-item {
+        border-bottom-color: var(--grid-line-color-dark);
+      }
+      .calc-result-item:last-child {
+        border-bottom: none;
+      }
+      .calc-result-label {
+        font-weight: 500; /* Tailwind font-medium */
+        color: var(--text-light);
+        margin-right: 0.5rem;
+        flex-shrink: 0; /* Prevent label from shrinking too much */
+      }
+      body.dark-mode .calc-result-label {
+        color: var(--text-dark);
+      }
+      .calc-result-value {
+        font-weight: 600; /* Tailwind font-semibold */
+        color: var(--text-light);
+        text-align: right; /* Align value to the right */
+      }
+      body.dark-mode .calc-result-value {
+        color: var(--text-dark);
+      }
+      .calc-result-value strong {
+        color: var(--calc-result-strong-light);
+      }
+      body.dark-mode .calc-result-value strong {
+        color: var(--calc-result-strong-dark);
+      }
+      #bnbBonusResultItem .bnb-bonus-text {
+        /* Class for the text part of the BNB bonus message */
+        color: var(--bnb-bonus-text-light) !important;
+      }
+      body.dark-mode #bnbBonusResultItem .bnb-bonus-text {
+        color: var(--bnb-bonus-text-dark) !important;
+      }
+      #bnbBonusResultItem strong {
+        /* For the dynamic value within the BNB message */
+        color: var(--bnb-bonus-text-light) !important;
+      }
+      body.dark-mode #bnbBonusResultItem strong {
+        color: var(--bnb-bonus-text-dark) !important;
+      }
+
+      @media (max-width: 640px) {
+        /* sm breakpoint */
+        .controls-container {
+          justify-content: center;
+        }
+        .toggle-button {
+          margin-top: 0.5rem;
+        }
         .page-title {
-            font-size: 1.75rem; 
-            font-weight: 800; 
-            text-align: center;
-            margin-bottom: 1.5rem; 
-            color: var(--text-light);
-            transition: color 0.3s;
+          font-size: 1.5rem;
         }
-        body.dark-mode .page-title {
-            color: var(--text-dark);
+        .results-table th,
+        .results-table td {
+          padding: 0.3rem;
+          font-size: 0.75rem;
         }
-        .controls-container { 
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap; 
+        .neobrutalist-marquee {
+          font-size: 0.875rem;
+          padding: 0.5rem 0.75rem;
         }
-        #resultsCard h2, #swapCard h2, #guideCard h2, #volumeCalcCard h2 { 
-            color: var(--text-light);
-            transition: color 0.3s;
+        .neobrutalist-marquee .marquee-item svg {
+          width: 16px;
+          height: 16px;
         }
-        body.dark-mode #resultsCard h2, body.dark-mode #swapCard h2, body.dark-mode #guideCard h2, body.dark-mode #volumeCalcCard h2 { 
-            color: var(--text-dark);
-        }
-        
-        .disclaimer-text {
-            font-size: 0.75rem; 
-            text-align: center;
-            margin-top: 1.5rem; 
-            padding: 0.5rem;
-            color: var(--disclaimer-text-light);
-            transition: color 0.3s;
-        }
-        body.dark-mode .disclaimer-text {
-            color: var(--disclaimer-text-dark);
-        }
-
-        /* Styles for Token Swap Card */
-        .token-swap-section {
-            padding: 0.75rem;
-            border: 3px solid var(--border-color);
-            border-radius: 0.375rem;
-            background-color: var(--token-swap-section-bg-light);
-            margin-bottom: 0.75rem; 
-        }
-        body.dark-mode .token-swap-section {
-            background-color: var(--token-swap-section-bg-dark);
-        }
-        .token-icon {
-            width: 2rem; /* 32px */
-            height: 2rem; /* 32px */
-            margin-right: 0.5rem;
-            border-radius: 9999px; /* full */
-            object-fit: cover; 
-            border: 1px solid var(--border-color); 
-        }
-        .token-icon-placeholder {
-            width: 2rem; 
-            height: 2rem; 
-            margin-right: 0.5rem;
-            border-radius: 9999px; 
-            background-color: #E5E7EB; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.65rem; 
-            font-weight: 600;
-            color: #4B5563; 
-            border: 1px solid var(--border-color);
-        }
-        body.dark-mode .token-icon-placeholder {
-            background-color: #4B5563; 
-            color: #D1D5DB; 
-        }
-        .token-name {
-            font-weight: 700; 
-            font-size: 1.125rem; 
-            color: var(--text-light);
-        }
-        body.dark-mode .token-name {
-            color: var(--text-dark);
-        }
-        .swap-button-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .swap-button {
-            padding: 0.5rem; 
-            border-radius: 9999px; 
-            border: 3px solid var(--border-color);
-            box-shadow: 3px 3px 0px var(--shadow-color);
-            background-color: var(--button-toggle-bg-light);
-            color: var(--button-toggle-icon-light);
-            cursor: pointer;
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
-        }
-        body.dark-mode .swap-button {
-            background-color: var(--button-toggle-bg-dark);
-            color: var(--button-toggle-icon-dark);
-        }
-        .swap-button:hover {
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px var(--shadow-color);
-        }
-        .swap-button:active {
-            transform: translate(1px, 1px);
-            box-shadow: 2px 2px 0px var(--shadow-color);
-        }
-
-        .info-badges-container { 
-            text-align: center;
-            margin-top: 0.5rem; 
-            margin-bottom: 0.5rem; 
-        }
-
-        .slippage-badge, .wallet-badge { 
-            display: inline-block;
-            padding: 0.35rem 0.75rem; 
-            border-radius: 0.375rem; 
-            font-size: 0.875rem; 
-            font-weight: 600; 
-            border: 2px solid var(--border-color);
-            box-shadow: 2px 2px 0px var(--shadow-color);
-            transition: background-color 0.3s, color 0.3s;
-            margin: 0.25rem; 
-        }
-
-        .slippage-badge {
-            background-color: var(--badge-bg-light);
-            color: var(--badge-text-light);
-        }
-        body.dark-mode .slippage-badge {
-            background-color: var(--badge-bg-dark);
-            color: var(--badge-text-dark);
-        }
+        .slippage-badge,
         .wallet-badge {
-            background-color: var(--wallet-badge-bg-light);
-            color: var(--wallet-badge-text-light);
-        }
-        body.dark-mode .wallet-badge {
-            background-color: var(--wallet-badge-bg-dark);
-            color: var(--wallet-badge-text-dark);
-        }
-
-        .token-swap-additional-info {
-            font-size: 0.875rem; 
-            text-align: center;
-            margin-top: 1rem; 
-            padding: 0.5rem;
-            color: var(--token-swap-info-text-light);
-            transition: color 0.3s;
-            line-height: 1.6;
-        }
-        body.dark-mode .token-swap-additional-info {
-            color: var(--token-swap-info-text-dark);
-        }
-        .token-swap-additional-info strong {
-            font-weight: 700;
-        }
-
-
-        /* Guide Card Styles */
-        #guideCard ul {
-            list-style-type: none;
-            padding-left: 0;
+          font-size: 0.75rem;
+          padding: 0.25rem 0.5rem;
         }
         #guideCard li {
-            position: relative;
-            padding-left: 1.75rem; 
-            margin-bottom: 0.75rem; 
-            font-size: 0.875rem; 
-            line-height: 1.6;
+          font-size: 0.8rem;
         }
-        #guideCard li::before {
-            content: '→'; 
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-weight: bold;
-            color: var(--guide-list-marker-light);
-            transition: color 0.3s;
+        .token-swap-additional-info {
+          font-size: 0.8rem;
         }
-        body.dark-mode #guideCard li::before {
-            color: var(--guide-list-marker-dark);
-        }
-        #guideCard strong { 
-            font-weight: 700;
-            color: var(--button-primary-bg-light); 
-        }
-        body.dark-mode #guideCard strong {
-            color: #93C5FD; 
-        }
-
-        /* Volume Calculator Styles */
         .bnb-chain-toggle-container {
-            display: flex;
-            align-items: center;
-            margin-top: 1rem; 
-            margin-bottom: 1.5rem; 
-            justify-content: flex-start; 
-            padding-left: 0.25rem; 
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start; /* Align to left on small screens */
         }
         .bnb-chain-toggle-container input[type="checkbox"] {
-            margin-right: 0.75rem; 
-            width: 1.25em; 
-            height: 1.25em;
-            border: 2px solid var(--border-color);
-            border-radius: 0.125rem; 
-            cursor: pointer;
-            appearance: none; 
-            position: relative; 
-        }
-        .bnb-chain-toggle-container input[type="checkbox"]:checked {
-            background-color: var(--button-primary-bg-light);
-            border-color: var(--button-primary-bg-light);
-        }
-        body.dark-mode .bnb-chain-toggle-container input[type="checkbox"]:checked {
-            background-color: var(--button-primary-bg-dark);
-            border-color: var(--button-primary-bg-dark);
-        }
-        .bnb-chain-toggle-container input[type="checkbox"]:checked::after {
-            content: '✔';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--button-primary-text-light);
-            font-size: 0.8em;
-        }
-        body.dark-mode .bnb-chain-toggle-container input[type="checkbox"]:checked::after {
-            color: var(--button-primary-text-dark);
-        }
-
-        .bnb-chain-toggle-container label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-light);
-            cursor: pointer;
-        }
-        body.dark-mode .bnb-chain-toggle-container label {
-            color: var(--text-dark);
-        }
-        
-        #volumeCalcResults {
-             margin-top: 1.5rem; /* Tailwind mt-6 */
+          margin-bottom: 0.25rem;
         }
         .calc-result-item {
-            display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            padding: 0.5rem 0; /* Tailwind py-2 */
-            border-bottom: 1px dashed var(--grid-line-color-light); 
-        }
-        body.dark-mode .calc-result-item {
-            border-bottom-color: var(--grid-line-color-dark);
-        }
-        .calc-result-item:last-child {
-            border-bottom: none; 
-        }
-        .calc-result-label {
-            font-weight: 500; /* Tailwind font-medium */
-            color: var(--text-light);
-            margin-right: 0.5rem;
-            flex-shrink: 0; /* Prevent label from shrinking too much */
-        }
-        body.dark-mode .calc-result-label {
-            color: var(--text-dark);
+          flex-direction: column;
+          align-items: flex-start;
         }
         .calc-result-value {
-            font-weight: 600; /* Tailwind font-semibold */
-            color: var(--text-light);
-            text-align: right; /* Align value to the right */
+          margin-top: 0.125rem;
+          text-align: left;
         }
-        body.dark-mode .calc-result-value {
-            color: var(--text-dark);
-        }
-        .calc-result-value strong { 
-            color: var(--calc-result-strong-light);
-        }
-        body.dark-mode .calc-result-value strong {
-            color: var(--calc-result-strong-dark);
-        }
-        #bnbBonusResultItem .bnb-bonus-text { /* Class for the text part of the BNB bonus message */
-             color: var(--bnb-bonus-text-light) !important; 
-        }
-        body.dark-mode #bnbBonusResultItem .bnb-bonus-text {
-            color: var(--bnb-bonus-text-dark) !important;
-        }
-         #bnbBonusResultItem strong { /* For the dynamic value within the BNB message */
-            color: var(--bnb-bonus-text-light) !important; 
-        }
-        body.dark-mode #bnbBonusResultItem strong {
-            color: var(--bnb-bonus-text-dark) !important;
-        }
-
-
-
-         @media (max-width: 640px) { /* sm breakpoint */
-            .controls-container {
-                justify-content: center; 
-            }
-            .toggle-button {
-                margin-top: 0.5rem; 
-            }
-            .page-title {
-                font-size: 1.5rem;
-            }
-            .results-table th, .results-table td {
-                padding: 0.3rem;
-                font-size: 0.75rem;
-            }
-            .neobrutalist-marquee {
-                font-size: 0.875rem; 
-                padding: 0.5rem 0.75rem;
-            }
-            .neobrutalist-marquee .marquee-item svg { 
-                width: 16px;
-                height: 16px;
-            }
-             .slippage-badge, .wallet-badge {
-                font-size: 0.75rem; 
-                padding: 0.25rem 0.5rem;
-            }
-            #guideCard li {
-                font-size: 0.8rem;
-            }
-            .token-swap-additional-info {
-                 font-size: 0.8rem;
-            }
-            .bnb-chain-toggle-container {
-                flex-direction: column; 
-                align-items: flex-start;
-                 justify-content: flex-start; /* Align to left on small screens */
-            }
-            .bnb-chain-toggle-container input[type="checkbox"] {
-                margin-bottom: 0.25rem;
-            }
-            .calc-result-item {
-                flex-direction: column; 
-                align-items: flex-start; 
-            }
-            .calc-result-value {
-                margin-top: 0.125rem; 
-                text-align: left;
-            }
-        }
-
+      }
     </style>
-</head>
-<body class="p-4 md:p-8">
+  </head>
+  <body class="p-4 md:p-8">
+    <div class="main-container">
+      <div class="controls-container">
+        <button id="languageToggleButton" class="toggle-button">
+          <i data-lucide="languages" class="lucide icon"></i>
+          <span data-translate="languageToggle">English</span>
+        </button>
+        <a
+          href="https://x.com/drv3v"
+          target="_blank"
+          rel="noopener noreferrer"
+          id="twitterButton"
+          class="toggle-button ml-2">
+          <svg
+            class="icon"
+            style="width: 18px; height: 18px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512">
+            <path
+              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+          </svg>
+          <span>@drv3v</span>
+        </a>
+        <button id="darkModeToggle" class="toggle-button ml-2"></button>
+      </div>
 
-    <div class="main-container"> 
-        <div class="controls-container">
-            <button id="languageToggleButton" class="toggle-button">
-                <i data-lucide="languages" class="lucide icon"></i>
-                <span data-translate="languageToggle">English</span>
-            </button>
-            <a href="https://x.com/drv3v" target="_blank" rel="noopener noreferrer" id="twitterButton" class="toggle-button ml-2">
-                <svg class="icon" style="width: 18px; height: 18px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
-                <span>@drv3v</span>
-            </a>
-            <button id="darkModeToggle" class="toggle-button ml-2">
-                </button>
+      <marquee
+        class="neobrutalist-marquee"
+        behavior="scroll"
+        direction="left"
+        scrollamount="5">
+        <span class="marquee-item">HASHNODE</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              stroke="black"
+              stroke-width="6"
+              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">0xPRERICH</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">BINANCE ALPHA</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              data-fill-type="text"
+              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
+              clip-rule="evenodd"
+              fill-rule="evenodd"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">HASHNODE</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              stroke="black"
+              stroke-width="6"
+              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">0xPRERICH</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              fill="currentColor"
+              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
+          </svg>
+        </span>
+        <span class="marquee-item">BINANCE ALPHA</span>
+        <span class="marquee-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 200 200"
+            class="marquee-svg-item">
+            <path
+              data-fill-type="text"
+              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
+              clip-rule="evenodd"
+              fill-rule="evenodd"></path>
+          </svg>
+        </span>
+      </marquee>
+
+      <!-- How to Use Card -->
+      <div id="guideCard" class="neobrutalist-card">
+        <h2
+          class="text-xl font-semibold text-center mb-4"
+          data-translate="guideTitle">
+          How to Use This Simulator
+        </h2>
+        <ul id="guideList">
+          <li data-translate="guideStep1"></li>
+          <li data-translate="guideStep2"></li>
+          <li data-translate="guideStep3"></li>
+          <li data-translate="guideStep4"></li>
+          <li data-translate="guideStep5"></li>
+          <li data-translate="guideStep6"></li>
+          <li data-translate="guideStep7"></li>
+        </ul>
+      </div>
+
+      <div class="neobrutalist-card">
+        <h1 class="page-title" data-translate="pageTitle">
+          Alpha Score Rolling Simulator
+        </h1>
+
+        <div id="errorMessageContainer" class="mb-4"></div>
+
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
+          <div>
+            <label
+              for="fixedDailyScore"
+              class="input-label"
+              data-translate="fixedDailyScoreLabel"
+              >Fixed Daily Score</label
+            >
+            <input
+              type="number"
+              id="fixedDailyScore"
+              class="input-field"
+              value="18" />
+          </div>
+          <div>
+            <label
+              for="totalDays"
+              class="input-label"
+              data-translate="totalDaysLabel"
+              >Total Days</label
+            >
+            <input
+              type="number"
+              id="totalDays"
+              class="input-field"
+              value="30"
+              min="1" />
+          </div>
+          <div>
+            <label
+              for="rollingWindow"
+              class="input-label"
+              data-translate="rollingWindowLabel"
+              >Rolling Window (days)</label
+            >
+            <input
+              type="number"
+              id="rollingWindow"
+              class="input-field"
+              value="15"
+              min="1" />
+          </div>
+          <div>
+            <label
+              for="thresholdScore"
+              class="input-label"
+              data-translate="thresholdScoreLabel"
+              >Threshold Score</label
+            >
+            <input
+              type="number"
+              id="thresholdScore"
+              class="input-field"
+              value="210" />
+          </div>
+          <div>
+            <label
+              for="pointsConsumed"
+              class="input-label"
+              data-translate="pointsConsumedLabel"
+              >Points Consumed per Claim</label
+            >
+            <input
+              type="number"
+              id="pointsConsumed"
+              class="input-field"
+              value="15" />
+          </div>
+          <div>
+            <label
+              for="rewardPerClaim"
+              class="input-label"
+              data-translate="rewardPerClaimLabel"
+              >Reward per Claim (USD)</label
+            >
+            <input
+              type="number"
+              id="rewardPerClaim"
+              class="input-field"
+              value="90" />
+          </div>
         </div>
 
-        <marquee class="neobrutalist-marquee" behavior="scroll" direction="left" scrollamount="5">
-            <span class="marquee-item">HASHNODE</span>
-            <span class="marquee-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" stroke="black" stroke-width="6" d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path></svg>
-            </span>
-            <span class="marquee-item">0xPRERICH</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path></svg>
-            </span>
-            <span class="marquee-item">BINANCE ALPHA</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 200 200" class="marquee-svg-item"><path data-fill-type="text" d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-            </span>
-             <span class="marquee-item">HASHNODE</span>
-            <span class="marquee-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" stroke="black" stroke-width="6" d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path></svg>
-            </span>
-            <span class="marquee-item">0xPRERICH</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><path fill="currentColor" d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path></svg>
-            </span>
-            <span class="marquee-item">BINANCE ALPHA</span>
-            <span class="marquee-item">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 200 200" class="marquee-svg-item"><path data-fill-type="text" d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-            </span>
-        </marquee>
-        
-        <!-- How to Use Card -->
-        <div id="guideCard" class="neobrutalist-card">
-            <h2 class="text-xl font-semibold text-center mb-4" data-translate="guideTitle">How to Use This Simulator</h2>
-            <ul id="guideList">
-                <li data-translate="guideStep1"></li>
-                <li data-translate="guideStep2"></li>
-                <li data-translate="guideStep3"></li>
-                <li data-translate="guideStep4"></li>
-                <li data-translate="guideStep5"></li>
-                <li data-translate="guideStep6"></li>
-                <li data-translate="guideStep7"></li>
-            </ul>
+        <button
+          id="simulateButton"
+          class="simulate-button"
+          data-translate="simulateButton">
+          Simulate
+        </button>
+      </div>
+
+      <div id="swapCard" class="neobrutalist-card">
+        <h2
+          class="text-xl font-semibold text-center mb-4"
+          data-translate="swapCardTitle">
+          Token Swap Recommended
+        </h2>
+
+        <div id="tokenSectionA" class="token-swap-section">
+          <div class="flex items-center mb-2">
+            <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
+            <div
+              id="tokenAPlaceholder"
+              class="token-icon-placeholder"
+              style="display: none"></div>
+            <span id="tokenAName" class="token-name"></span>
+          </div>
         </div>
 
-
-        <!-- Volume Points Trade Calculator Card -->
-        <div id="volumeCalcCard" class="neobrutalist-card">
-            <h2 class="text-xl font-semibold text-center mb-4" data-translate="volumeCalcTitle">Volume Points Trade Calculator</h2>
-            <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2"> 
-                <div>
-                    <label for="initialInvestmentVolCalc" class="input-label" data-translate="initialInvestmentVolCalcLabel">Initial Investment (USD per trade)</label>
-                    <input type="number" id="initialInvestmentVolCalc" class="input-field" value="100" min="1">
-                </div>
-                <div>
-                    <label for="targetVolumePointsCalc" class="input-label" data-translate="targetVolumePointsCalcLabel">Target Volume Points</label>
-                    <input type="number" id="targetVolumePointsCalc" class="input-field" value="8" min="1">
-                </div>
-            </div>
-            <div class="bnb-chain-toggle-container">
-                <input type="checkbox" id="bnbChainToggle">
-                <label for="bnbChainToggle" data-translate="bnbChainToggleLabel">Trade on BNB Chain (2x Points Bonus)</label>
-            </div>
-            <button id="calculateTradesButton" class="simulate-button" data-translate="calculateTradesButtonLabel">Calculate Trades</button>
-            
-            <div id="volumeCalcResults" class="mt-6 space-y-3" style="display: none;">
-                <div class="calc-result-item">
-                    <span class="calc-result-label" data-translate="volCalcMsg1">Target:</span>
-                    <span class="calc-result-value"><strong id="targetPointsDisplayV"></strong> <span data-translate="pointsUnit">points</span></span>
-                </div>
-                <div class="calc-result-item">
-                    <span class="calc-result-label" data-translate="volCalcMsg2">Standard trade volume for points:</span>
-                    <span class="calc-result-value">$<strong id="standardVolumeDisplayV"></strong></span>
-                </div>
-                <div id="bnbBonusResultItem" class="calc-result-item" style="display: none;"> 
-                    <span class="calc-result-label bnb-bonus-text" data-translate="bnbBonusMsgLabel">BNB Bonus - Effective Volume:</span>
-                    <span class="calc-result-value bnb-bonus-text">$<strong id="effectiveVolumeDisplayV"></strong></span>
-                </div>
-                <div class="calc-result-item">
-                    <span class="calc-result-label" data-translate="volCalcMsg3">Investment per Trade:</span>
-                    <span class="calc-result-value">$<strong id="investmentPerTradeDisplayV"></strong></span>
-                </div>
-                <div class="calc-result-item text-lg"> 
-                    <span class="calc-result-label" data-translate="volCalcMsg4">Approx. Trades Needed:</span>
-                    <span class="calc-result-value"><strong id="numTradesDisplayV" class="text-2xl"></strong> <span data-translate="tradesUnit">trades</span></span>
-                </div>
-                <div class="calc-result-item text-sm">
-                    <span class="calc-result-label" data-translate="volCalcMsg5">Total Actual Volume:</span>
-                    <span class="calc-result-value">$<strong id="totalAchievedVolumeDisplayV"></strong></span>
-                </div>
-            </div>
-        </div>
-        
-        <div id="swapCard" class="neobrutalist-card">
-            <h2 class="text-xl font-semibold text-center mb-4" data-translate="swapCardTitle">Token Swap Recommended</h2>
-
-            <div id="tokenSectionA" class="token-swap-section">
-                 <div class="flex items-center mb-2">
-                    <img id="tokenAIcon" src="" alt="Token A" class="token-icon">
-                    <div id="tokenAPlaceholder" class="token-icon-placeholder" style="display:none;"></div>
-                    <span id="tokenAName" class="token-name"></span>
-                </div>
-            </div>
-
-            <div class="swap-button-container">
-                <button id="swapTokensButton" class="swap-button" aria-label="Swap tokens">
-                    <i data-lucide="arrow-down-up" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div id="tokenSectionB" class="token-swap-section">
-                 <div class="flex items-center mb-2">
-                    <img id="tokenBIcon" src="" alt="Token B" class="token-icon">
-                    <div id="tokenBPlaceholder" class="token-icon-placeholder" style="display:none;"></div>
-                    <span id="tokenBName" class="token-name"></span>
-                </div>
-            </div>
-            
-            <div class="info-badges-container">
-                <span class="slippage-badge" data-translate="slippageText">Slippage Tolerance: 0.01%</span>
-                <span class="wallet-badge" data-translate="tradedOnWalletText">Traded on Binance Wallet</span>
-            </div>
-            <p class="token-swap-additional-info" data-translate="tokenSwapInfoText">
-                <!-- Content will be injected by JavaScript -->
-            </p>
+        <div class="swap-button-container">
+          <button
+            id="swapTokensButton"
+            class="swap-button"
+            aria-label="Swap tokens">
+            <i data-lucide="arrow-down-up" class="w-5 h-5"></i>
+          </button>
         </div>
 
-        <!-- Alpha Score Rolling Simulator Card (Moved Here) -->
-        <div id="alphaScoreSimulatorCard" class="neobrutalist-card">
-            <h1 class="page-title" data-translate="pageTitle">Alpha Score Rolling Simulator</h1>
-            
-            <div id="errorMessageContainer" class="mb-4">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
-                <div>
-                    <label for="fixedDailyScore" class="input-label" data-translate="fixedDailyScoreLabel">Fixed Daily Score</label>
-                    <input type="number" id="fixedDailyScore" class="input-field" value="18">
-                </div>
-                <div>
-                    <label for="totalDays" class="input-label" data-translate="totalDaysLabel">Total Days</label>
-                    <input type="number" id="totalDays" class="input-field" value="30" min="1">
-                </div>
-                <div>
-                    <label for="rollingWindow" class="input-label" data-translate="rollingWindowLabel">Rolling Window (days)</label>
-                    <input type="number" id="rollingWindow" class="input-field" value="15" min="1">
-                </div>
-                <div>
-                    <label for="thresholdScore" class="input-label" data-translate="thresholdScoreLabel">Threshold Score</label>
-                    <input type="number" id="thresholdScore" class="input-field" value="210">
-                </div>
-                <div>
-                    <label for="pointsConsumed" class="input-label" data-translate="pointsConsumedLabel">Points Consumed per Claim</label>
-                    <input type="number" id="pointsConsumed" class="input-field" value="15">
-                </div>
-                <div>
-                    <label for="rewardPerClaim" class="input-label" data-translate="rewardPerClaimLabel">Reward per Claim (USD)</label>
-                    <input type="number" id="rewardPerClaim" class="input-field" value="90">
-                </div>
-            </div>
-            
-            <button id="simulateButton" class="simulate-button" data-translate="simulateButton">Simulate</button>
+        <div id="tokenSectionB" class="token-swap-section">
+          <div class="flex items-center mb-2">
+            <img id="tokenBIcon" src="" alt="Token B" class="token-icon" />
+            <div
+              id="tokenBPlaceholder"
+              class="token-icon-placeholder"
+              style="display: none"></div>
+            <span id="tokenBName" class="token-name"></span>
+          </div>
         </div>
 
-
-        <div id="summaryCard" class="summary-card neobrutalist-card hidden">
-            <p id="summaryText" class="summary-text"></p>
+        <div class="info-badges-container">
+          <span class="slippage-badge" data-translate="slippageText"
+            >Slippage Tolerance: 0.01%</span
+          >
+          <span class="wallet-badge" data-translate="tradedOnWalletText"
+            >Traded on Binance Wallet</span
+          >
         </div>
+        <p
+          class="token-swap-additional-info"
+          data-translate="tokenSwapInfoText">
+          <!-- Content will be injected by JavaScript -->
+        </p>
+      </div>
 
-        <div id="resultsCard" class="neobrutalist-card hidden">
-            <h2 class="text-xl font-semibold text-center mb-4" data-translate="resultsTitle">Simulation Details</h2>
-
-            <div class="overflow-x-auto">
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th data-translate="tableDay">Day</th>
-                            <th data-translate="tableDailyScore">Score</th>
-                            <th data-translate="tableTotalInWindow">Window Total</th>
-                            <th data-translate="tableClaimed">Claimed?</th>
-                            <th data-translate="tablePtsConsumed">Pts Used</th>
-                            <th data-translate="tableRewardToday">Reward (USD)</th>
-                            <th data-translate="tableWindowRange">Window</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsTableBody">
-                    </tbody>
-                </table>
-            </div>
+      <!-- Volume Points Trade Calculator Card -->
+      <div id="volumeCalcCard" class="neobrutalist-card">
+        <h2
+          class="text-xl font-semibold text-center mb-4"
+          data-translate="volumeCalcTitle">
+          Volume Points Trade Calculator
+        </h2>
+        <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
+          <div>
+            <label
+              for="initialInvestmentVolCalc"
+              class="input-label"
+              data-translate="initialInvestmentVolCalcLabel"
+              >Initial Investment (USD per trade)</label
+            >
+            <input
+              type="number"
+              id="initialInvestmentVolCalc"
+              class="input-field"
+              value="100"
+              min="1" />
+          </div>
+          <div>
+            <label
+              for="targetVolumePointsCalc"
+              class="input-label"
+              data-translate="targetVolumePointsCalcLabel"
+              >Target Volume Points</label
+            >
+            <input
+              type="number"
+              id="targetVolumePointsCalc"
+              class="input-field"
+              value="8"
+              min="1" />
+          </div>
         </div>
-
-        <div id="disclaimerSection" class="disclaimer-text">
-            <p data-translate="disclaimerText">Disclaimer: This simulator is for informational and entertainment purposes only and does not constitute financial advice.</p>
+        <div class="bnb-chain-toggle-container">
+          <input type="checkbox" id="bnbChainToggle" />
+          <label for="bnbChainToggle" data-translate="bnbChainToggleLabel"
+            >Trade on BNB Chain (2x Points Bonus)</label
+          >
         </div>
+        <button
+          id="calculateTradesButton"
+          class="simulate-button"
+          data-translate="calculateTradesButtonLabel">
+          Calculate Trades
+        </button>
 
+        <div
+          id="volumeCalcResults"
+          class="mt-6 space-y-3"
+          style="display: none">
+          <div class="calc-result-item">
+            <span class="calc-result-label" data-translate="volCalcMsg1"
+              >Target:</span
+            >
+            <span class="calc-result-value"
+              ><strong id="targetPointsDisplayV"></strong>
+              <span data-translate="pointsUnit">points</span></span
+            >
+          </div>
+          <div class="calc-result-item">
+            <span class="calc-result-label" data-translate="volCalcMsg2"
+              >Standard trade volume for points:</span
+            >
+            <span class="calc-result-value"
+              >$<strong id="standardVolumeDisplayV"></strong
+            ></span>
+          </div>
+          <div
+            id="bnbBonusResultItem"
+            class="calc-result-item"
+            style="display: none">
+            <span
+              class="calc-result-label bnb-bonus-text"
+              data-translate="bnbBonusMsgLabel"
+              >BNB Bonus - Effective Volume:</span
+            >
+            <span class="calc-result-value bnb-bonus-text"
+              >$<strong id="effectiveVolumeDisplayV"></strong
+            ></span>
+          </div>
+          <div class="calc-result-item">
+            <span class="calc-result-label" data-translate="volCalcMsg3"
+              >Investment per Trade:</span
+            >
+            <span class="calc-result-value"
+              >$<strong id="investmentPerTradeDisplayV"></strong
+            ></span>
+          </div>
+          <div class="calc-result-item text-lg">
+            <span class="calc-result-label" data-translate="volCalcMsg4"
+              >Approx. Trades Needed:</span
+            >
+            <span class="calc-result-value"
+              ><strong id="numTradesDisplayV" class="text-2xl"></strong>
+              <span data-translate="tradesUnit">trades</span></span
+            >
+          </div>
+          <div class="calc-result-item text-sm">
+            <span class="calc-result-label" data-translate="volCalcMsg5"
+              >Total Actual Volume:</span
+            >
+            <span class="calc-result-value"
+              >$<strong id="totalAchievedVolumeDisplayV"></strong
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="summaryCard" class="summary-card neobrutalist-card hidden">
+        <p id="summaryText" class="summary-text"></p>
+      </div>
+
+      <div id="resultsCard" class="neobrutalist-card hidden">
+        <h2
+          class="text-xl font-semibold text-center mb-4"
+          data-translate="resultsTitle">
+          Simulation Details
+        </h2>
+
+        <div class="overflow-x-auto">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th data-translate="tableDay">Day</th>
+                <th data-translate="tableDailyScore">Score</th>
+                <th data-translate="tableTotalInWindow">Window Total</th>
+                <th data-translate="tableClaimed">Claimed?</th>
+                <th data-translate="tablePtsConsumed">Pts Used</th>
+                <th data-translate="tableRewardToday">Reward (USD)</th>
+                <th data-translate="tableWindowRange">Window</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="disclaimerSection" class="disclaimer-text">
+        <p data-translate="disclaimerText">
+          Disclaimer: This simulator is for informational and entertainment
+          purposes only and does not constitute financial advice.
+        </p>
+      </div>
     </div>
 
     <script>
-        lucide.createIcons(); 
+      lucide.createIcons();
 
-        const translations = {
-            en: {
-                languageToggle: "English", 
-                pageTitle: "Alpha Score Rolling Simulator",
-                guideTitle: "How to Use This Simulator",
-                guideStep1: "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
-                guideStep2: "<strong>Token Swap Card:</strong> Visual aid for ZKJ/KOGE swap; includes notes on slippage (0.01%) and Binance Wallet.",
-                guideStep3: "<strong>Volume Points Calc:</strong> Input investment per trade, target points, and optionally check <strong>BNB Chain (2x bonus)</strong>. Click <strong>Calculate Trades</strong> for an estimate.",
-                guideStep4: "<strong>Customize View:</strong> Use top-right buttons for <strong>Language</strong> and <strong>Theme</strong>.",
-                guideStep5: "<strong>Note:</strong> This is an estimation tool, not financial advice.",
-                guideStep6: "", 
-                guideStep7: "", 
-                fixedDailyScoreLabel: "Fixed Daily Score",
-                totalDaysLabel: "Total Days",
-                rollingWindowLabel: "Rolling Window (days)",
-                thresholdScoreLabel: "Threshold Score",
-                pointsConsumedLabel: "Points Consumed per Claim",
-                rewardPerClaimLabel: "Reward per Claim (USD)", 
-                simulateButton: "Simulate",
-                resultsTitle: "Simulation Details",
-                swapCardTitle: "Token Swap Recommended", 
-                slippageText: "Slippage Tolerance: 0.01%", 
-                tradedOnWalletText: "Traded on Binance Wallet", 
-                tokenSwapInfoText: "<strong>Token Swap Info:</strong> Consider tokens with good market cap like <strong>ZKJ</strong> and <strong>KOGE</strong> for potentially less price swing. Always set slippage around <strong>0.01%</strong>. Recommended trading on <strong>Binance Wallet</strong>.",
-                volumeCalcTitle: "Volume Points Trade Calculator",
-                initialInvestmentVolCalcLabel: "Initial Investment (USD per trade)",
-                targetVolumePointsCalcLabel: "Target Volume Points",
-                calculateTradesButtonLabel: "Calculate Trades",
-                bnbChainToggleLabel: "Trade on BNB Chain (2x Points Bonus)",
-                volCalcMsg1: "Target:",
-                pointsUnit: "points",
-                volCalcMsg2: "Standard trade volume for points:", 
-                bnbBonusMsgLabel: "BNB Bonus - Effective Volume:", 
-                volCalcMsg3: "Investment per Trade:", 
-                volCalcMsg4: "Approx. Trades Needed:", 
-                tradesUnit: "trades",
-                volCalcMsg5: "Total Actual Volume:", 
-                errorInitialInvestment: "Initial Investment must be a positive number.",
-                errorTargetVolumePoints: "Target Volume Points must be a positive number.",
-                tableDay: "Day",
-                tableDailyScore: "Score", 
-                tableTotalInWindow: "Window Total", 
-                tableClaimed: "Claimed?",
-                tablePtsConsumed: "Pts Used", 
-                tableRewardToday: "Reward (USD)", 
-                tableWindowRange: "Window", 
-                errorNegativeScore: "Fixed Daily Score cannot be negative.",
-                errorTotalDays: "Total Days must be greater than 0.",
-                errorRollingWindow: "Rolling Window must be greater than 0.",
-                errorWindowExceedsTotal: "Rolling Window cannot exceed Total Days.",
-                errorThresholdScore: "Threshold Score must be greater than 0.",
-                errorPointsConsumed: "Points Consumed per Claim cannot be negative.",
-                errorRewardPerClaim: "Reward per Claim cannot be negative.",
-                summaryClaimedText: "✅ Claimed {count} times, total reward {reward} USD",
-                disclaimerText: "Disclaimer: This simulator is for informational and entertainment purposes only and does not constitute financial advice."
-            },
-            km: {
-                languageToggle: "ភាសាខ្មែរ", 
-                pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
-                guideTitle: "របៀបប្រើកម្មវិធីគណនានេះ", 
-                guideStep1: "<strong>កម្មវិធីក្លែងធ្វើអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
-                guideStep2: "<strong>កាតព័ត៌មានការដោះដូរថូខឹន៖</strong> បង្ហាញការដោះដូរ ZKJ/KOGE; រួមមានកំណត់ត្រាស្តីពី slippage (0.01%) និង Binance Wallet។",
-                guideStep3: "<strong>កម្មវិធីគណនាពិន្ទុបរិមាណ៖</strong> បញ្ចូល <strong>ការវិនិយោគក្នុងមួយការជួញដូរ</strong>, <strong>គោលដៅពិន្ទុបរិមាណ</strong>, និងអាចធីក <strong>BNB Chain (x2 ពិន្ទុ)</strong>។ ចុច <strong>គណនាការជួញដូរ</strong>។",
-                guideStep4: "<strong>ប្តូរការបង្ហាញ៖</strong> ប្រើប៊ូតុងស្តាំលើ ដើម្បីប្តូរ <strong>ភាសា</strong> និង <strong>រូបរាង</strong>។",
-                guideStep5: "<strong>កំណត់ចំណាំ៖</strong> នេះជាឧបករណ៍ប៉ាន់ស្មាន មិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។",
-                guideStep6: "", 
-                guideStep7: "",
-                fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ", 
-                totalDaysLabel: "ចំនួនថ្ងៃសរុប",
-                rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)", 
-                thresholdScoreLabel: "គោលដៅពិន្ទុ", 
-                pointsConsumedLabel: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តង", 
-                rewardPerClaimLabel: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)", 
-                simulateButton: "គណនា", 
-                resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
-                swapCardTitle: "ការដោះដូរថូខឹនដែលបានណែនាំ", 
-                slippageText: "ការអត់ធ្មត់លើថ្លៃ​ Slippage ៖ 0.01%", 
-                tradedOnWalletText: "ជួញដូរនៅលើ Binance Wallet", 
-                tokenSwapInfoText: "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>ZKJ</strong> និង <strong>KOGE</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ កំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>Binance Wallet</strong>។",
-                volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
-                initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)", 
-                targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
-                calculateTradesButtonLabel: "គណនាការជួញដូរ",
-                bnbChainToggleLabel: "ជួញដូរលើ BNB Chain (គុណនឹង2ពិន្ទុ)",
-                volCalcMsg1: "គោលដៅ៖",
-                pointsUnit: "ពិន្ទុ",
-                volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
-                bnbBonusMsgLabel: "Bonus BNB -
+      const translations = {
+        en: {
+          languageToggle: "English",
+          pageTitle: "Alpha Score Rolling Simulator",
+          guideTitle: "How to Use This Simulator",
+          guideStep1:
+            "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
+          guideStep2:
+            "<strong>Token Swap Card:</strong> Visual aid for ZKJ/KOGE swap; includes notes on slippage (0.01%) and Binance Wallet.",
+          guideStep3:
+            "<strong>Volume Points Calc:</strong> Input investment per trade, target points, and optionally check <strong>BNB Chain (2x bonus)</strong>. Click <strong>Calculate Trades</strong> for an estimate.",
+          guideStep4:
+            "<strong>Customize View:</strong> Use top-right buttons for <strong>Language</strong> and <strong>Theme</strong>.",
+          guideStep5:
+            "<strong>Note:</strong> This is an estimation tool, not financial advice.",
+          guideStep6: "",
+          guideStep7: "",
+          fixedDailyScoreLabel: "Fixed Daily Score",
+          totalDaysLabel: "Total Days",
+          rollingWindowLabel: "Rolling Window (days)",
+          thresholdScoreLabel: "Threshold Score",
+          pointsConsumedLabel: "Points Consumed per Claim",
+          rewardPerClaimLabel: "Reward per Claim (USD)",
+          simulateButton: "Simulate",
+          resultsTitle: "Simulation Details",
+          swapCardTitle: "Token Swap Recommended",
+          slippageText: "Slippage Tolerance: 0.01%",
+          tradedOnWalletText: "Traded on Binance Wallet",
+          tokenSwapInfoText:
+            "<strong>Token Swap Info:</strong> Consider tokens with good market cap like <strong>ZKJ</strong> and <strong>KOGE</strong> for potentially less price swing. Always set slippage around <strong>0.01%</strong>. Recommended trading on <strong>Binance Wallet</strong>.",
+          volumeCalcTitle: "Volume Points Trade Calculator",
+          initialInvestmentVolCalcLabel: "Initial Investment (USD per trade)",
+          targetVolumePointsCalcLabel: "Target Volume Points",
+          calculateTradesButtonLabel: "Calculate Trades",
+          bnbChainToggleLabel: "Trade on BNB Chain (2x Points Bonus)",
+          volCalcMsg1: "Target:",
+          pointsUnit: "points",
+          volCalcMsg2: "Standard trade volume for points:",
+          bnbBonusMsgLabel: "BNB Bonus - Effective Volume:",
+          volCalcMsg3: "Investment per Trade:",
+          volCalcMsg4: "Approx. Trades Needed:",
+          tradesUnit: "trades",
+          volCalcMsg5: "Total Actual Volume:",
+          errorInitialInvestment:
+            "Initial Investment must be a positive number.",
+          errorTargetVolumePoints:
+            "Target Volume Points must be a positive number.",
+          tableDay: "Day",
+          tableDailyScore: "Score", // Shorter
+          tableTotalInWindow: "Window Total", // Shorter
+          tableClaimed: "Claimed?",
+          tablePtsConsumed: "Pts Used", // Shorter
+          tableRewardToday: "Reward (USD)", // Shorter
+          tableWindowRange: "Window", // Shorter
+          errorNegativeScore: "Fixed Daily Score cannot be negative.",
+          errorTotalDays: "Total Days must be greater than 0.",
+          errorRollingWindow: "Rolling Window must be greater than 0.",
+          errorWindowExceedsTotal: "Rolling Window cannot exceed Total Days.",
+          errorThresholdScore: "Threshold Score must be greater than 0.",
+          errorPointsConsumed: "Points Consumed per Claim cannot be negative.",
+          errorRewardPerClaim: "Reward per Claim cannot be negative.",
+          summaryClaimedText:
+            "✅ Claimed {count} times, total reward {reward} USD",
+          disclaimerText:
+            "Disclaimer: This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
+        },
+        km: {
+          languageToggle: "ភាសាខ្មែរ",
+          pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
+          guideTitle: "របៀបប្រើកម្មវិធីគណនានេះ",
+          guideStep1:
+            "<strong>កម្មវិធីក្លែងធ្វើអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
+          guideStep2:
+            "<strong>កាតព័ត៌មានការដោះដូរថូខឹន៖</strong> បង្ហាញការដោះដូរ ZKJ/KOGE; រួមមានកំណត់ត្រាស្តីពី slippage (0.01%) និង Binance Wallet។",
+          guideStep3:
+            "<strong>កម្មវិធីគណនាពិន្ទុបរិមាណ៖</strong> បញ្ចូល <strong>ការវិនិយោគក្នុងមួយការជួញដូរ</strong>, <strong>គោលដៅពិន្ទុបរិមាណ</strong>, និងអាចធីក <strong>BNB Chain (x2 ពិន្ទុ)</strong>។ ចុច <strong>គណនាការជួញដូរ</strong>។",
+          guideStep4:
+            "<strong>ប្តូរការបង្ហាញ៖</strong> ប្រើប៊ូតុងស្តាំលើ ដើម្បីប្តូរ <strong>ភាសា</strong> និង <strong>រូបរាង</strong>។",
+          guideStep5:
+            "<strong>កំណត់ចំណាំ៖</strong> នេះជាឧបករណ៍ប៉ាន់ស្មាន មិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។",
+          guideStep6: "",
+          guideStep7: "",
+          fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ",
+          totalDaysLabel: "ចំនួនថ្ងៃសរុប",
+          rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)",
+          thresholdScoreLabel: "គោលដៅពិន្ទុ",
+          pointsConsumedLabel: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តង",
+          rewardPerClaimLabel: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)",
+          simulateButton: "គណនា",
+          resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
+          swapCardTitle: "ការដោះដូរថូខឹនដែលបានណែនាំ",
+          slippageText: "ការអត់ធ្មត់លើថ្លៃ​ Slippage ៖ 0.01%",
+          tradedOnWalletText: "ជួញដូរនៅលើ Binance Wallet",
+          tokenSwapInfoText:
+            "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>ZKJ</strong> និង <strong>KOGE</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ កំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>Binance Wallet</strong>។",
+          volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
+          initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)", // Updated
+          targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
+          calculateTradesButtonLabel: "គណនាការជួញដូរ",
+          bnbChainToggleLabel: "ជួញដូរលើ BNB Chain (គុណនឹង2ពិន្ទុ)",
+          volCalcMsg1: "គោលដៅ៖",
+          pointsUnit: "ពិន្ទុ",
+          volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
+          bnbBonusMsgLabel: "Bonus BNB - បរិមាណមានប្រសិទ្ធភាព៖",
+          volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖", // Updated
+          volCalcMsg4: "ចំនួនការជួញដូរដែលត្រូវការ (ប្រហាក់ប្រហែល)៖",
+          tradesUnit: "ការជួញដូរ",
+          volCalcMsg5: "បរិមាណជួញដូរសរុបជាក់ស្តែង៖",
+          errorInitialInvestment: "ការវិនិយោគដំបូងត្រូវតែជាលេខវិជ្ជមាន។",
+          errorTargetVolumePoints: "គោលដៅពិន្ទុបរិមាណត្រូវតែជាលេខវិជ្ជមាន។",
+          tableDay: "ថ្ងៃទី",
+          tableDailyScore: "ពិន្ទុ", // Shorter
+          tableTotalInWindow: "សរុបក្នុងវិលជុំ", // Shorter
+          tableClaimed: "ប្រហែលអាចទទួលបាន?",
+          tablePtsConsumed: "ពិន្ទុបានប្រើ", // Shorter
+          tableRewardToday: "រង្វាន់ (USD)", // Shorter
+          tableWindowRange: "វិលជុំ", // Shorter
+          errorNegativeScore: "ពិន្ទុថេរប្រចាំថ្ងៃមិនអាចអវិជ្ជមានបានទេ។",
+          errorTotalDays: "ចំនួនថ្ងៃសរុបត្រូវតែធំជាង 0។",
+          errorRollingWindow: "វិលត្រលប់ (ថ្ងៃ)ត្រូវតែធំជាង 0។",
+          errorWindowExceedsTotal:
+            "វិលត្រលប់ (ថ្ងៃ)មិនអាចលើសពីจำนวนថ្ងៃសរុបបានទេ។",
+          errorThresholdScore: "គោលដៅពិន្ទុត្រូវតែធំជាង 0។",
+          errorPointsConsumed:
+            "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តងមិនអាចអវិជ្ជមានបានទេ។",
+          errorRewardPerClaim:
+            "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)មិនអាចអវិជ្ជមានបានទេ។",
+          summaryClaimedText:
+            "✅ ប្រហែលអាចទទួលបាន {count} ដង, រង្វាន់សរុប {reward} USD",
+          disclaimerText:
+            "ការបដិសេធ៖ កម្មវិធីក្លែងធ្វើនេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
+        },
+      };
+
+      let currentLanguage = "en";
+      let isDarkMode = false;
+
+      // DOM Elements for Alpha Score Simulator
+      const fixedDailyScoreEl = document.getElementById("fixedDailyScore");
+      const totalDaysEl = document.getElementById("totalDays");
+      const rollingWindowEl = document.getElementById("rollingWindow");
+      const thresholdScoreEl = document.getElementById("thresholdScore");
+      const pointsConsumedEl = document.getElementById("pointsConsumed");
+      const rewardPerClaimEl = document.getElementById("rewardPerClaim");
+      const simulateButtonEl = document.getElementById("simulateButton");
+
+      const summaryCardEl = document.getElementById("summaryCard");
+      const summaryTextEl = document.getElementById("summaryText");
+
+      const resultsCardEl = document.getElementById("resultsCard");
+      const resultsTableBodyEl = document.getElementById("resultsTableBody");
+      const errorMessageContainerEl = document.getElementById(
+        "errorMessageContainer"
+      );
+      const disclaimerSectionEl = document.getElementById("disclaimerSection");
+      const guideCardEl = document.getElementById("guideCard");
+
+      // DOM Elements for UI Controls
+      const languageToggleButton = document.getElementById(
+        "languageToggleButton"
+      );
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const twitterButton = document.getElementById("twitterButton");
+      const bodyEl = document.body;
+
+      // DOM Elements for Token Swap Card
+      const swapCardEl = document.getElementById("swapCard");
+      const tokenAIconEl = document.getElementById("tokenAIcon");
+      const tokenANameEl = document.getElementById("tokenAName");
+      const tokenAPlaceholderEl = document.getElementById("tokenAPlaceholder");
+
+      const tokenBIconEl = document.getElementById("tokenBIcon");
+      const tokenBNameEl = document.getElementById("tokenBName");
+      const tokenBPlaceholderEl = document.getElementById("tokenBPlaceholder");
+
+      const swapTokensButtonEl = document.getElementById("swapTokensButton");
+
+      // DOM Elements for Volume Points Calculator
+      const initialInvestmentVolCalcEl = document.getElementById(
+        "initialInvestmentVolCalc"
+      );
+      const targetVolumePointsCalcEl = document.getElementById(
+        "targetVolumePointsCalc"
+      );
+      const bnbChainToggleEl = document.getElementById("bnbChainToggle");
+      const calculateTradesButtonEl = document.getElementById(
+        "calculateTradesButton"
+      );
+      const volumeCalcResultsEl = document.getElementById("volumeCalcResults");
+      const volumeCalcErrorMessageContainerEl = document.getElementById(
+        "volumeCalcErrorMessageContainer"
+      );
+      const targetPointsDisplayVEl = document.getElementById(
+        "targetPointsDisplayV"
+      );
+      const standardVolumeDisplayVEl = document.getElementById(
+        "standardVolumeDisplayV"
+      );
+      const bnbBonusResultItemEl =
+        document.getElementById("bnbBonusResultItem");
+      const effectiveVolumeDisplayVEl = document.getElementById(
+        "effectiveVolumeDisplayV"
+      );
+      const investmentPerTradeDisplayVEl = document.getElementById(
+        "investmentPerTradeDisplayV"
+      );
+      const numTradesDisplayVEl = document.getElementById("numTradesDisplayV");
+      const totalAchievedVolumeDisplayVEl = document.getElementById(
+        "totalAchievedVolumeDisplayV"
+      );
+
+      // Initial data for tokens
+      const tokenData = {
+        zkj: {
+          name: "ZKJ",
+          iconSrc:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeagb23HhoS9L6Zd08XT4q_Rh76WPKCQHyTw&s",
+          alt: "ZKJ Token",
+          placeholderText: "ZKJ",
+        },
+        koge: {
+          name: "KOGE",
+          iconSrc:
+            "https://s2.coinmarketcap.com/static/img/coins/64x64/7184.png",
+          alt: "KOGE Token",
+          placeholderText: "KOGE",
+        },
+      };
+
+      let tokenAisZKJ = true;
+
+      function updateUIText() {
+        document.querySelectorAll("[data-translate]").forEach((element) => {
+          const key = element.getAttribute("data-translate");
+          const translationExists =
+            translations[currentLanguage] && translations[currentLanguage][key];
+
+          if (translationExists) {
+            const translationText = translations[currentLanguage][key];
+            if (element.id === "languageToggleButton") {
+              const textSpan = element.querySelector("span");
+              if (textSpan) {
+                textSpan.textContent = translationText;
+              }
+            } else if (
+              element.classList.contains("slippage-badge") ||
+              element.classList.contains("wallet-badge") ||
+              element.classList.contains("token-swap-additional-info")
+            ) {
+              element.innerHTML = translationText;
+            } else if (
+              element.tagName === "LI" &&
+              element.parentElement.id === "guideList"
+            ) {
+              if (
+                translationText.trim() === "" &&
+                (key === "guideStep6" || key === "guideStep7")
+              ) {
+                element.style.display = "none";
+              } else {
+                element.innerHTML = translationText;
+                element.style.display = "";
+              }
+            } else {
+              if (
+                element.parentElement &&
+                element.parentElement.id === "disclaimerSection" &&
+                element.tagName === "P"
+              ) {
+                element.textContent = translationText;
+              } else if (
+                element.id !== "disclaimerSection" &&
+                (!element.parentElement ||
+                  !element.parentElement.classList.contains(
+                    "info-badges-container"
+                  ))
+              ) {
+                element.textContent = translationText;
+              }
+            }
+          } else if (
+            element.tagName === "LI" &&
+            element.parentElement.id === "guideList" &&
+            (key === "guideStep6" || key === "guideStep7")
+          ) {
+            element.style.display = "none";
+          }
+        });
+      }
+
+      function toggleLanguage() {
+        currentLanguage = currentLanguage === "en" ? "km" : "en";
+        bodyEl.lang = currentLanguage;
+        updateUIText();
+        if (!summaryCardEl.classList.contains("hidden")) {
+          const summaryData = JSON.parse(
+            summaryTextEl.dataset.summaryData || "{}"
+          );
+          if (
+            summaryData.count !== undefined &&
+            summaryData.reward !== undefined
+          ) {
+            summaryTextEl.textContent = translations[
+              currentLanguage
+            ].summaryClaimedText
+              .replace("{count}", summaryData.count)
+              .replace("{reward}", summaryData.reward.toFixed(2));
+          }
+        }
+
+        if (
+          volumeCalcResultsEl.style.display === "block" &&
+          calculateTradesButtonEl
+        ) {
+          const lastCalc = JSON.parse(
+            volumeCalcResultsEl.dataset.lastCalc || "{}"
+          );
+          if (lastCalc.targetPoints) {
+            targetPointsDisplayVEl.textContent = lastCalc.targetPoints;
+            standardVolumeDisplayVEl.textContent =
+              lastCalc.standardTargetUSDVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            investmentPerTradeDisplayVEl.textContent =
+              lastCalc.initialInvestment.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            numTradesDisplayVEl.textContent = lastCalc.numberOfTrades;
+            totalAchievedVolumeDisplayVEl.textContent =
+              lastCalc.totalAchievedVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            if (lastCalc.isBnbChain) {
+              effectiveVolumeDisplayVEl.textContent =
+                lastCalc.adjustedTargetUSDVolume.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                });
+              bnbBonusResultItemEl.style.display = "flex";
+            } else {
+              bnbBonusResultItemEl.style.display = "none";
+            }
+          }
+          updateUIText();
+        }
+      }
+
+      function setDarkModeIcon() {
+        darkModeToggle.innerHTML = isDarkMode
+          ? '<i data-lucide="sun" class="lucide icon"></i>'
+          : '<i data-lucide="moon" class="lucide icon"></i>';
+        lucide.createIcons();
+      }
+
+      languageToggleButton.addEventListener("click", toggleLanguage);
+
+      darkModeToggle.addEventListener("click", () => {
+        isDarkMode = !isDarkMode;
+        bodyEl.classList.toggle("dark-mode", isDarkMode);
+        setDarkModeIcon();
+      });
+
+      simulateButtonEl.addEventListener("click", runSimulation);
+
+      function displayError(messageKey, container = errorMessageContainerEl) {
+        const message =
+          translations[currentLanguage][messageKey] ||
+          "An unknown error occurred.";
+        container.innerHTML = `<div class="error-message-style">${message}</div>`;
+      }
+
+      function clearError(container = errorMessageContainerEl) {
+        container.innerHTML = "";
+      }
+
+      function validateInputs(inputs) {
+        if (inputs.fixedDailyScore < 0) return "errorNegativeScore";
+        if (inputs.totalDays <= 0) return "errorTotalDays";
+        if (inputs.rollingWindow <= 0) return "errorRollingWindow";
+        if (inputs.rollingWindow > inputs.totalDays)
+          return "errorWindowExceedsTotal";
+        if (inputs.thresholdScore <= 0) return "errorThresholdScore";
+        if (inputs.pointsConsumedPerClaim < 0) return "errorPointsConsumed";
+        if (inputs.rewardPerClaim < 0) return "errorRewardPerClaim";
+        return null;
+      }
+
+      function runSimulation() {
+        clearError();
+        resultsTableBodyEl.innerHTML = "";
+        summaryCardEl.classList.add("hidden");
+        resultsCardEl.classList.add("hidden");
+
+        const inputs = {
+          fixedDailyScore: parseInt(fixedDailyScoreEl.value) || 0,
+          totalDays: parseInt(totalDaysEl.value) || 1,
+          rollingWindow: parseInt(rollingWindowEl.value) || 1,
+          thresholdScore: parseInt(thresholdScoreEl.value) || 0,
+          pointsConsumedPerClaim: parseInt(pointsConsumedEl.value) || 0,
+          rewardPerClaim: parseFloat(rewardPerClaimEl.value) || 0,
+        };
+
+        const validationErrorKey = validateInputs(inputs);
+        if (validationErrorKey) {
+          displayError(validationErrorKey);
+          return;
+        }
+
+        let totalPointsConsumedByPreviousDays = 0;
+        let runningTotalReward = 0;
+        let runningClaimCount = 0;
+        const dailyScores = Array(inputs.totalDays).fill(
+          inputs.fixedDailyScore
+        );
+
+        for (let dayIndex = 0; dayIndex < inputs.totalDays; dayIndex++) {
+          const currentDayNumber = dayIndex + 1;
+          const windowStartDayIndex = Math.max(
+            0,
+            dayIndex - inputs.rollingWindow + 1
+          );
+          const windowEndDayIndex = dayIndex;
+
+          let rawScoreInWindow = 0;
+          for (let i = windowStartDayIndex; i <= windowEndDayIndex; i++) {
+            rawScoreInWindow += dailyScores[i];
+          }
+
+          const scoreForCheck =
+            rawScoreInWindow - totalPointsConsumedByPreviousDays;
+
+          let claimedToday = false;
+          let rewardToday = 0;
+          const consumedForTableDisplay = totalPointsConsumedByPreviousDays;
+
+          if (
+            scoreForCheck >= inputs.thresholdScore &&
+            inputs.pointsConsumedPerClaim >= 0
+          ) {
+            claimedToday = true;
+            rewardToday = inputs.rewardPerClaim;
+            runningTotalReward += rewardToday;
+            runningClaimCount++;
+            totalPointsConsumedByPreviousDays += inputs.pointsConsumedPerClaim;
+          }
+
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+                    <td class="text-center">${currentDayNumber}</td>
+                    <td class="text-center">${inputs.fixedDailyScore}</td>
+                    <td class="text-center">${scoreForCheck.toFixed(2)}</td>
+                    <td class="text-center">${claimedToday ? "✅" : "❌"}</td>
+                    <td class="text-center">${consumedForTableDisplay}</td>
+                    <td class="text-center">${rewardToday.toFixed(2)}</td>
+                    <td>Day ${
+                      windowStartDayIndex + 1
+                    } ~ Day ${currentDayNumber}</td>
+                `;
+          resultsTableBodyEl.appendChild(tr);
+        }
+
+        summaryTextEl.dataset.summaryData = JSON.stringify({
+          count: runningClaimCount,
+          reward: runningTotalReward,
+        });
+        summaryTextEl.textContent = translations[
+          currentLanguage
+        ].summaryClaimedText
+          .replace("{count}", runningClaimCount)
+          .replace("{reward}", runningTotalReward.toFixed(2));
+
+        summaryCardEl.classList.remove("hidden");
+        resultsCardEl.classList.remove("hidden");
+        if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
+      }
+
+      // Token Swap Logic
+      function setupTokenSection(iconEl, placeholderEl, nameEl, token) {
+        iconEl.src = token.iconSrc;
+        iconEl.alt = token.alt;
+        nameEl.textContent = token.name;
+        placeholderEl.textContent = token.placeholderText;
+
+        iconEl.style.display = "inline-block";
+        placeholderEl.style.display = "none";
+
+        if (!token.iconSrc.startsWith("data:image")) {
+          iconEl.onerror = () => {
+            iconEl.style.display = "none";
+            placeholderEl.style.display = "flex";
+          };
+        } else {
+          iconEl.onerror = null;
+        }
+      }
+
+      if (swapTokensButtonEl) {
+        swapTokensButtonEl.addEventListener("click", () => {
+          tokenAisZKJ = !tokenAisZKJ;
+
+          if (tokenAisZKJ) {
+            setupTokenSection(
+              tokenAIconEl,
+              tokenAPlaceholderEl,
+              tokenANameEl,
+              tokenData.zkj
+            );
+            setupTokenSection(
+              tokenBIconEl,
+              tokenBPlaceholderEl,
+              tokenBNameEl,
+              tokenData.koge
+            );
+          } else {
+            setupTokenSection(
+              tokenAIconEl,
+              tokenAPlaceholderEl,
+              tokenANameEl,
+              tokenData.koge
+            );
+            setupTokenSection(
+              tokenBIconEl,
+              tokenBPlaceholderEl,
+              tokenBNameEl,
+              tokenData.zkj
+            );
+          }
+        });
+      }
+
+      // Volume Points Calculator Logic
+      function calculateVolumeForPoints(points) {
+        if (points <= 0) return 0;
+        return 2 * 2 ** (points - 1);
+      }
+
+      if (calculateTradesButtonEl) {
+        calculateTradesButtonEl.addEventListener("click", () => {
+          clearError(volumeCalcErrorMessageContainerEl);
+          volumeCalcResultsEl.style.display = "none";
+          bnbBonusResultItemEl.style.display = "none";
+
+          const initialInvestment = parseFloat(
+            initialInvestmentVolCalcEl.value
+          );
+          const targetPoints = parseInt(targetVolumePointsCalcEl.value);
+          const isBnbChain = bnbChainToggleEl.checked;
+
+          if (isNaN(initialInvestment) || initialInvestment <= 0) {
+            displayError(
+              "errorInitialInvestment",
+              volumeCalcErrorMessageContainerEl
+            );
+            return;
+          }
+          if (isNaN(targetPoints) || targetPoints <= 0) {
+            displayError(
+              "errorTargetVolumePoints",
+              volumeCalcErrorMessageContainerEl
+            );
+            return;
+          }
+
+          const standardTargetUSDVolume =
+            calculateVolumeForPoints(targetPoints);
+          let adjustedTargetUSDVolume = standardTargetUSDVolume;
+
+          if (isBnbChain) {
+            adjustedTargetUSDVolume = standardTargetUSDVolume / 2;
+          }
+
+          const numberOfTrades = Math.ceil(
+            adjustedTargetUSDVolume / initialInvestment
+          );
+          const totalAchievedVolume = numberOfTrades * initialInvestment;
+
+          // Store calculated values for re-translation
+          volumeCalcResultsEl.dataset.lastCalc = JSON.stringify({
+            targetPoints,
+            standardTargetUSDVolume,
+            isBnbChain,
+            adjustedTargetUSDVolume,
+            initialInvestment,
+            numberOfTrades,
+            totalAchievedVolume,
+          });
+
+          // Update display elements with formatted numbers
+          targetPointsDisplayVEl.textContent = targetPoints;
+          standardVolumeDisplayVEl.textContent =
+            standardTargetUSDVolume.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+          investmentPerTradeDisplayVEl.textContent =
+            initialInvestment.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+          numTradesDisplayVEl.textContent = numberOfTrades;
+          totalAchievedVolumeDisplayVEl.textContent =
+            totalAchievedVolume.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+
+          if (isBnbChain) {
+            effectiveVolumeDisplayVEl.textContent =
+              adjustedTargetUSDVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+            bnbBonusResultItemEl.style.display = "flex";
+          } else {
+            bnbBonusResultItemEl.style.display = "none";
+          }
+
+          volumeCalcResultsEl.style.display = "block";
+          updateUIText();
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        bodyEl.lang = currentLanguage;
+        updateUIText();
+        setDarkModeIcon();
+        lucide.createIcons();
+        if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
+
+        if (swapCardEl) {
+          setupTokenSection(
+            tokenAIconEl,
+            tokenAPlaceholderEl,
+            tokenANameEl,
+            tokenData.zkj
+          );
+          setupTokenSection(
+            tokenBIconEl,
+            tokenBPlaceholderEl,
+            tokenBNameEl,
+            tokenData.koge
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
