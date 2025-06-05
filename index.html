@@ -49,6 +49,7 @@
         --token-swap-info-text-light: #374151; /* gray-700 */
         --calc-result-strong-light: #1d4ed8; /* blue-700 */
         --bnb-bonus-text-light: #059669; /* green-600 */
+        --card-header-hover-bg-light: #f3f4f6; /* For card header hover */
 
         /* Dark Mode Palette */
         --bg-dark: #111827;
@@ -82,6 +83,7 @@
         --token-swap-info-text-dark: #d1d5db; /* gray-300 */
         --calc-result-strong-dark: #60a5fa; /* blue-400 */
         --bnb-bonus-text-dark: #34d399; /* green-400 */
+        --card-header-hover-bg-dark: #374151; /* For card header hover */
       }
 
       html,
@@ -209,12 +211,45 @@
         border: 3px solid var(--border-color);
         border-radius: 0.5rem;
         box-shadow: 6px 6px 0px var(--shadow-color);
-        padding: 1rem;
+        padding: 0; /* Padding will be handled by header and content */
         margin-bottom: 1rem;
         transition: background-color 0.3s;
       }
       body.dark-mode .neobrutalist-card {
         background-color: var(--card-bg-dark);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem; /* Tailwind p-3 equivalent for header */
+        cursor: pointer;
+        border-bottom: 2px solid transparent; /* For spacing, or actual border if content shown */
+        transition: background-color 0.2s;
+      }
+      .neobrutalist-card:hover .card-header {
+        /* Subtle hover for header */
+        background-color: var(--card-header-hover-bg-light);
+      }
+      body.dark-mode .neobrutalist-card:hover .card-header {
+        background-color: var(--card-header-hover-bg-dark);
+      }
+      .card-header h1,
+      .card-header h2 {
+        margin-bottom: 0 !important; /* Override existing margin for page-title/other titles */
+      }
+
+      .card-content {
+        padding: 1rem; /* Inner padding for card content */
+        border-top: 2px solid var(--grid-line-color-light); /* Separator line */
+        transition: padding 0.3s ease-in-out, max-height 0.3s ease-in-out;
+      }
+      body.dark-mode .card-content {
+        border-top-color: var(--grid-line-color-dark);
+      }
+      .card-content.hidden {
+        display: none;
       }
 
       .input-label {
@@ -273,16 +308,23 @@
         background-color: var(--button-toggle-bg-dark);
         color: var(--button-toggle-text-dark);
       }
-      .toggle-button .lucide {
+      .toggle-button .lucide,
+      .card-toggle-button .lucide {
         width: 18px;
         height: 18px;
         stroke: var(--button-toggle-icon-light);
         fill: none !important;
-        transition: stroke 0.3s;
+        transition: stroke 0.3s, transform 0.3s;
       }
-      body.dark-mode .toggle-button .lucide {
+      body.dark-mode .toggle-button .lucide,
+      body.dark-mode .card-toggle-button .lucide {
         stroke: var(--button-toggle-icon-dark);
       }
+      .card-toggle-button .lucide.rotate-180 {
+        /* For chevron pointing up */
+        transform: rotate(180deg);
+      }
+
       #twitterButton svg path {
         fill: var(--button-toggle-icon-light);
         transition: fill 0.3s;
@@ -341,23 +383,28 @@
       }
 
       .summary-card {
-        background-color: var(--summary-card-bg-light);
-        color: var(--summary-card-text-light);
-        transition: background-color 0.3s, color 0.3s;
+        /* This is a specific card, will apply general neobrutalist-card and then specific header/content */
+        /* background-color already handled by neobrutalist-card and specific vars */
       }
       body.dark-mode .summary-card {
-        background-color: var(--summary-card-bg-dark);
-        color: var(--summary-card-text-dark);
+        /* background-color already handled by neobrutalist-card and specific vars */
       }
       .summary-text {
+        /* This is the content of summary card */
         font-size: 1.125rem;
         font-weight: 700;
         text-align: center;
+        color: var(
+          --summary-card-text-light
+        ); /* Ensure text color is applied */
+      }
+      body.dark-mode .summary-text {
+        color: var(--summary-card-text-dark);
       }
 
       .results-table {
         width: 100%;
-        margin-top: 1rem;
+        /* margin-top: 1rem;  This margin will be part of card-content padding */
         border-collapse: collapse;
         font-size: 0.875rem;
         border: 3px solid var(--border-color);
@@ -419,10 +466,11 @@
       }
 
       .page-title {
+        /* Used in Alpha Sim Card Header */
         font-size: 1.75rem;
         font-weight: 800;
         text-align: center;
-        margin-bottom: 1.5rem;
+        /* margin-bottom: 1.5rem; Removed, header handles spacing */
         color: var(--text-light);
         transition: color 0.3s;
       }
@@ -436,17 +484,23 @@
         margin-bottom: 1rem;
         flex-wrap: wrap;
       }
-      #resultsCard h2,
-      #swapCard h2,
-      #guideCard h2,
-      #volumeCalcCard h2 {
+      #alphaScoreSimulatorCard .card-header h1, /* Targeting specific h1 */
+        #resultsCard .card-header h2, 
+        #swapCard .card-header h2, 
+        #guideCard .card-header h2, 
+        #volumeCalcCard .card-header h2,
+        #summaryCard .card-header h2 {
+        /* Targeting title in summary card header */
         color: var(--text-light);
         transition: color 0.3s;
+        flex-grow: 1; /* Allow title to take space */
       }
-      body.dark-mode #resultsCard h2,
-      body.dark-mode #swapCard h2,
-      body.dark-mode #guideCard h2,
-      body.dark-mode #volumeCalcCard h2 {
+      body.dark-mode #alphaScoreSimulatorCard .card-header h1,
+      body.dark-mode #resultsCard .card-header h2,
+      body.dark-mode #swapCard .card-header h2,
+      body.dark-mode #guideCard .card-header h2,
+      body.dark-mode #volumeCalcCard .card-header h2,
+      body.dark-mode #summaryCard .card-header h2 {
         color: var(--text-dark);
       }
 
@@ -896,313 +950,369 @@
 
       <!-- How to Use Card -->
       <div id="guideCard" class="neobrutalist-card">
-        <h2
-          class="text-xl font-semibold text-center mb-4"
-          data-translate="guideTitle">
-          How to Use This Simulator
-        </h2>
-        <ul id="guideList">
-          <li data-translate="guideStep1"></li>
-          <li data-translate="guideStep2"></li>
-          <li data-translate="guideStep3"></li>
-          <li data-translate="guideStep4"></li>
-          <li data-translate="guideStep5"></li>
-          <li data-translate="guideStep6"></li>
-          <li data-translate="guideStep7"></li>
-        </ul>
-      </div>
-
-      <div class="neobrutalist-card">
-        <h1 class="page-title" data-translate="pageTitle">
-          Alpha Score Rolling Simulator
-        </h1>
-
-        <div id="errorMessageContainer" class="mb-4"></div>
-
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
-          <div>
-            <label
-              for="fixedDailyScore"
-              class="input-label"
-              data-translate="fixedDailyScoreLabel"
-              >Fixed Daily Score</label
-            >
-            <input
-              type="number"
-              id="fixedDailyScore"
-              class="input-field"
-              value="18" />
-          </div>
-          <div>
-            <label
-              for="totalDays"
-              class="input-label"
-              data-translate="totalDaysLabel"
-              >Total Days</label
-            >
-            <input
-              type="number"
-              id="totalDays"
-              class="input-field"
-              value="30"
-              min="1" />
-          </div>
-          <div>
-            <label
-              for="rollingWindow"
-              class="input-label"
-              data-translate="rollingWindowLabel"
-              >Rolling Window (days)</label
-            >
-            <input
-              type="number"
-              id="rollingWindow"
-              class="input-field"
-              value="15"
-              min="1" />
-          </div>
-          <div>
-            <label
-              for="thresholdScore"
-              class="input-label"
-              data-translate="thresholdScoreLabel"
-              >Threshold Score</label
-            >
-            <input
-              type="number"
-              id="thresholdScore"
-              class="input-field"
-              value="210" />
-          </div>
-          <div>
-            <label
-              for="pointsConsumed"
-              class="input-label"
-              data-translate="pointsConsumedLabel"
-              >Points Consumed per Claim</label
-            >
-            <input
-              type="number"
-              id="pointsConsumed"
-              class="input-field"
-              value="15" />
-          </div>
-          <div>
-            <label
-              for="rewardPerClaim"
-              class="input-label"
-              data-translate="rewardPerClaimLabel"
-              >Reward per Claim (USD)</label
-            >
-            <input
-              type="number"
-              id="rewardPerClaim"
-              class="input-field"
-              value="90" />
-          </div>
-        </div>
-
-        <button
-          id="simulateButton"
-          class="simulate-button"
-          data-translate="simulateButton">
-          Simulate
-        </button>
-      </div>
-
-      <div id="swapCard" class="neobrutalist-card">
-        <h2
-          class="text-xl font-semibold text-center mb-4"
-          data-translate="swapCardTitle">
-          Token Swap Recommended
-        </h2>
-
-        <div id="tokenSectionA" class="token-swap-section">
-          <div class="flex items-center mb-2">
-            <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
-            <div
-              id="tokenAPlaceholder"
-              class="token-icon-placeholder"
-              style="display: none"></div>
-            <span id="tokenAName" class="token-name"></span>
-          </div>
-        </div>
-
-        <div class="swap-button-container">
+        <div class="card-header" data-collapsible-target="guideContent">
+          <h2 class="text-xl font-semibold" data-translate="guideTitle">
+            How to Use This Simulator
+          </h2>
           <button
-            id="swapTokensButton"
-            class="swap-button"
-            aria-label="Swap tokens">
-            <i data-lucide="arrow-down-up" class="w-5 h-5"></i>
+            aria-label="Toggle guide content"
+            aria-expanded="true"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
           </button>
         </div>
+        <div id="guideContent" class="card-content pt-4">
+          <ul id="guideList">
+            <li data-translate="guideStep1"></li>
+            <li data-translate="guideStep2"></li>
+            <li data-translate="guideStep3"></li>
+            <li data-translate="guideStep4"></li>
+            <li data-translate="guideStep5"></li>
+            <li data-translate="guideStep6"></li>
+            <li data-translate="guideStep7"></li>
+          </ul>
+        </div>
+      </div>
 
-        <div id="tokenSectionB" class="token-swap-section">
-          <div class="flex items-center mb-2">
-            <img id="tokenBIcon" src="" alt="Token B" class="token-icon" />
-            <div
-              id="tokenBPlaceholder"
-              class="token-icon-placeholder"
-              style="display: none"></div>
-            <span id="tokenBName" class="token-name"></span>
+      <!-- Token Swap Card -->
+      <div id="swapCard" class="neobrutalist-card">
+        <div class="card-header" data-collapsible-target="swapContent">
+          <h2 class="text-xl font-semibold" data-translate="swapCardTitle">
+            Token Swap Recommended
+          </h2>
+          <button
+            aria-label="Toggle token swap content"
+            aria-expanded="true"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+          </button>
+        </div>
+        <div id="swapContent" class="card-content pt-4">
+          <div id="tokenSectionA" class="token-swap-section">
+            <div class="flex items-center mb-2">
+              <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
+              <div
+                id="tokenAPlaceholder"
+                class="token-icon-placeholder"
+                style="display: none"></div>
+              <span id="tokenAName" class="token-name"></span>
+            </div>
           </div>
-        </div>
 
-        <div class="info-badges-container">
-          <span class="slippage-badge" data-translate="slippageText"
-            >Slippage Tolerance: 0.01%</span
-          >
-          <span class="wallet-badge" data-translate="tradedOnWalletText"
-            >Traded on Binance Wallet</span
-          >
+          <div class="swap-button-container">
+            <button
+              id="swapTokensButton"
+              class="swap-button"
+              aria-label="Swap tokens">
+              <i data-lucide="arrow-down-up" class="w-5 h-5"></i>
+            </button>
+          </div>
+
+          <div id="tokenSectionB" class="token-swap-section">
+            <div class="flex items-center mb-2">
+              <img id="tokenBIcon" src="" alt="Token B" class="token-icon" />
+              <div
+                id="tokenBPlaceholder"
+                class="token-icon-placeholder"
+                style="display: none"></div>
+              <span id="tokenBName" class="token-name"></span>
+            </div>
+          </div>
+
+          <div class="info-badges-container">
+            <span class="slippage-badge" data-translate="slippageText"
+              >Slippage Tolerance: 0.01%</span
+            >
+            <span class="wallet-badge" data-translate="tradedOnWalletText"
+              >Traded on Binance Wallet</span
+            >
+          </div>
+          <p
+            class="token-swap-additional-info"
+            data-translate="tokenSwapInfoText">
+            <!-- Content will be injected by JavaScript -->
+          </p>
         </div>
-        <p
-          class="token-swap-additional-info"
-          data-translate="tokenSwapInfoText">
-          <!-- Content will be injected by JavaScript -->
-        </p>
       </div>
 
       <!-- Volume Points Trade Calculator Card -->
       <div id="volumeCalcCard" class="neobrutalist-card">
-        <h2
-          class="text-xl font-semibold text-center mb-4"
-          data-translate="volumeCalcTitle">
-          Volume Points Trade Calculator
-        </h2>
-        <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
-          <div>
-            <label
-              for="initialInvestmentVolCalc"
-              class="input-label"
-              data-translate="initialInvestmentVolCalcLabel"
-              >Initial Investment (USD per trade)</label
-            >
-            <input
-              type="number"
-              id="initialInvestmentVolCalc"
-              class="input-field"
-              value="100"
-              min="1" />
-          </div>
-          <div>
-            <label
-              for="targetVolumePointsCalc"
-              class="input-label"
-              data-translate="targetVolumePointsCalcLabel"
-              >Target Volume Points</label
-            >
-            <input
-              type="number"
-              id="targetVolumePointsCalc"
-              class="input-field"
-              value="8"
-              min="1" />
-          </div>
+        <div class="card-header" data-collapsible-target="volumeCalcContent">
+          <h2 class="text-xl font-semibold" data-translate="volumeCalcTitle">
+            Volume Points Trade Calculator
+          </h2>
+          <button
+            aria-label="Toggle volume calculator content"
+            aria-expanded="true"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+          </button>
         </div>
-        <div class="bnb-chain-toggle-container">
-          <input type="checkbox" id="bnbChainToggle" />
-          <label for="bnbChainToggle" data-translate="bnbChainToggleLabel"
-            >Trade on BNB Chain (2x Points Bonus)</label
-          >
-        </div>
-        <button
-          id="calculateTradesButton"
-          class="simulate-button"
-          data-translate="calculateTradesButtonLabel">
-          Calculate Trades
-        </button>
+        <div id="volumeCalcContent" class="card-content pt-4">
+          <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
+            <div>
+              <label
+                for="initialInvestmentVolCalc"
+                class="input-label"
+                data-translate="initialInvestmentVolCalcLabel"
+                >Initial Investment (USD per trade)</label
+              >
+              <input
+                type="number"
+                id="initialInvestmentVolCalc"
+                class="input-field"
+                value="500"
+                min="1" />
+            </div>
+            <div>
+              <label
+                for="targetVolumePointsCalc"
+                class="input-label"
+                data-translate="targetVolumePointsCalcLabel"
+                >Target Volume Points</label
+              >
+              <input
+                type="number"
+                id="targetVolumePointsCalc"
+                class="input-field"
+                value="14"
+                min="1" />
+            </div>
+          </div>
+          <div class="bnb-chain-toggle-container">
+            <input type="checkbox" id="bnbChainToggle" />
+            <label for="bnbChainToggle" data-translate="bnbChainToggleLabel"
+              >Trade on BNB Chain (2x Points Bonus)</label
+            >
+          </div>
+          <button
+            id="calculateTradesButton"
+            class="simulate-button"
+            data-translate="calculateTradesButtonLabel">
+            Calculate Trades
+          </button>
 
-        <div
-          id="volumeCalcResults"
-          class="mt-6 space-y-3"
-          style="display: none">
-          <div class="calc-result-item">
-            <span class="calc-result-label" data-translate="volCalcMsg1"
-              >Target:</span
-            >
-            <span class="calc-result-value"
-              ><strong id="targetPointsDisplayV"></strong>
-              <span data-translate="pointsUnit">points</span></span
-            >
-          </div>
-          <div class="calc-result-item">
-            <span class="calc-result-label" data-translate="volCalcMsg2"
-              >Standard trade volume for points:</span
-            >
-            <span class="calc-result-value"
-              >$<strong id="standardVolumeDisplayV"></strong
-            ></span>
-          </div>
           <div
-            id="bnbBonusResultItem"
-            class="calc-result-item"
+            id="volumeCalcResults"
+            class="mt-6 space-y-3"
             style="display: none">
-            <span
-              class="calc-result-label bnb-bonus-text"
-              data-translate="bnbBonusMsgLabel"
-              >BNB Bonus - Effective Volume:</span
-            >
-            <span class="calc-result-value bnb-bonus-text"
-              >$<strong id="effectiveVolumeDisplayV"></strong
-            ></span>
-          </div>
-          <div class="calc-result-item">
-            <span class="calc-result-label" data-translate="volCalcMsg3"
-              >Investment per Trade:</span
-            >
-            <span class="calc-result-value"
-              >$<strong id="investmentPerTradeDisplayV"></strong
-            ></span>
-          </div>
-          <div class="calc-result-item text-lg">
-            <span class="calc-result-label" data-translate="volCalcMsg4"
-              >Approx. Trades Needed:</span
-            >
-            <span class="calc-result-value"
-              ><strong id="numTradesDisplayV" class="text-2xl"></strong>
-              <span data-translate="tradesUnit">trades</span></span
-            >
-          </div>
-          <div class="calc-result-item text-sm">
-            <span class="calc-result-label" data-translate="volCalcMsg5"
-              >Total Actual Volume:</span
-            >
-            <span class="calc-result-value"
-              >$<strong id="totalAchievedVolumeDisplayV"></strong
-            ></span>
+            <div class="calc-result-item">
+              <span class="calc-result-label" data-translate="volCalcMsg1"
+                >Target:</span
+              >
+              <span class="calc-result-value"
+                ><strong id="targetPointsDisplayV"></strong>
+                <span data-translate="pointsUnit">points</span></span
+              >
+            </div>
+            <div class="calc-result-item">
+              <span class="calc-result-label" data-translate="volCalcMsg2"
+                >Standard trade volume for points:</span
+              >
+              <span class="calc-result-value"
+                >$<strong id="standardVolumeDisplayV"></strong
+              ></span>
+            </div>
+            <div
+              id="bnbBonusResultItem"
+              class="calc-result-item"
+              style="display: none">
+              <span
+                class="calc-result-label bnb-bonus-text"
+                data-translate="bnbBonusMsgLabel"
+                >BNB Bonus - Effective Volume:</span
+              >
+              <span class="calc-result-value bnb-bonus-text"
+                >$<strong id="effectiveVolumeDisplayV"></strong
+              ></span>
+            </div>
+            <div class="calc-result-item">
+              <span class="calc-result-label" data-translate="volCalcMsg3"
+                >Investment per Trade:</span
+              >
+              <span class="calc-result-value"
+                >$<strong id="investmentPerTradeDisplayV"></strong
+              ></span>
+            </div>
+            <div class="calc-result-item text-lg">
+              <span class="calc-result-label" data-translate="volCalcMsg4"
+                >Approx. Trades Needed:</span
+              >
+              <span class="calc-result-value"
+                ><strong id="numTradesDisplayV" class="text-2xl"></strong>
+                <span data-translate="tradesUnit">trades</span></span
+              >
+            </div>
+            <div class="calc-result-item text-sm">
+              <span class="calc-result-label" data-translate="volCalcMsg5"
+                >Total Actual Volume:</span
+              >
+              <span class="calc-result-value"
+                >$<strong id="totalAchievedVolumeDisplayV"></strong
+              ></span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="summaryCard" class="summary-card neobrutalist-card hidden">
-        <p id="summaryText" class="summary-text"></p>
+      <!-- Alpha Score Rolling Simulator Card -->
+      <div id="alphaScoreSimulatorCard" class="neobrutalist-card">
+        <div class="card-header" data-collapsible-target="alphaScoreContent">
+          <h1 class="page-title" data-translate="pageTitle">
+            Alpha Score Rolling Simulator
+          </h1>
+          <button
+            aria-label="Toggle alpha score simulator content"
+            aria-expanded="true"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+          </button>
+        </div>
+        <div id="alphaScoreContent" class="card-content pt-4">
+          <div id="errorMessageContainer" class="mb-4"></div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
+            <div>
+              <label
+                for="fixedDailyScore"
+                class="input-label"
+                data-translate="fixedDailyScoreLabel"
+                >Fixed Daily Score</label
+              >
+              <input
+                type="number"
+                id="fixedDailyScore"
+                class="input-field"
+                value="16" />
+            </div>
+            <div>
+              <label
+                for="totalDays"
+                class="input-label"
+                data-translate="totalDaysLabel"
+                >Total Days</label
+              >
+              <input
+                type="number"
+                id="totalDays"
+                class="input-field"
+                value="30"
+                min="1" />
+            </div>
+            <div>
+              <label
+                for="rollingWindow"
+                class="input-label"
+                data-translate="rollingWindowLabel"
+                >Rolling Window (days)</label
+              >
+              <input
+                type="number"
+                id="rollingWindow"
+                class="input-field"
+                value="15"
+                min="1" />
+            </div>
+            <div>
+              <label
+                for="thresholdScore"
+                class="input-label"
+                data-translate="thresholdScoreLabel"
+                >Threshold Score</label
+              >
+              <input
+                type="number"
+                id="thresholdScore"
+                class="input-field"
+                value="210" />
+            </div>
+            <div>
+              <label
+                for="pointsConsumed"
+                class="input-label"
+                data-translate="pointsConsumedLabel"
+                >Points Consumed per Claim</label
+              >
+              <input
+                type="number"
+                id="pointsConsumed"
+                class="input-field"
+                value="15" />
+            </div>
+            <div>
+              <label
+                for="rewardPerClaim"
+                class="input-label"
+                data-translate="rewardPerClaimLabel"
+                >Reward per Claim (USD)</label
+              >
+              <input
+                type="number"
+                id="rewardPerClaim"
+                class="input-field"
+                value="90" />
+            </div>
+          </div>
+
+          <button
+            id="simulateButton"
+            class="simulate-button"
+            data-translate="simulateButton">
+            Simulate
+          </button>
+        </div>
+      </div>
+
+      <div id="summaryCard" class="neobrutalist-card hidden">
+        <!-- Initially hidden, shown by JS -->
+        <div class="card-header" data-collapsible-target="summaryContent">
+          <h2 class="text-xl font-semibold" data-translate="summaryTitle">
+            Simulation Summary
+          </h2>
+          <button
+            aria-label="Toggle summary content"
+            aria-expanded="false"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+          </button>
+        </div>
+        <div id="summaryContent" class="card-content pt-4 hidden">
+          <p id="summaryText" class="summary-text"></p>
+        </div>
       </div>
 
       <div id="resultsCard" class="neobrutalist-card hidden">
-        <h2
-          class="text-xl font-semibold text-center mb-4"
-          data-translate="resultsTitle">
-          Simulation Details
-        </h2>
-
-        <div class="overflow-x-auto">
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th data-translate="tableDay">Day</th>
-                <th data-translate="tableDailyScore">Score</th>
-                <th data-translate="tableTotalInWindow">Window Total</th>
-                <th data-translate="tableClaimed">Claimed?</th>
-                <th data-translate="tablePtsConsumed">Pts Used</th>
-                <th data-translate="tableRewardToday">Reward (USD)</th>
-                <th data-translate="tableWindowRange">Window</th>
-              </tr>
-            </thead>
-            <tbody id="resultsTableBody"></tbody>
-          </table>
+        <!-- Initially hidden, shown by JS -->
+        <div class="card-header" data-collapsible-target="resultsContent">
+          <h2 class="text-xl font-semibold" data-translate="resultsTitle">
+            Simulation Details
+          </h2>
+          <button
+            aria-label="Toggle results content"
+            aria-expanded="false"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+          </button>
+        </div>
+        <div id="resultsContent" class="card-content pt-4 hidden">
+          <div class="overflow-x-auto">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th data-translate="tableDay">Day</th>
+                  <th data-translate="tableDailyScore">Score</th>
+                  <th data-translate="tableTotalInWindow">Window Total</th>
+                  <th data-translate="tableClaimed">Claimed?</th>
+                  <th data-translate="tablePtsConsumed">Pts Used</th>
+                  <th data-translate="tableRewardToday">Reward (USD)</th>
+                  <th data-translate="tableWindowRange">Window</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -1241,6 +1351,7 @@
           pointsConsumedLabel: "Points Consumed per Claim",
           rewardPerClaimLabel: "Reward per Claim (USD)",
           simulateButton: "Simulate",
+          summaryTitle: "Simulation Summary",
           resultsTitle: "Simulation Details",
           swapCardTitle: "Token Swap Recommended",
           slippageText: "Slippage Tolerance: 0.01%",
@@ -1265,12 +1376,12 @@
           errorTargetVolumePoints:
             "Target Volume Points must be a positive number.",
           tableDay: "Day",
-          tableDailyScore: "Score", // Shorter
-          tableTotalInWindow: "Window Total", // Shorter
+          tableDailyScore: "Score",
+          tableTotalInWindow: "Window Total",
           tableClaimed: "Claimed?",
-          tablePtsConsumed: "Pts Used", // Shorter
-          tableRewardToday: "Reward (USD)", // Shorter
-          tableWindowRange: "Window", // Shorter
+          tablePtsConsumed: "Pts Used",
+          tableRewardToday: "Reward (USD)",
+          tableWindowRange: "Window",
           errorNegativeScore: "Fixed Daily Score cannot be negative.",
           errorTotalDays: "Total Days must be greater than 0.",
           errorRollingWindow: "Rolling Window must be greater than 0.",
@@ -1306,6 +1417,7 @@
           pointsConsumedLabel: "ពិន្ទុប្រើប្រាស់ក្នុងការទទួលយកម្តង",
           rewardPerClaimLabel: "រង្វាន់ក្នុងមួយការទទួលយកម្តង (USD)",
           simulateButton: "គណនា",
+          summaryTitle: "សេចក្តីសង្ខេបនៃការក្លែងធ្វើ",
           resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
           swapCardTitle: "ការដោះដូរថូខឹនដែលបានណែនាំ",
           slippageText: "ការអត់ធ្មត់លើថ្លៃ​ Slippage ៖ 0.01%",
@@ -1313,7 +1425,7 @@
           tokenSwapInfoText:
             "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>ZKJ</strong> និង <strong>KOGE</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ កំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>Binance Wallet</strong>។",
           volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
-          initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)", // Updated
+          initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)",
           targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
           calculateTradesButtonLabel: "គណនាការជួញដូរ",
           bnbChainToggleLabel: "ជួញដូរលើ BNB Chain (គុណនឹង2ពិន្ទុ)",
@@ -1321,19 +1433,19 @@
           pointsUnit: "ពិន្ទុ",
           volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
           bnbBonusMsgLabel: "Bonus BNB - បរិមាណមានប្រសិទ្ធភាព៖",
-          volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖", // Updated
+          volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖",
           volCalcMsg4: "ចំនួនការជួញដូរដែលត្រូវការ (ប្រហាក់ប្រហែល)៖",
           tradesUnit: "ការជួញដូរ",
           volCalcMsg5: "បរិមាណជួញដូរសរុបជាក់ស្តែង៖",
           errorInitialInvestment: "ការវិនិយោគដំបូងត្រូវតែជាលេខវិជ្ជមាន។",
           errorTargetVolumePoints: "គោលដៅពិន្ទុបរិមាណត្រូវតែជាលេខវិជ្ជមាន។",
           tableDay: "ថ្ងៃទី",
-          tableDailyScore: "ពិន្ទុ", // Shorter
-          tableTotalInWindow: "សរុបក្នុងវិលជុំ", // Shorter
+          tableDailyScore: "ពិន្ទុ",
+          tableTotalInWindow: "សរុបក្នុងវិលជុំ",
           tableClaimed: "ប្រហែលអាចទទួលបាន?",
-          tablePtsConsumed: "ពិន្ទុបានប្រើ", // Shorter
-          tableRewardToday: "រង្វាន់ (USD)", // Shorter
-          tableWindowRange: "វិលជុំ", // Shorter
+          tablePtsConsumed: "ពិន្ទុបានប្រើ",
+          tableRewardToday: "រង្វាន់ (USD)",
+          tableWindowRange: "វិលជុំ",
           errorNegativeScore: "ពិន្ទុថេរប្រចាំថ្ងៃមិនអាចអវិជ្ជមានបានទេ។",
           errorTotalDays: "ចំនួនថ្ងៃសរុបត្រូវតែធំជាង 0។",
           errorRollingWindow: "វិលត្រលប់ (ថ្ងៃ)ត្រូវតែធំជាង 0។",
@@ -1370,7 +1482,7 @@
       const resultsTableBodyEl = document.getElementById("resultsTableBody");
       const errorMessageContainerEl = document.getElementById(
         "errorMessageContainer"
-      );
+      ); // Error container for main simulator
       const disclaimerSectionEl = document.getElementById("disclaimerSection");
       const guideCardEl = document.getElementById("guideCard");
 
@@ -1447,6 +1559,61 @@
       };
 
       let tokenAisZKJ = true;
+
+      // Function to handle card collapse/expand
+      function toggleCardContent(headerButton) {
+        if (!headerButton) {
+          console.error("toggleCardContent: headerButton is null.");
+          return;
+        }
+        const cardHeader = headerButton.closest(".card-header");
+        if (!cardHeader) {
+          console.error(
+            "toggleCardContent: Could not find .card-header for button:",
+            headerButton
+          );
+          return;
+        }
+        const targetId = cardHeader.dataset.collapsibleTarget;
+        if (!targetId) {
+          console.error(
+            "toggleCardContent: data-collapsible-target not found on card header:",
+            cardHeader
+          );
+          return;
+        }
+        const contentElement = document.getElementById(targetId);
+        const iconElement = headerButton.querySelector("i.card-toggle-icon");
+
+        if (!contentElement) {
+          console.error(
+            "toggleCardContent: Could not find contentElement with id:",
+            targetId,
+            "for header:",
+            cardHeader
+          );
+          return;
+        }
+        if (!iconElement) {
+          console.warn(
+            "toggleCardContent: Could not find iconElement (i.card-toggle-icon) inside button:",
+            headerButton
+          );
+          // Proceed without icon update if not found, but log it.
+        }
+
+        const isHidden = contentElement.classList.toggle("hidden");
+        headerButton.setAttribute("aria-expanded", String(!isHidden));
+
+        if (iconElement) {
+          if (isHidden) {
+            iconElement.setAttribute("data-lucide", "chevron-down");
+          } else {
+            iconElement.setAttribute("data-lucide", "chevron-up");
+          }
+          lucide.createIcons();
+        }
+      }
 
       function updateUIText() {
         document.querySelectorAll("[data-translate]").forEach((element) => {
@@ -1610,8 +1777,33 @@
       function runSimulation() {
         clearError();
         resultsTableBodyEl.innerHTML = "";
+
+        const summaryContent = document.getElementById("summaryContent");
+        const resultsContent = document.getElementById("resultsContent");
+        const summaryHeaderButton = document.querySelector(
+          "#summaryCard .card-toggle-button"
+        );
+        const resultsHeaderButton = document.querySelector(
+          "#resultsCard .card-toggle-button"
+        );
+
         summaryCardEl.classList.add("hidden");
+        if (summaryContent) summaryContent.classList.add("hidden");
+        if (summaryHeaderButton) {
+          summaryHeaderButton.setAttribute("aria-expanded", "false");
+          summaryHeaderButton
+            .querySelector("i.card-toggle-icon")
+            .setAttribute("data-lucide", "chevron-down");
+        }
+
         resultsCardEl.classList.add("hidden");
+        if (resultsContent) resultsContent.classList.add("hidden");
+        if (resultsHeaderButton) {
+          resultsHeaderButton.setAttribute("aria-expanded", "false");
+          resultsHeaderButton
+            .querySelector("i.card-toggle-icon")
+            .setAttribute("data-lucide", "chevron-down");
+        }
 
         const inputs = {
           fixedDailyScore: parseInt(fixedDailyScoreEl.value) || 0,
@@ -1692,7 +1884,24 @@
           .replace("{reward}", runningTotalReward.toFixed(2));
 
         summaryCardEl.classList.remove("hidden");
+        if (summaryContent) summaryContent.classList.remove("hidden");
+        if (summaryHeaderButton) {
+          summaryHeaderButton.setAttribute("aria-expanded", "true");
+          summaryHeaderButton
+            .querySelector("i.card-toggle-icon")
+            .setAttribute("data-lucide", "chevron-up");
+        }
+
         resultsCardEl.classList.remove("hidden");
+        if (resultsContent) resultsContent.classList.remove("hidden");
+        if (resultsHeaderButton) {
+          resultsHeaderButton.setAttribute("aria-expanded", "true");
+          resultsHeaderButton
+            .querySelector("i.card-toggle-icon")
+            .setAttribute("data-lucide", "chevron-up");
+        }
+        lucide.createIcons();
+
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
       }
 
@@ -1846,6 +2055,57 @@
         bodyEl.lang = currentLanguage;
         updateUIText();
         setDarkModeIcon();
+        // Setup collapsible cards
+        document.querySelectorAll(".card-header").forEach((header) => {
+          const toggleButton = header.querySelector(".card-toggle-button");
+          if (toggleButton) {
+            header.addEventListener("click", (event) => {
+              // Prevent click on header from triggering if the click was on an inner button (like language/theme toggles if they were inside)
+              // For now, any click on header (title or button) toggles.
+              toggleCardContent(toggleButton);
+            });
+
+            const contentId = header.dataset.collapsibleTarget;
+            const contentElement = document.getElementById(contentId);
+            const iconElement =
+              toggleButton.querySelector("i.card-toggle-icon");
+
+            if (contentElement && iconElement) {
+              // By default, all cards start expanded, except summary and results
+              let isInitiallyHidden =
+                contentElement.classList.contains("hidden");
+              if (
+                header.closest("#summaryCard") ||
+                header.closest("#resultsCard")
+              ) {
+                // These cards are initially hidden by their parent, so their content should also be marked as such for icon state
+                isInitiallyHidden = true;
+                contentElement.classList.add("hidden"); // Ensure content is also hidden
+              } else {
+                contentElement.classList.remove("hidden"); // Ensure other cards start expanded
+                isInitiallyHidden = false;
+              }
+
+              toggleButton.setAttribute(
+                "aria-expanded",
+                String(!isInitiallyHidden)
+              );
+              iconElement.setAttribute(
+                "data-lucide",
+                isInitiallyHidden ? "chevron-down" : "chevron-up"
+              );
+            } else {
+              if (!contentElement)
+                console.error("Content element not found for header:", header);
+              if (!iconElement)
+                console.warn(
+                  "Icon element not found for button in header:",
+                  header
+                );
+            }
+          }
+        });
+
         lucide.createIcons();
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
 
