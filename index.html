@@ -988,13 +988,10 @@
             aria-label="Toggle guide content"
             aria-expanded="false"
             class="card-toggle-button p-1">
-            <!-- MODIFIED aria-expanded -->
             <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
-            <!-- MODIFIED icon -->
           </button>
         </div>
         <div id="guideContent" class="card-content pt-4 hidden">
-          <!-- MODIFIED added hidden class -->
           <ul id="guideList">
             <li data-translate="guideStep1"></li>
             <li data-translate="guideStep2"></li>
@@ -1015,13 +1012,10 @@
             aria-label="Toggle token swap content"
             aria-expanded="false"
             class="card-toggle-button p-1">
-            <!-- MODIFIED aria-expanded -->
             <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
-            <!-- MODIFIED icon -->
           </button>
         </div>
         <div id="swapContent" class="card-content pt-4 hidden">
-          <!-- MODIFIED added hidden class -->
           <div id="tokenSectionA" class="token-swap-section">
             <div class="flex items-center mb-2">
               <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
@@ -1833,52 +1827,80 @@
           return;
         }
 
-        let totalPointsConsumedByPreviousDays = 0;
+        // Store history of claims: { dayIndex: number, pointsConsumed: number }
+        const claimHistory = [];
         let runningTotalReward = 0;
         let runningClaimCount = 0;
-        const dailyScores = Array(inputs.totalDays).fill(
+        // Create an array representing the score earned each day.
+        // For this simulation, it's fixed, but could be variable in other scenarios.
+        const dailyScoresEarned = Array(inputs.totalDays).fill(
           inputs.fixedDailyScore
         );
 
+        // Loop through each day of the simulation period.
         for (let dayIndex = 0; dayIndex < inputs.totalDays; dayIndex++) {
           const currentDayNumber = dayIndex + 1;
+          // Determine the start and end of the current rolling window.
+          // dayIndex is 0-based, currentDayNumber is 1-based.
           const windowStartDayIndex = Math.max(
             0,
             dayIndex - inputs.rollingWindow + 1
           );
           const windowEndDayIndex = dayIndex;
 
+          // Calculate the raw score accumulated within the current window.
           let rawScoreInWindow = 0;
           for (let i = windowStartDayIndex; i <= windowEndDayIndex; i++) {
-            rawScoreInWindow += dailyScores[i];
+            rawScoreInWindow += dailyScoresEarned[i];
           }
 
+          // Calculate points consumed from past claims that are STILL RELEVANT to this window.
+          // A past claim is relevant if the day it was made (pastClaim.dayIndex)
+          // is within the current window's start.
+          let pointsConsumedFromRelevantPastClaims = 0;
+          claimHistory.forEach((pastClaim) => {
+            if (pastClaim.dayIndex >= windowStartDayIndex) {
+              pointsConsumedFromRelevantPastClaims += pastClaim.pointsConsumed;
+            }
+          });
+
+          // This is the score to check against the threshold.
           const scoreForCheck =
-            rawScoreInWindow - totalPointsConsumedByPreviousDays;
+            rawScoreInWindow - pointsConsumedFromRelevantPastClaims;
 
           let claimedToday = false;
-          let rewardToday = 0;
-          const consumedForTableDisplay = totalPointsConsumedByPreviousDays;
+          let rewardTodayValue = 0; // Store the reward for this specific day if a claim occurs.
+          // This is the "Consumed" value to display in the table for the current day's row.
+          // It represents the points subtracted BEFORE this day's claim decision.
+          const consumedForTableDisplay = pointsConsumedFromRelevantPastClaims;
 
+          // Check if a claim can be made.
           if (
             scoreForCheck >= inputs.thresholdScore &&
             inputs.pointsConsumedPerClaim >= 0
           ) {
             claimedToday = true;
-            rewardToday = inputs.rewardPerClaim;
-            runningTotalReward += rewardToday;
+            rewardTodayValue = inputs.rewardPerClaim; // Reward for this specific claim
+            runningTotalReward += rewardTodayValue; // Add to cumulative reward
             runningClaimCount++;
-            totalPointsConsumedByPreviousDays += inputs.pointsConsumedPerClaim;
+            // Record this claim in history
+            claimHistory.push({
+              dayIndex: dayIndex, // Record the 0-based index of the day the claim was made
+              pointsConsumed: inputs.pointsConsumedPerClaim,
+            });
           }
 
+          // Add a row to the results table.
           const tr = document.createElement("tr");
           tr.innerHTML = `
                     <td class="text-center">${currentDayNumber}</td>
-                    <td class="text-center">${inputs.fixedDailyScore}</td>
-                    <td class="text-center">${scoreForCheck.toFixed(2)}</td>
+                    <td class="text-center">${dailyScoresEarned[dayIndex]}</td>
+                    <td class="text-center">${scoreForCheck.toFixed(0)}</td> 
                     <td class="text-center">${claimedToday ? "✅" : "❌"}</td>
                     <td class="text-center">${consumedForTableDisplay}</td>
-                    <td class="text-center">${rewardToday.toFixed(2)}</td>
+                    <td class="text-center">${runningTotalReward.toFixed(
+                      2
+                    )}</td> 
                     <td>Day ${
                       windowStartDayIndex + 1
                     } ~ Day ${currentDayNumber}</td>
@@ -1886,6 +1908,7 @@
           resultsTableBodyEl.appendChild(tr);
         }
 
+        // Update summary card.
         summaryTextEl.dataset.summaryData = JSON.stringify({
           count: runningClaimCount,
           reward: runningTotalReward,
@@ -1896,10 +1919,11 @@
           .replace("{count}", runningClaimCount)
           .replace("{reward}", runningTotalReward.toFixed(2));
 
+        // Show summary and results cards.
         summaryCardEl.classList.remove("hidden");
         if (summaryContent) summaryContent.classList.remove("hidden");
         if (summaryHeaderButton) {
-          summaryHeaderButton.setAttribute("aria-expanded", "true"); // Expand on show
+          summaryHeaderButton.setAttribute("aria-expanded", "true");
           const summaryIcon =
             summaryHeaderButton.querySelector("i.card-toggle-icon");
           if (summaryIcon)
@@ -1909,13 +1933,13 @@
         resultsCardEl.classList.remove("hidden");
         if (resultsContent) resultsContent.classList.remove("hidden");
         if (resultsHeaderButton) {
-          resultsHeaderButton.setAttribute("aria-expanded", "true"); // Expand on show
+          resultsHeaderButton.setAttribute("aria-expanded", "true");
           const resultsIcon =
             resultsHeaderButton.querySelector("i.card-toggle-icon");
           if (resultsIcon)
             resultsIcon.setAttribute("data-lucide", "chevron-up");
         }
-        lucide.createIcons();
+        lucide.createIcons(); // Re-render icons if any were changed.
 
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
       }
@@ -2084,7 +2108,6 @@
 
           if (header && toggleButton && contentId) {
             header.addEventListener("click", function (event) {
-              // Allow click on header or button itself, but not on other interactive elements within header
               if (
                 event.target === toggleButton ||
                 toggleButton.contains(event.target) ||
@@ -2102,14 +2125,12 @@
               toggleButton.querySelector("i.card-toggle-icon");
 
             if (contentElement && iconElement) {
-              // Check if this card is one of those that should be open by default
               let isInitiallyOpen =
                 cardId === "volumeCalcCard" ||
                 cardId === "alphaScoreSimulatorCard";
 
-              // Handle specific cards that might be hidden entirely first (summary/results)
               if (cardId === "summaryCard" || cardId === "resultsCard") {
-                if (card) card.classList.add("hidden"); // Hide the entire card
+                if (card) card.classList.add("hidden");
                 contentElement.classList.add("hidden");
                 toggleButton.setAttribute("aria-expanded", "false");
                 iconElement.setAttribute("data-lucide", "chevron-down");
@@ -2118,10 +2139,9 @@
                 toggleButton.setAttribute("aria-expanded", "true");
                 iconElement.setAttribute("data-lucide", "chevron-up");
               } else {
-                // All other cards default to closed (this includes guideCard and swapCard due to HTML changes)
-                contentElement.classList.add("hidden"); // Ensure hidden if not already
-                toggleButton.setAttribute("aria-expanded", "false"); // Ensure false if not already
-                iconElement.setAttribute("data-lucide", "chevron-down"); // Ensure down if not already
+                contentElement.classList.add("hidden");
+                toggleButton.setAttribute("aria-expanded", "false");
+                iconElement.setAttribute("data-lucide", "chevron-down");
               }
             }
           }
@@ -2132,7 +2152,6 @@
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
 
         if (swapCardEl) {
-          // Ensure swapCardEl exists before trying to use it
           setupTokenSection(
             tokenAIconEl,
             tokenAPlaceholderEl,
@@ -2150,3 +2169,23 @@
     </script>
   </body>
 </html>
+``` The main changes are within the `runSimulation` function: 1. A
+`claimHistory` array is introduced to store objects like `{ dayIndex: number,
+pointsConsumed: number }` for each successful claim. 2. Inside the loop for each
+day: * `pointsConsumedFromRelevantPastClaims` is calculated. It iterates through
+`claimHistory` and sums the `pointsConsumed` from past claims only if the
+`dayIndex` of that past claim is greater than or equal to the
+`windowStartDayIndex` of the current day's evaluation. This ensures only points
+from claims still active in the current window are considered. * `scoreForCheck`
+(your "Total" column) is now `rawScoreInWindow -
+pointsConsumedFromRelevantPastClaims`. * The `consumedForTableDisplay` (for the
+"Pts Used" column) is set to `pointsConsumedFromRelevantPastClaims`. * If a
+claim is made, the details of this new claim (the current `dayIndex` and
+`inputs.pointsConsumedPerClaim`) are pushed into the `claimHistory` array. * The
+"Reward (USD)" column in the table now correctly shows the *cumulative*
+`runningTotalReward` for that day. * The "Total" column in the table is now
+rounded to 0 decimal places (`.toFixed(0)`) as per your example tables. With
+these changes, the simulator should now accurately reflect the logic
+demonstrated in your examples, especially the way consumed points "expire" from
+consideration as the window rolls forward. This should prevent the simulation
+from getting "stuck" and allow claims to resume when appropria
