@@ -2169,23 +2169,3 @@
     </script>
   </body>
 </html>
-``` The main changes are within the `runSimulation` function: 1. A
-`claimHistory` array is introduced to store objects like `{ dayIndex: number,
-pointsConsumed: number }` for each successful claim. 2. Inside the loop for each
-day: * `pointsConsumedFromRelevantPastClaims` is calculated. It iterates through
-`claimHistory` and sums the `pointsConsumed` from past claims only if the
-`dayIndex` of that past claim is greater than or equal to the
-`windowStartDayIndex` of the current day's evaluation. This ensures only points
-from claims still active in the current window are considered. * `scoreForCheck`
-(your "Total" column) is now `rawScoreInWindow -
-pointsConsumedFromRelevantPastClaims`. * The `consumedForTableDisplay` (for the
-"Pts Used" column) is set to `pointsConsumedFromRelevantPastClaims`. * If a
-claim is made, the details of this new claim (the current `dayIndex` and
-`inputs.pointsConsumedPerClaim`) are pushed into the `claimHistory` array. * The
-"Reward (USD)" column in the table now correctly shows the *cumulative*
-`runningTotalReward` for that day. * The "Total" column in the table is now
-rounded to 0 decimal places (`.toFixed(0)`) as per your example tables. With
-these changes, the simulator should now accurately reflect the logic
-demonstrated in your examples, especially the way consumed points "expire" from
-consideration as the window rolls forward. This should prevent the simulation
-from getting "stuck" and allow claims to resume when appropria
