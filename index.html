@@ -1273,12 +1273,12 @@
           </h2>
           <button
             aria-label="Toggle summary content"
-            aria-expanded="false"
+            aria-expanded="true"
             class="card-toggle-button p-1">
-            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
           </button>
         </div>
-        <div id="summaryContent" class="card-content pt-4 hidden">
+        <div id="summaryContent" class="card-content pt-4">
           <p id="summaryText" class="summary-text"></p>
         </div>
       </div>
@@ -1291,12 +1291,12 @@
           </h2>
           <button
             aria-label="Toggle results content"
-            aria-expanded="false"
+            aria-expanded="true"
             class="card-toggle-button p-1">
-            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
           </button>
         </div>
-        <div id="resultsContent" class="card-content pt-4 hidden">
+        <div id="resultsContent" class="card-content pt-4">
           <div class="overflow-x-auto">
             <table class="results-table">
               <thead>
@@ -1463,7 +1463,7 @@
         },
       };
 
-      let currentLanguage = "en";
+      let currentLanguage = "km";
       let isDarkMode = false;
 
       // DOM Elements for Alpha Score Simulator
@@ -1482,7 +1482,7 @@
       const resultsTableBodyEl = document.getElementById("resultsTableBody");
       const errorMessageContainerEl = document.getElementById(
         "errorMessageContainer"
-      ); // Error container for main simulator
+      );
       const disclaimerSectionEl = document.getElementById("disclaimerSection");
       const guideCardEl = document.getElementById("guideCard");
 
@@ -1563,55 +1563,34 @@
       // Function to handle card collapse/expand
       function toggleCardContent(headerButton) {
         if (!headerButton) {
-          console.error("toggleCardContent: headerButton is null.");
           return;
         }
         const cardHeader = headerButton.closest(".card-header");
         if (!cardHeader) {
-          console.error(
-            "toggleCardContent: Could not find .card-header for button:",
-            headerButton
-          );
           return;
         }
         const targetId = cardHeader.dataset.collapsibleTarget;
         if (!targetId) {
-          console.error(
-            "toggleCardContent: data-collapsible-target not found on card header:",
-            cardHeader
-          );
           return;
         }
         const contentElement = document.getElementById(targetId);
         const iconElement = headerButton.querySelector("i.card-toggle-icon");
 
         if (!contentElement) {
-          console.error(
-            "toggleCardContent: Could not find contentElement with id:",
-            targetId,
-            "for header:",
-            cardHeader
-          );
           return;
-        }
-        if (!iconElement) {
-          console.warn(
-            "toggleCardContent: Could not find iconElement (i.card-toggle-icon) inside button:",
-            headerButton
-          );
-          // Proceed without icon update if not found, but log it.
         }
 
         const isHidden = contentElement.classList.toggle("hidden");
         headerButton.setAttribute("aria-expanded", String(!isHidden));
 
         if (iconElement) {
-          if (isHidden) {
-            iconElement.setAttribute("data-lucide", "chevron-down");
-          } else {
-            iconElement.setAttribute("data-lucide", "chevron-up");
-          }
-          lucide.createIcons();
+          iconElement.setAttribute(
+            "data-lucide",
+            isHidden ? "chevron-down" : "chevron-up"
+          );
+          lucide.createIcons({
+            nodes: [iconElement],
+          });
         }
       }
 
@@ -1636,6 +1615,7 @@
               element.innerHTML = translationText;
             } else if (
               element.tagName === "LI" &&
+              element.parentElement &&
               element.parentElement.id === "guideList"
             ) {
               if (
@@ -1666,6 +1646,7 @@
             }
           } else if (
             element.tagName === "LI" &&
+            element.parentElement &&
             element.parentElement.id === "guideList" &&
             (key === "guideStep6" || key === "guideStep7")
           ) {
@@ -1791,18 +1772,20 @@
         if (summaryContent) summaryContent.classList.add("hidden");
         if (summaryHeaderButton) {
           summaryHeaderButton.setAttribute("aria-expanded", "false");
-          summaryHeaderButton
-            .querySelector("i.card-toggle-icon")
-            .setAttribute("data-lucide", "chevron-down");
+          const summaryIcon =
+            summaryHeaderButton.querySelector("i.card-toggle-icon");
+          if (summaryIcon)
+            summaryIcon.setAttribute("data-lucide", "chevron-down");
         }
 
         resultsCardEl.classList.add("hidden");
         if (resultsContent) resultsContent.classList.add("hidden");
         if (resultsHeaderButton) {
           resultsHeaderButton.setAttribute("aria-expanded", "false");
-          resultsHeaderButton
-            .querySelector("i.card-toggle-icon")
-            .setAttribute("data-lucide", "chevron-down");
+          const resultsIcon =
+            resultsHeaderButton.querySelector("i.card-toggle-icon");
+          if (resultsIcon)
+            resultsIcon.setAttribute("data-lucide", "chevron-down");
         }
 
         const inputs = {
@@ -1886,19 +1869,21 @@
         summaryCardEl.classList.remove("hidden");
         if (summaryContent) summaryContent.classList.remove("hidden");
         if (summaryHeaderButton) {
-          summaryHeaderButton.setAttribute("aria-expanded", "true");
-          summaryHeaderButton
-            .querySelector("i.card-toggle-icon")
-            .setAttribute("data-lucide", "chevron-up");
+          summaryHeaderButton.setAttribute("aria-expanded", "true"); // Expand on show
+          const summaryIcon =
+            summaryHeaderButton.querySelector("i.card-toggle-icon");
+          if (summaryIcon)
+            summaryIcon.setAttribute("data-lucide", "chevron-up");
         }
 
         resultsCardEl.classList.remove("hidden");
         if (resultsContent) resultsContent.classList.remove("hidden");
         if (resultsHeaderButton) {
-          resultsHeaderButton.setAttribute("aria-expanded", "true");
-          resultsHeaderButton
-            .querySelector("i.card-toggle-icon")
-            .setAttribute("data-lucide", "chevron-up");
+          resultsHeaderButton.setAttribute("aria-expanded", "true"); // Expand on show
+          const resultsIcon =
+            resultsHeaderButton.querySelector("i.card-toggle-icon");
+          if (resultsIcon)
+            resultsIcon.setAttribute("data-lucide", "chevron-up");
         }
         lucide.createIcons();
 
@@ -2053,60 +2038,67 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         bodyEl.lang = currentLanguage;
-        updateUIText();
         setDarkModeIcon();
-        // Setup collapsible cards
-        document.querySelectorAll(".card-header").forEach((header) => {
-          const toggleButton = header.querySelector(".card-toggle-button");
-          if (toggleButton) {
-            header.addEventListener("click", (event) => {
-              // Prevent click on header from triggering if the click was on an inner button (like language/theme toggles if they were inside)
-              // For now, any click on header (title or button) toggles.
-              toggleCardContent(toggleButton);
+
+        if (bnbChainToggleEl) {
+          bnbChainToggleEl.checked = true;
+        }
+
+        document.querySelectorAll(".neobrutalist-card").forEach((card) => {
+          const header = card.querySelector(".card-header");
+          const toggleButton = header
+            ? header.querySelector(".card-toggle-button")
+            : null;
+          const contentId = header ? header.dataset.collapsibleTarget : null;
+          const cardId = card.id;
+
+          if (header && toggleButton && contentId) {
+            header.addEventListener("click", function (event) {
+              if (
+                event.target === toggleButton ||
+                toggleButton.contains(event.target) ||
+                event.target === header ||
+                (header.contains(event.target) &&
+                  !event.target.closest(
+                    "button:not(.card-toggle-button), a, input, select, textarea"
+                  ))
+              ) {
+                toggleCardContent(toggleButton);
+              }
             });
 
-            const contentId = header.dataset.collapsibleTarget;
             const contentElement = document.getElementById(contentId);
             const iconElement =
               toggleButton.querySelector("i.card-toggle-icon");
 
             if (contentElement && iconElement) {
-              // By default, all cards start expanded, except summary and results
-              let isInitiallyHidden =
-                contentElement.classList.contains("hidden");
-              if (
-                header.closest("#summaryCard") ||
-                header.closest("#resultsCard")
-              ) {
-                // These cards are initially hidden by their parent, so their content should also be marked as such for icon state
-                isInitiallyHidden = true;
-                contentElement.classList.add("hidden"); // Ensure content is also hidden
-              } else {
-                contentElement.classList.remove("hidden"); // Ensure other cards start expanded
-                isInitiallyHidden = false;
-              }
+              // Default states for cards
+              let isInitiallyOpen =
+                cardId === "volumeCalcCard" ||
+                cardId === "alphaScoreSimulatorCard";
 
-              toggleButton.setAttribute(
-                "aria-expanded",
-                String(!isInitiallyHidden)
-              );
-              iconElement.setAttribute(
-                "data-lucide",
-                isInitiallyHidden ? "chevron-down" : "chevron-up"
-              );
-            } else {
-              if (!contentElement)
-                console.error("Content element not found for header:", header);
-              if (!iconElement)
-                console.warn(
-                  "Icon element not found for button in header:",
-                  header
-                );
+              if (cardId === "summaryCard" || cardId === "resultsCard") {
+                card.classList.add("hidden");
+                contentElement.classList.add("hidden");
+                toggleButton.setAttribute("aria-expanded", "false");
+                iconElement.setAttribute("data-lucide", "chevron-down");
+              } else if (isInitiallyOpen) {
+                // Volume Calc & Alpha Sim start open
+                contentElement.classList.remove("hidden");
+                toggleButton.setAttribute("aria-expanded", "true");
+                iconElement.setAttribute("data-lucide", "chevron-up");
+              } else {
+                // Guide and Swap card start collapsed
+                contentElement.classList.add("hidden");
+                toggleButton.setAttribute("aria-expanded", "false");
+                iconElement.setAttribute("data-lucide", "chevron-down");
+              }
             }
           }
         });
 
         lucide.createIcons();
+        updateUIText();
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
 
         if (swapCardEl) {
