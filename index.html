@@ -50,6 +50,7 @@
         --calc-result-strong-light: #1d4ed8; /* blue-700 */
         --bnb-bonus-text-light: #059669; /* green-600 */
         --card-header-hover-bg-light: #f3f4f6; /* For card header hover */
+        --input-readonly-bg-light: #e5e7eb; /* gray-200 */
 
         /* Dark Mode Palette */
         --bg-dark: #111827;
@@ -84,6 +85,7 @@
         --calc-result-strong-dark: #60a5fa; /* blue-400 */
         --bnb-bonus-text-dark: #34d399; /* green-400 */
         --card-header-hover-bg-dark: #374151; /* For card header hover */
+        --input-readonly-bg-dark: #374151; /* gray-700 for dark mode */
       }
 
       html,
@@ -284,6 +286,15 @@
         outline: none;
         box-shadow: 3px 3px 0px var(--shadow-color);
         transform: translate(-1px, -1px);
+      }
+      .input-field[readonly] {
+        background-color: var(--input-readonly-bg-light);
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+      }
+      body.dark-mode .input-field[readonly] {
+        background-color: var(--input-readonly-bg-dark);
       }
 
       .toggle-button {
@@ -738,6 +749,7 @@
         align-items: center;
         padding: 0.5rem 0; /* Tailwind py-2 */
         border-bottom: 1px dashed var(--grid-line-color-light);
+        font-size: 0.875rem; /* Standardized font size for results */
       }
       body.dark-mode .calc-result-item {
         border-bottom-color: var(--grid-line-color-dark);
@@ -756,27 +768,37 @@
       }
       .calc-result-value {
         font-weight: 600; /* Tailwind font-semibold */
-        color: var(--text-light);
+        color: var(--calc-result-strong-light); /* Make all values stand out */
         text-align: right; /* Align value to the right */
       }
       body.dark-mode .calc-result-value {
-        color: var(--text-dark);
+        color: var(--calc-result-strong-dark);
       }
       .calc-result-value strong {
-        color: var(--calc-result-strong-light);
+        color: var(
+          --calc-result-strong-light
+        ); /* Ensure strong tag uses the same color */
       }
       body.dark-mode .calc-result-value strong {
         color: var(--calc-result-strong-dark);
       }
+
+      /* Specific styling for "Approx. Trades Needed" to make it larger */
+      .calc-result-item.trades-needed-item .calc-result-label,
+      .calc-result-item.trades-needed-item .calc-result-value {
+        font-size: 1.125rem; /* text-lg */
+      }
+      .calc-result-item.trades-needed-item .calc-result-value strong {
+        font-size: 1.5rem; /* text-2xl */
+      }
+
       #bnbBonusResultItem .bnb-bonus-text {
-        /* Class for the text part of the BNB bonus message */
         color: var(--bnb-bonus-text-light) !important;
       }
       body.dark-mode #bnbBonusResultItem .bnb-bonus-text {
         color: var(--bnb-bonus-text-dark) !important;
       }
       #bnbBonusResultItem strong {
-        /* For the dynamic value within the BNB message */
         color: var(--bnb-bonus-text-light) !important;
       }
       body.dark-mode #bnbBonusResultItem strong {
@@ -833,6 +855,14 @@
         .calc-result-value {
           margin-top: 0.125rem;
           text-align: left;
+        }
+        /* Adjust font sizes for calculator results on small screens */
+        .calc-result-item.trades-needed-item .calc-result-label,
+        .calc-result-item.trades-needed-item .calc-result-value {
+          font-size: 1rem; /* text-base for smaller screens */
+        }
+        .calc-result-item.trades-needed-item .calc-result-value strong {
+          font-size: 1.25rem; /* text-xl for smaller screens */
         }
       }
     </style>
@@ -956,17 +986,18 @@
           </h2>
           <button
             aria-label="Toggle guide content"
-            aria-expanded="true"
+            aria-expanded="false"
             class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+            <!-- MODIFIED aria-expanded -->
+            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+            <!-- MODIFIED icon -->
           </button>
         </div>
-        <div id="guideContent" class="card-content pt-4">
+        <div id="guideContent" class="card-content pt-4 hidden">
+          <!-- MODIFIED added hidden class -->
           <ul id="guideList">
             <li data-translate="guideStep1"></li>
             <li data-translate="guideStep2"></li>
-            <li data-translate="guideStep3"></li>
-            <li data-translate="guideStep4"></li>
             <li data-translate="guideStep5"></li>
             <li data-translate="guideStep6"></li>
             <li data-translate="guideStep7"></li>
@@ -982,12 +1013,15 @@
           </h2>
           <button
             aria-label="Toggle token swap content"
-            aria-expanded="true"
+            aria-expanded="false"
             class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+            <!-- MODIFIED aria-expanded -->
+            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
+            <!-- MODIFIED icon -->
           </button>
         </div>
-        <div id="swapContent" class="card-content pt-4">
+        <div id="swapContent" class="card-content pt-4 hidden">
+          <!-- MODIFIED added hidden class -->
           <div id="tokenSectionA" class="token-swap-section">
             <div class="flex items-center mb-2">
               <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
@@ -1135,22 +1169,23 @@
                 >$<strong id="investmentPerTradeDisplayV"></strong
               ></span>
             </div>
-            <div class="calc-result-item text-lg">
-              <span class="calc-result-label" data-translate="volCalcMsg4"
-                >Approx. Trades Needed:</span
-              >
-              <span class="calc-result-value"
-                ><strong id="numTradesDisplayV" class="text-2xl"></strong>
-                <span data-translate="tradesUnit">trades</span></span
-              >
-            </div>
-            <div class="calc-result-item text-sm">
+            <div class="calc-result-item">
+              <!-- Reordered: Total Actual Volume before Trades Needed -->
               <span class="calc-result-label" data-translate="volCalcMsg5"
                 >Total Actual Volume:</span
               >
               <span class="calc-result-value"
                 >$<strong id="totalAchievedVolumeDisplayV"></strong
               ></span>
+            </div>
+            <div class="calc-result-item trades-needed-item">
+              <span class="calc-result-label" data-translate="volCalcMsg4"
+                >Approx. Trades Needed:</span
+              >
+              <span class="calc-result-value"
+                ><strong id="numTradesDisplayV"></strong>
+                <span data-translate="tradesUnit">trades</span></span
+              >
             </div>
           </div>
         </div>
@@ -1198,7 +1233,7 @@
                 type="number"
                 id="totalDays"
                 class="input-field"
-                value="30"
+                value="15"
                 min="1" />
             </div>
             <div>
@@ -1213,7 +1248,8 @@
                 id="rollingWindow"
                 class="input-field"
                 value="15"
-                min="1" />
+                min="1"
+                readonly />
             </div>
             <div>
               <label
@@ -1239,7 +1275,8 @@
                 type="number"
                 id="pointsConsumed"
                 class="input-field"
-                value="15" />
+                value="15"
+                readonly />
             </div>
             <div>
               <label
@@ -1303,7 +1340,7 @@
                 <tr>
                   <th data-translate="tableDay">Day</th>
                   <th data-translate="tableDailyScore">Score</th>
-                  <th data-translate="tableTotalInWindow">Window Total</th>
+                  <th data-translate="tableTotalInWindow">Total</th>
                   <th data-translate="tableClaimed">Claimed?</th>
                   <th data-translate="tablePtsConsumed">Pts Used</th>
                   <th data-translate="tableRewardToday">Reward (USD)</th>
@@ -1336,10 +1373,6 @@
             "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
           guideStep2:
             "<strong>Token Swap Card:</strong> Visual aid for ZKJ/KOGE swap; includes notes on slippage (0.01%) and Binance Wallet.",
-          guideStep3:
-            "<strong>Volume Points Calc:</strong> Input investment per trade, target points, and optionally check <strong>BNB Chain (2x bonus)</strong>. Click <strong>Calculate Trades</strong> for an estimate.",
-          guideStep4:
-            "<strong>Customize View:</strong> Use top-right buttons for <strong>Language</strong> and <strong>Theme</strong>.",
           guideStep5:
             "<strong>Note:</strong> This is an estimation tool, not financial advice.",
           guideStep6: "",
@@ -1377,7 +1410,7 @@
             "Target Volume Points must be a positive number.",
           tableDay: "Day",
           tableDailyScore: "Score",
-          tableTotalInWindow: "Window Total",
+          tableTotalInWindow: "Total",
           tableClaimed: "Claimed?",
           tablePtsConsumed: "Pts Used",
           tableRewardToday: "Reward (USD)",
@@ -1399,13 +1432,9 @@
           pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
           guideTitle: "របៀបប្រើកម្មវិធីគណនានេះ",
           guideStep1:
-            "<strong>កម្មវិធីក្លែងធ្វើអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
+            "<strong>កម្មវិធីគណនាពិន្ទុអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
           guideStep2:
             "<strong>កាតព័ត៌មានការដោះដូរថូខឹន៖</strong> បង្ហាញការដោះដូរ ZKJ/KOGE; រួមមានកំណត់ត្រាស្តីពី slippage (0.01%) និង Binance Wallet។",
-          guideStep3:
-            "<strong>កម្មវិធីគណនាពិន្ទុបរិមាណ៖</strong> បញ្ចូល <strong>ការវិនិយោគក្នុងមួយការជួញដូរ</strong>, <strong>គោលដៅពិន្ទុបរិមាណ</strong>, និងអាចធីក <strong>BNB Chain (x2 ពិន្ទុ)</strong>។ ចុច <strong>គណនាការជួញដូរ</strong>។",
-          guideStep4:
-            "<strong>ប្តូរការបង្ហាញ៖</strong> ប្រើប៊ូតុងស្តាំលើ ដើម្បីប្តូរ <strong>ភាសា</strong> និង <strong>រូបរាង</strong>។",
           guideStep5:
             "<strong>កំណត់ចំណាំ៖</strong> នេះជាឧបករណ៍ប៉ាន់ស្មាន មិនមែនជាដំបូន្មានហិរញ្ញវត្ថុទេ។",
           guideStep6: "",
@@ -1561,27 +1590,28 @@
       let tokenAisZKJ = true;
 
       // Function to handle card collapse/expand
-      function toggleCardContent(headerButton) {
-        if (!headerButton) {
+      function toggleCardContent(buttonElement) {
+        if (
+          !buttonElement ||
+          typeof buttonElement.setAttribute !== "function"
+        ) {
           return;
         }
-        const cardHeader = headerButton.closest(".card-header");
-        if (!cardHeader) {
+        const cardHeader = buttonElement.closest(".card-header");
+        if (!cardHeader || !cardHeader.dataset.collapsibleTarget) {
           return;
         }
+
         const targetId = cardHeader.dataset.collapsibleTarget;
-        if (!targetId) {
-          return;
-        }
         const contentElement = document.getElementById(targetId);
-        const iconElement = headerButton.querySelector("i.card-toggle-icon");
+        const iconElement = buttonElement.querySelector("i.card-toggle-icon");
 
         if (!contentElement) {
           return;
         }
 
         const isHidden = contentElement.classList.toggle("hidden");
-        headerButton.setAttribute("aria-expanded", String(!isHidden));
+        buttonElement.setAttribute("aria-expanded", String(!isHidden));
 
         if (iconElement) {
           iconElement.setAttribute(
@@ -2054,11 +2084,11 @@
 
           if (header && toggleButton && contentId) {
             header.addEventListener("click", function (event) {
+              // Allow click on header or button itself, but not on other interactive elements within header
               if (
                 event.target === toggleButton ||
                 toggleButton.contains(event.target) ||
-                event.target === header ||
-                (header.contains(event.target) &&
+                ((event.target === header || header.contains(event.target)) &&
                   !event.target.closest(
                     "button:not(.card-toggle-button), a, input, select, textarea"
                   ))
@@ -2072,26 +2102,26 @@
               toggleButton.querySelector("i.card-toggle-icon");
 
             if (contentElement && iconElement) {
-              // Default states for cards
+              // Check if this card is one of those that should be open by default
               let isInitiallyOpen =
                 cardId === "volumeCalcCard" ||
                 cardId === "alphaScoreSimulatorCard";
 
+              // Handle specific cards that might be hidden entirely first (summary/results)
               if (cardId === "summaryCard" || cardId === "resultsCard") {
-                card.classList.add("hidden");
+                if (card) card.classList.add("hidden"); // Hide the entire card
                 contentElement.classList.add("hidden");
                 toggleButton.setAttribute("aria-expanded", "false");
                 iconElement.setAttribute("data-lucide", "chevron-down");
               } else if (isInitiallyOpen) {
-                // Volume Calc & Alpha Sim start open
                 contentElement.classList.remove("hidden");
                 toggleButton.setAttribute("aria-expanded", "true");
                 iconElement.setAttribute("data-lucide", "chevron-up");
               } else {
-                // Guide and Swap card start collapsed
-                contentElement.classList.add("hidden");
-                toggleButton.setAttribute("aria-expanded", "false");
-                iconElement.setAttribute("data-lucide", "chevron-down");
+                // All other cards default to closed (this includes guideCard and swapCard due to HTML changes)
+                contentElement.classList.add("hidden"); // Ensure hidden if not already
+                toggleButton.setAttribute("aria-expanded", "false"); // Ensure false if not already
+                iconElement.setAttribute("data-lucide", "chevron-down"); // Ensure down if not already
               }
             }
           }
@@ -2102,6 +2132,7 @@
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
 
         if (swapCardEl) {
+          // Ensure swapCardEl exists before trying to use it
           setupTokenSection(
             tokenAIconEl,
             tokenAPlaceholderEl,
