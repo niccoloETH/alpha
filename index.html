@@ -232,7 +232,7 @@
 
       .toggle-button {
         background-color: var(--button-toggle-bg-light);
-        color: var(--button-toggle-text-light); /* Sets text color */
+        color: var(--button-toggle-text-light);
         font-weight: 700;
         padding: 0.5rem 0.75rem;
         border-radius: 0.375rem;
@@ -242,8 +242,8 @@
           background-color 0.3s, color 0.3s;
         cursor: pointer;
         margin-left: 0.5rem;
-        font-size: 0.875rem;
-        line-height: 1.5;
+        /* font-size: 0.875rem; REMOVED - will be set on span or inherited */
+        /* line-height: 1.5; REMOVED - will be set on span or inherited */
         min-width: auto;
         text-align: center;
         display: inline-flex;
@@ -252,9 +252,7 @@
       }
       /* This rule applies the dark mode background to toggle buttons */
       body.dark-mode .toggle-button {
-        background-color: var(
-          --button-toggle-bg-dark
-        ); /* Uses the updated variable */
+        background-color: var(--button-toggle-bg-dark);
         color: var(--button-toggle-text-dark);
       }
       /* Lucid Icons styling */
@@ -278,6 +276,8 @@
       }
       /* Text next to icons in toggle buttons */
       .toggle-button span {
+        font-size: 0.75rem; /* Standardized font size for text in all toggle buttons */
+        line-height: 1.5; /* Standardized line height */
         color: var(--button-toggle-text-light);
         transition: color 0.3s;
       }
@@ -285,7 +285,7 @@
         color: var(--button-toggle-text-dark);
       }
       #twitterButton span {
-        font-size: 0.75rem;
+        /* font-size: 0.75rem; REMOVED - covered by .toggle-button span */
         margin-left: 0.25rem;
       }
 
