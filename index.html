@@ -63,7 +63,7 @@
         --button-toggle-text-dark: #f3f4f6;
         --button-toggle-icon-dark: #ffffff;
         --summary-card-bg-dark: #facc15;
-        --summary-card-text-dark: #000000;
+        --summary-card-text-dark: var(--text-dark); /* Changed from #000000 */
         --table-header-bg-dark: #34d399;
         --table-header-text-dark: #000000;
         --table-even-row-bg-dark: #374151;
@@ -496,11 +496,11 @@
         flex-wrap: wrap;
       }
       #alphaScoreSimulatorCard .card-header h1, /* Targeting specific h1 */
-        #resultsCard .card-header h2, 
-        #swapCard .card-header h2, 
-        #guideCard .card-header h2, 
-        #volumeCalcCard .card-header h2,
-        #summaryCard .card-header h2 {
+      #resultsCard .card-header h2, 
+      #swapCard .card-header h2, 
+      #guideCard .card-header h2, 
+      #volumeCalcCard .card-header h2,
+      #summaryCard .card-header h2 {
         /* Targeting title in summary card header */
         color: var(--text-light);
         transition: color 0.3s;
@@ -1893,18 +1893,24 @@
           // Add a row to the results table.
           const tr = document.createElement("tr");
           tr.innerHTML = `
-                    <td class="text-center">${currentDayNumber}</td>
-                    <td class="text-center">${dailyScoresEarned[dayIndex]}</td>
-                    <td class="text-center">${scoreForCheck.toFixed(0)}</td> 
-                    <td class="text-center">${claimedToday ? "✅" : "❌"}</td>
-                    <td class="text-center">${consumedForTableDisplay}</td>
-                    <td class="text-center">${runningTotalReward.toFixed(
-                      2
-                    )}</td> 
-                    <td>Day ${
-                      windowStartDayIndex + 1
-                    } ~ Day ${currentDayNumber}</td>
-                `;
+                        <td class="text-center">${currentDayNumber}</td>
+                        <td class="text-center">${
+                          dailyScoresEarned[dayIndex]
+                        }</td>
+                        <td class="text-center">${scoreForCheck.toFixed(
+                          0
+                        )}</td> 
+                        <td class="text-center">${
+                          claimedToday ? "✅" : "❌"
+                        }</td>
+                        <td class="text-center">${consumedForTableDisplay}</td>
+                        <td class="text-center">${runningTotalReward.toFixed(
+                          2
+                        )}</td> 
+                        <td>Day ${
+                          windowStartDayIndex + 1
+                        } ~ Day ${currentDayNumber}</td>
+                    `;
           resultsTableBodyEl.appendChild(tr);
         }
 
