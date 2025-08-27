@@ -16,7 +16,7 @@
     <style>
       :root {
         /* Light Mode Palette */
-        --bg-light: #fffbeb;
+        --bg-light: #ffffff; /* Updated background to white */
         --text-light: #000000;
         --card-bg-light: #ffffff;
         --border-color: #000000;
@@ -36,8 +36,8 @@
         --table-data-text-light: var(--text-light);
         --error-text-light: #9f1239;
         --error-bg-light: #fecdd3;
-        --grid-line-color-light: rgba(0, 0, 0, 0.07);
-        --marquee-bg-light: #a78bfa;
+        --grid-line-color-light: rgba(229,231,235,0.8); /* From user request */
+        --marquee-bg-light: linear-gradient(90deg, #c4b5fd, #93c5fd);
         --marquee-text-light: #ffffff;
         --disclaimer-text-light: #4b5563;
         --token-swap-section-bg-light: #f9fafb;
@@ -72,7 +72,7 @@
         --error-text-dark: #9f1239;
         --error-bg-dark: #fecdd3;
         --grid-line-color-dark: rgba(255, 255, 255, 0.05);
-        --marquee-bg-dark: #7c3aed;
+        --marquee-bg-dark: linear-gradient(90deg, #8b5cf6, #3b82f6);
         --marquee-text-dark: #ffffff;
         --disclaimer-text-dark: #9ca3af;
         --token-swap-section-bg-dark: #374151;
@@ -101,29 +101,22 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        background-image: linear-gradient(
-            var(--grid-line-color-light) 1px,
-            transparent 1px
-          ),
-          linear-gradient(
-            to right,
-            var(--grid-line-color-light) 1px,
-            transparent 1px
-          );
-        background-size: 40px 40px;
+        background-image: linear-gradient(to right, var(--grid-line-color-light) 1px, transparent 1px),
+                          linear-gradient(to bottom, var(--grid-line-color-light) 1px, transparent 1px),
+                          radial-gradient(circle 500px at 20% 80%, rgba(139,92,246,0.3), transparent),
+                          radial-gradient(circle 500px at 80% 20%, rgba(59,130,246,0.3), transparent);
+        background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
+        background-attachment: fixed;
       }
       body.dark-mode {
         background-color: var(--bg-dark);
         color: var(--text-dark);
-        background-image: linear-gradient(
-            var(--grid-line-color-dark) 1px,
-            transparent 1px
-          ),
-          linear-gradient(
-            to right,
-            var(--grid-line-color-dark) 1px,
-            transparent 1px
-          );
+        background-image: linear-gradient(to right, var(--grid-line-color-dark) 1px, transparent 1px),
+                          linear-gradient(to bottom, var(--grid-line-color-dark) 1px, transparent 1px),
+                          radial-gradient(circle 500px at 20% 80%, rgba(139,92,246,0.3), transparent),
+                          radial-gradient(circle 500px at 80% 20%, rgba(59,130,246,0.3), transparent);
+        background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
+        background-attachment: fixed;
       }
       .main-container {
         width: 100%;
@@ -148,8 +141,24 @@
         }
       }
 
+      @keyframes border-shine {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 0%; }
+      }
+      
+      .top-shine-bar {
+        position: fixed;
+        height: 4px;
+        top: 0px;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(to right, rgb(67, 215, 100) 0%, rgb(255, 183, 44) 12%, rgb(255, 93, 0) 22%, rgb(236, 10, 10) 33%, rgb(180, 5, 183) 44%, rgb(128, 0, 255) 55%, rgb(40, 92, 255) 66%, rgb(67, 215, 100) 77%, rgb(255, 183, 44) 88%, rgb(255, 93, 0) 100%) 0% 0% / 300%;
+        animation: 2s linear 0s infinite alternate none running border-shine;
+        z-index: 9999;
+      }
+
       .neobrutalist-marquee {
-        background-color: var(--marquee-bg-light);
+        background: var(--marquee-bg-light);
         color: var(--marquee-text-light);
         border: 3px solid var(--border-color);
         border-radius: 0.5rem;
@@ -161,9 +170,11 @@
         overflow: hidden;
         transition: background-color 0.3s, color 0.3s;
         white-space: nowrap;
+        position: relative;
       }
+
       body.dark-mode .neobrutalist-marquee {
-        background-color: var(--marquee-bg-dark);
+        background: var(--marquee-bg-dark);
         color: var(--marquee-text-dark);
       }
       .neobrutalist-marquee .marquee-item {
@@ -172,12 +183,12 @@
         margin-right: 1.5rem;
         vertical-align: middle;
       }
-      .neobrutalist-marquee .marquee-item .marquee-svg-item {
+      .neobrutalist-marquee .marquee-svg-item {
         width: 20px;
         height: 20px;
         margin: 0 0.45rem;
       }
-      .neobrutalist-marquee .marquee-item .marquee-svg-item path {
+      .neobrutalist-marquee .marquee-svg-item path {
         transition: fill 0.3s;
       }
       .neobrutalist-marquee
@@ -301,31 +312,41 @@
         background-color: var(--button-toggle-bg-light);
         color: var(--button-toggle-text-light);
         font-weight: 700;
-        padding: 0.5rem 0.75rem;
+        height: 44px;
+        padding: 0 0.75rem;
         border-radius: 0.375rem;
         border: 3px solid var(--border-color);
         box-shadow: 3px 3px 0px var(--shadow-color);
-        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
-          background-color 0.3s, color 0.3s;
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
         cursor: pointer;
         margin-left: 0.5rem;
-        min-width: auto;
-        text-align: center;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
         gap: 0.35rem;
       }
+      
+      .toggle-button.icon-only {
+        width: 44px;
+        padding: 0;
+      }
+
       body.dark-mode .toggle-button {
         background-color: var(--button-toggle-bg-dark);
         color: var(--button-toggle-text-dark);
       }
       .toggle-button .lucide,
       .card-toggle-button .lucide {
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         stroke: var(--button-toggle-icon-light);
         fill: none !important;
         transition: stroke 0.3s, transform 0.3s;
+      }
+      .toggle-button .binance-logo {
+        width: 24px;
+        height: 24px;
       }
       body.dark-mode .toggle-button .lucide,
       body.dark-mode .card-toggle-button .lucide {
@@ -490,10 +511,10 @@
       }
       .controls-container {
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-end; /* UPDATED */
         align-items: center;
         margin-bottom: 1rem;
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* UPDATED */
       }
       #alphaScoreSimulatorCard .card-header h1, /* Targeting specific h1 */
       #resultsCard .card-header h2, 
@@ -528,16 +549,31 @@
       }
 
       /* Styles for Token Swap Card */
-      .token-swap-section {
+      .token-display-card {
         padding: 0.75rem;
         border: 3px solid var(--border-color);
         border-radius: 0.375rem;
         background-color: var(--token-swap-section-bg-light);
-        margin-bottom: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        width: 120px; /* Or use flex-basis */
+        transition: transform 0.2s, box-shadow 0.2s;
       }
-      body.dark-mode .token-swap-section {
+      .token-display-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 8px 8px 0px var(--shadow-color);
+      }
+      body.dark-mode .token-display-card {
         background-color: var(--token-swap-section-bg-dark);
       }
+      .token-display-card .token-icon, .token-display-card .token-icon-placeholder {
+          width: 3rem; /* 48px */
+          height: 3rem; /* 48px */
+          margin-right: 0;
+      }
+
       .token-icon {
         width: 2rem; /* 32px */
         height: 2rem; /* 32px */
@@ -603,8 +639,6 @@
       }
 
       .info-badges-container {
-        text-align: center;
-        margin-top: 0.5rem;
         margin-bottom: 0.5rem;
       }
 
@@ -685,60 +719,75 @@
       body.dark-mode #guideCard strong {
         color: #93c5fd;
       }
-
-      /* Volume Calculator Styles */
-      .bnb-chain-toggle-container {
+      
+      /* START: Animated Checkbox Styles */
+      .toggle-container {
         display: flex;
         align-items: center;
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.75rem; /* Spacing between checkboxes */
         justify-content: flex-start;
         padding-left: 0.25rem;
       }
-      .bnb-chain-toggle-container input[type="checkbox"] {
-        margin-right: 0.75rem;
+      .toggle-container input[type="checkbox"] {
+        /* Hide the default checkbox */
+        opacity: 0;
+        position: absolute;
         width: 1.25em;
         height: 1.25em;
-        border: 2px solid var(--border-color);
-        border-radius: 0.125rem;
-        cursor: pointer;
-        appearance: none;
-        position: relative;
       }
-      .bnb-chain-toggle-container input[type="checkbox"]:checked {
-        background-color: var(--button-primary-bg-light);
-        border-color: var(--button-primary-bg-light);
-      }
-      body.dark-mode
-        .bnb-chain-toggle-container
-        input[type="checkbox"]:checked {
-        background-color: var(--button-primary-bg-dark);
-        border-color: var(--button-primary-bg-dark);
-      }
-      .bnb-chain-toggle-container input[type="checkbox"]:checked::after {
-        content: "✔";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: var(--button-primary-text-light);
-        font-size: 0.8em;
-      }
-      body.dark-mode
-        .bnb-chain-toggle-container
-        input[type="checkbox"]:checked::after {
-        color: var(--button-primary-text-dark);
-      }
-
-      .bnb-chain-toggle-container label {
+      .toggle-container label {
         font-size: 0.875rem;
         font-weight: 600;
         color: var(--text-light);
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: transform 0.1s ease-out;
       }
-      body.dark-mode .bnb-chain-toggle-container label {
+      body.dark-mode .toggle-container label {
         color: var(--text-dark);
       }
+       .toggle-container label:active {
+        transform: scale(0.95);
+      }
+      .custom-checkbox-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.25em;
+        height: 1.25em;
+        border: 2px solid var(--border-color);
+        border-radius: 0.125rem;
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+      .custom-checkbox-box svg {
+        width: 0.85em;
+        height: 0.85em;
+        stroke: var(--button-primary-text-light);
+        stroke-width: 3.5;
+      }
+      body.dark-mode .custom-checkbox-box svg {
+        stroke: var(--button-primary-text-dark);
+      }
+      .custom-checkbox-box svg path {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        transition: stroke-dashoffset 0.4s 0.1s ease-out;
+      }
+      .toggle-container input[type="checkbox"]:checked + label .custom-checkbox-box {
+        background-color: var(--button-primary-bg-light);
+        border-color: var(--button-primary-bg-light);
+      }
+      body.dark-mode .toggle-container input[type="checkbox"]:checked + label .custom-checkbox-box {
+        background-color: var(--button-primary-bg-dark);
+        border-color: var(--button-primary-bg-dark);
+      }
+      .toggle-container input[type="checkbox"]:checked + label .custom-checkbox-box svg path {
+        stroke-dashoffset: 0;
+      }
+      /* END: Animated Checkbox Styles */
+
 
       #volumeCalcResults {
         margin-top: 1.5rem; /* Tailwind mt-6 */
@@ -792,26 +841,68 @@
         font-size: 1.5rem; /* text-2xl */
       }
 
-      #bnbBonusResultItem .bnb-bonus-text {
+      #bnbBonusResultItem .bnb-bonus-text, #cexBonusResultItem .bnb-bonus-text {
         color: var(--bnb-bonus-text-light) !important;
       }
-      body.dark-mode #bnbBonusResultItem .bnb-bonus-text {
+      body.dark-mode #bnbBonusResultItem .bnb-bonus-text, body.dark-mode #cexBonusResultItem .bnb-bonus-text {
         color: var(--bnb-bonus-text-dark) !important;
       }
-      #bnbBonusResultItem strong {
+      #bnbBonusResultItem strong, #cexBonusResultItem strong {
         color: var(--bnb-bonus-text-light) !important;
       }
-      body.dark-mode #bnbBonusResultItem strong {
+      body.dark-mode #bnbBonusResultItem strong, body.dark-mode #cexBonusResultItem strong {
         color: var(--bnb-bonus-text-dark) !important;
       }
+
+      /* START: Highlight Text Animation Styles */
+      @keyframes highlight-bg-animation {
+        0% {
+          background-size: 0% 100%;
+        }
+        100% {
+          background-size: 100% 100%;
+        }
+      }
+      .highlight-text-nav {
+        position: relative;
+        display: inline-block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+        color: var(--text-light);
+        /* UPDATED: Binance yellow gradient */
+        background-image: linear-gradient(to right, #F0B90B, #F8D33A); 
+        background-repeat: no-repeat;
+        background-position: left center;
+        animation: highlight-bg-animation 1.5s ease-out forwards;
+        background-size: 0% 100%;
+      }
+      body.dark-mode .highlight-text-nav {
+        color: #000; /* Black text on yellow looks better in dark mode too */
+        background-image: linear-gradient(to right, #F0B90B, #F8D33A);
+      }
+       /* END: Highlight Text Animation Styles */
+
+      /* START: Trades Needed Value Style */
+      .trades-needed-highlight {
+          color: var(--bnb-bonus-text-light) !important;
+          font-weight: 800 !important;
+      }
+      body.dark-mode .trades-needed-highlight {
+          color: var(--bnb-bonus-text-dark) !important;
+      }
+      /* END: Trades Needed Value Style */
+
 
       @media (max-width: 640px) {
         /* sm breakpoint */
         .controls-container {
-          justify-content: center;
+          flex-direction: row; /* Keep as row */
+          justify-content: flex-end; /* Align to the right */
         }
         .toggle-button {
-          margin-top: 0.5rem;
+          margin-top: 0;
         }
         .page-title {
           font-size: 1.5rem;
@@ -840,12 +931,12 @@
         .token-swap-additional-info {
           font-size: 0.8rem;
         }
-        .bnb-chain-toggle-container {
+        .toggle-container {
           flex-direction: column;
           align-items: flex-start;
           justify-content: flex-start; /* Align to left on small screens */
         }
-        .bnb-chain-toggle-container input[type="checkbox"] {
+        .toggle-container input[type="checkbox"] {
           margin-bottom: 0.25rem;
         }
         .calc-result-item {
@@ -868,29 +959,40 @@
     </style>
   </head>
   <body class="p-4 md:p-8">
+    <div class="top-shine-bar"></div>
     <div class="main-container">
       <div class="controls-container">
-        <button id="languageToggleButton" class="toggle-button">
-          <i data-lucide="languages" class="lucide icon"></i>
-          <span data-translate="languageToggle">English</span>
-        </button>
-        <a
-          href="https://x.com/drv3v"
-          target="_blank"
-          rel="noopener noreferrer"
-          id="twitterButton"
-          class="toggle-button ml-2">
-          <svg
-            class="icon"
-            style="width: 18px; height: 18px"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512">
-            <path
-              d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
-          </svg>
-          <span>@drv3v</span>
-        </a>
-        <button id="darkModeToggle" class="toggle-button ml-2"></button>
+        <!-- Buttons are now on the right -->
+        <div>
+          <a
+            href="https://accounts.binance.com/register?ref=380270089"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="binanceButton"
+            class="toggle-button icon-only">
+            <img class="binance-logo" src="https://images.icon-icons.com/3053/PNG/512/binance_macos_bigsur_icon_190342.png" alt="Binance Logo">
+          </a>
+          <a
+            href="https://x.com/drv3v"
+            target="_blank"
+            rel="noopener noreferrer"
+            id="twitterButton"
+            class="toggle-button icon-only">
+            <svg
+              class="icon"
+              style="width: 24px; height: 24px"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512">
+              <path
+                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+            </svg>
+          </a>
+          <button id="languageToggleButton" class="toggle-button">
+            <i data-lucide="languages" class="lucide icon"></i>
+            <span data-translate="languageToggle">English</span>
+          </button>
+          <button id="darkModeToggle" class="toggle-button icon-only"></button>
+        </div>
       </div>
 
       <marquee
@@ -900,81 +1002,27 @@
         scrollamount="5">
         <span class="marquee-item">HASHNODE</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              fill="currentColor"
-              stroke="black"
-              stroke-width="6"
-              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_triangle-4)"><mask id="cs_mask_1_triangle-4" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M0 0a99.977 99.977 0 0029.273 70.71 100.027 100.027 0 0070.71 29.306V0H0zm99.984 100.016H200V0a100.028 100.028 0 00-70.735 29.292 99.976 99.976 0 00-29.281 70.724zm0 0V200H200a99.957 99.957 0 00-29.293-70.703 100.02 100.02 0 00-70.723-29.281zm0 0H0V200a100.017 100.017 0 0070.703-29.292 99.963 99.963 0 0029.28-70.692z"></path></mask><g mask="url(#cs_mask_1_triangle-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_4949)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_4949)"><ellipse cx="162.682" cy="0.587" fill="#FFD749" rx="83" ry="57" transform="rotate(-33.875 162.682 .587)"></ellipse></g></g></g><defs><filter id="filter0_f_748_4949" width="291.802" height="272.361" x="16.781" y="-135.593" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_4949" stdDeviation="35"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_4949" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_triangle-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_triangle-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_triangle-4)"></path></g><defs><filter id="cs_noise_1_triangle-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
         <span class="marquee-item">0xPRERICH</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              fill="currentColor"
-              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_misc-4)"><mask id="cs_mask_1_misc-4" style="mask-type:alpha" width="137" height="200" x="31" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M82 124H44.017c-9.288 0-15.054-10.119-10.334-18.135l58.26-98.942C99.186-5.377 118-.23 118 14.053V76h37.982c9.288 0 15.054 10.12 10.334 18.135l-58.26 98.942C100.813 205.377 82 200.23 82 185.948V124z"></path></mask><g mask="url(#cs_mask_1_misc-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5038)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_5038)"><path fill="#18A0FB" d="M216 79H96v135h120V79z"></path></g></g></g><defs><filter id="filter0_f_748_5038" width="245" height="260" x="33.5" y="16.5" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_5038" stdDeviation="31.25"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_5038" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_misc-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_misc-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_misc-4)"></path></g><defs><filter id="cs_noise_1_misc-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
         <span class="marquee-item">BINANCE ALPHA</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              data-fill-type="text"
-              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
-              clip-rule="evenodd"
-              fill-rule="evenodd"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_rectangle-6)"><mask id="cs_mask_1_rectangle-6" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M150 0v50H50V0h100zM50 150V50H0v100h50zM150 150V50h50v100h-50zM150 150H50v50h100v-50z"></path></mask><g mask="url(#cs_mask_1_rectangle-6)"><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5083)" d="M200 0H0v200h200V0z"></path></g></g><defs><linearGradient id="paint0_linear_748_5083" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_rectangle-6"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_rectangle-6)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_rectangle-6)"></path></g><defs><filter id="cs_noise_1_rectangle-6" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
         <span class="marquee-item">HASHNODE</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              fill="currentColor"
-              stroke="black"
-              stroke-width="6"
-              d="M158.603 100c78.169 75.604 16.906 136.867-58.603 58.603C24.396 236.867-36.867 175.604 41.397 100-36.867 24.396 24.396-36.867 100 41.397 175.604-36.867 236.867 24.396 158.603 100"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_triangle-4)"><mask id="cs_mask_1_triangle-4" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M0 0a99.977 99.977 0 0029.273 70.71 100.027 100.027 0 0070.71 29.306V0H0zm99.984 100.016H200V0a100.028 100.028 0 00-70.735 29.292 99.976 99.976 0 00-29.281 70.724zm0 0V200H200a99.957 99.957 0 00-29.293-70.703 100.02 100.02 0 00-70.723-29.281zm0 0H0V200a100.017 100.017 0 0070.703-29.292 99.963 99.963 0 0029.28-70.692z"></path></mask><g mask="url(#cs_mask_1_triangle-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_4949)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_4949)"><ellipse cx="162.682" cy="0.587" fill="#FFD749" rx="83" ry="57" transform="rotate(-33.875 162.682 .587)"></ellipse></g></g></g><defs><filter id="filter0_f_748_4949" width="291.802" height="272.361" x="16.781" y="-135.593" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_4949" stdDeviation="35"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_4949" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_triangle-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_triangle-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_triangle-4)"></path></g><defs><filter id="cs_noise_1_triangle-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
         <span class="marquee-item">0xPRERICH</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              fill="currentColor"
-              d="m100 5 18.05 63.737L182.272 52.5 136.1 100l46.172 47.5-64.222-16.236L100 195l-18.05-63.736L17.728 147.5 63.9 100 17.728 52.5 81.95 68.737z"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_misc-4)"><mask id="cs_mask_1_misc-4" style="mask-type:alpha" width="137" height="200" x="31" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M82 124H44.017c-9.288 0-15.054-10.119-10.334-18.135l58.26-98.942C99.186-5.377 118-.23 118 14.053V76h37.982c9.288 0 15.054 10.12 10.334 18.135l-58.26 98.942C100.813 205.377 82 200.23 82 185.948V124z"></path></mask><g mask="url(#cs_mask_1_misc-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5038)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_5038)"><path fill="#18A0FB" d="M216 79H96v135h120V79z"></path></g></g></g><defs><filter id="filter0_f_748_5038" width="245" height="260" x="33.5" y="16.5" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_5038" stdDeviation="31.25"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_5038" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_misc-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_misc-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_misc-4)"></path></g><defs><filter id="cs_noise_1_misc-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
         <span class="marquee-item">BINANCE ALPHA</span>
         <span class="marquee-item">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 200 200"
-            class="marquee-svg-item">
-            <path
-              data-fill-type="text"
-              d="M100 5a9.5 9.5 0 0 0-9.5 9.5v50.045l-25.023-43.34A9.5 9.5 0 0 0 52.5 17.728a9.5 9.5 0 0 0-3.477 12.977l25.023 43.34-43.341-25.022a9.5 9.5 0 0 0-9.5 16.454L64.545 90.5H14.5A9.5 9.5 0 0 0 5 100a9.5 9.5 0 0 0 9.5 9.5h50.046l-43.341 25.023a9.5 9.5 0 0 0-3.477 12.977 9.5 9.5 0 0 0 12.977 3.477l43.34-25.023-25.022 43.341a9.5 9.5 0 0 0 3.477 12.977 9.5 9.5 0 0 0 12.977-3.477L90.5 135.454V185.5a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5v-50.046l25.023 43.341a9.5 9.5 0 0 0 12.977 3.477 9.5 9.5 0 0 0 3.477-12.977l-25.023-43.341 43.341 25.023a9.5 9.5 0 0 0 12.977-3.477 9.5 9.5 0 0 0-3.477-12.977L135.454 109.5H185.5a9.5 9.5 0 0 0 9.5-9.5 9.5 9.5 0 0 0-9.5-9.5h-50.046l43.341-25.023a9.5 9.5 0 0 0 3.477-12.977c-2.623-4.544-8.433-6.1-12.977-3.477l-43.341 25.023 25.023-43.341a9.5 9.5 0 0 0-3.477-12.977 9.5 9.5 0 0 0-12.977 3.477L109.5 64.545V14.5A9.5 9.5 0 0 0 100 5"
-              clip-rule="evenodd"
-              fill-rule="evenodd"></path>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_rectangle-6)"><mask id="cs_mask_1_rectangle-6" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M150 0v50H50V0h100zM50 150V50H0v100h50zM150 150V50h50v100h-50zM150 150H50v50h100v-50z"></path></mask><g mask="url(#cs_mask_1_rectangle-6)"><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5083)" d="M200 0H0v200h200V0z"></path></g></g><defs><linearGradient id="paint0_linear_748_5083" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_rectangle-6"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_rectangle-6)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_rectangle-6)"></path></g><defs><filter id="cs_noise_1_rectangle-6" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
         </span>
       </marquee>
 
@@ -1016,50 +1064,37 @@
           </button>
         </div>
         <div id="swapContent" class="card-content pt-4 hidden">
-          <div id="tokenSectionA" class="token-swap-section">
-            <div class="flex items-center mb-2">
-              <img id="tokenAIcon" src="" alt="Token A" class="token-icon" />
-              <div
-                id="tokenAPlaceholder"
-                class="token-icon-placeholder"
-                style="display: none"></div>
-              <span id="tokenAName" class="token-name"></span>
+            <div class="w-full max-w-md mx-auto">
+                <div class="flex justify-center items-center flex-wrap gap-2">
+                    <!-- KOGE Token -->
+                    <a href="https://coinmarketcap.com/currencies/bnb48-club-token/" target="_blank" rel="noopener noreferrer" class="token-display-card">
+                        <img id="tokenKogeIcon" src="" alt="KOGE Token" class="token-icon">
+                        <div id="tokenKogePlaceholder" class="token-icon-placeholder" style="display: none;"></div>
+                        <span id="tokenKogeName" class="token-name"></span>
+                    </a>
+                    <!-- BR Token -->
+                    <a href="https://coinmarketcap.com/currencies/bedrock-dao/" target="_blank" rel="noopener noreferrer" class="token-display-card">
+                        <img id="tokenBrIcon" src="" alt="BR Token" class="token-icon">
+                        <div id="tokenBrPlaceholder" class="token-icon-placeholder" style="display: none;"></div>
+                        <span id="tokenBrName" class="token-name"></span>
+                    </a>
+                    <!-- OIK Token -->
+                    <a href="https://coinmarketcap.com/currencies/space-nation/" target="_blank" rel="noopener noreferrer" class="token-display-card">
+                        <img id="tokenOikIcon" src="" alt="OIK Token" class="token-icon">
+                        <div id="tokenOikPlaceholder" class="token-icon-placeholder" style="display: none;"></div>
+                        <span id="tokenOikName" class="token-name"></span>
+                    </a>
+                </div>
+                <p
+                    class="token-swap-additional-info mt-4"
+                    data-translate="tokenSwapInfoText">
+                    <!-- Content will be injected by JavaScript -->
+                </p>
+                <div class="info-badges-container flex justify-center mt-4">
+                    <span class="slippage-badge" data-translate="slippageText">Slippage Tolerance: 0.01%</span>
+                    <span class="wallet-badge" data-translate="tradedOnWalletText">Traded on CEX Limit</span>
+                </div>
             </div>
-          </div>
-
-          <div class="swap-button-container">
-            <button
-              id="swapTokensButton"
-              class="swap-button"
-              aria-label="Swap tokens">
-              <i data-lucide="arrow-down-up" class="w-5 h-5"></i>
-            </button>
-          </div>
-
-          <div id="tokenSectionB" class="token-swap-section">
-            <div class="flex items-center mb-2">
-              <img id="tokenBIcon" src="" alt="Token B" class="token-icon" />
-              <div
-                id="tokenBPlaceholder"
-                class="token-icon-placeholder"
-                style="display: none"></div>
-              <span id="tokenBName" class="token-name"></span>
-            </div>
-          </div>
-
-          <div class="info-badges-container">
-            <span class="slippage-badge" data-translate="slippageText"
-              >Slippage Tolerance: 0.01%</span
-            >
-            <span class="wallet-badge" data-translate="tradedOnWalletText"
-              >Traded on Binance Wallet</span
-            >
-          </div>
-          <p
-            class="token-swap-additional-info"
-            data-translate="tokenSwapInfoText">
-            <!-- Content will be injected by JavaScript -->
-          </p>
         </div>
       </div>
 
@@ -1108,15 +1143,31 @@
                 min="1" />
             </div>
           </div>
-          <div class="bnb-chain-toggle-container">
+          <div class="toggle-container">
             <input type="checkbox" id="bnbChainToggle" />
-            <label for="bnbChainToggle" data-translate="bnbChainToggleLabel"
-              >Trade on BNB Chain (2x Points Bonus)</label
-            >
+            <label for="bnbChainToggle">
+                <span class="custom-checkbox-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </span>
+                <span data-translate="bnbChainToggleLabel">Trade on Wallet (2x Points Bonus)</span>
+            </label>
+          </div>
+          <div class="toggle-container">
+            <input type="checkbox" id="cexLimitToggle" />
+            <label for="cexLimitToggle">
+                <span class="custom-checkbox-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </span>
+                <span data-translate="cexLimitToggleLabel">Trade on CEX Limit (x4 Point Bonus)</span>
+            </label>
           </div>
           <button
             id="calculateTradesButton"
-            class="simulate-button"
+            class="simulate-button mt-4"
             data-translate="calculateTradesButtonLabel">
             Calculate Trades
           </button>
@@ -1149,13 +1200,26 @@
               <span
                 class="calc-result-label bnb-bonus-text"
                 data-translate="bnbBonusMsgLabel"
-                >BNB Bonus - Effective Volume:</span
+                >Wallet Bonus - Effective Volume:</span
               >
               <span class="calc-result-value bnb-bonus-text"
                 >$<strong id="effectiveVolumeDisplayV"></strong
               ></span>
             </div>
-            <div class="calc-result-item">
+            <div
+              id="cexBonusResultItem"
+              class="calc-result-item"
+              style="display: none">
+              <span
+                class="calc-result-label bnb-bonus-text"
+                data-translate="cexBonusMsgLabel"
+                >CEX Limit Bonus - Effective Volume:</span
+              >
+              <span class="calc-result-value bnb-bonus-text"
+                >$<strong id="effectiveCexVolumeDisplayV"></strong
+              ></span>
+            </div>
+            <div id="investmentResultItem" class="calc-result-item">
               <span class="calc-result-label" data-translate="volCalcMsg3"
                 >Investment per Trade:</span
               >
@@ -1176,10 +1240,9 @@
               <span class="calc-result-label" data-translate="volCalcMsg4"
                 >Approx. Trades Needed:</span
               >
-              <span class="calc-result-value"
-                ><strong id="numTradesDisplayV"></strong>
-                <span data-translate="tradesUnit">trades</span></span
-              >
+              <span id="tradesNeededResult" class="calc-result-value">
+                <!-- Content injected by JS -->
+              </span>
             </div>
           </div>
         </div>
@@ -1202,7 +1265,7 @@
           <div id="errorMessageContainer" class="mb-4"></div>
 
           <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mb-8">
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-8">
             <div>
               <label
                 for="fixedDailyScore"
@@ -1230,7 +1293,7 @@
                 value="15"
                 min="1" />
             </div>
-            <div>
+            <div class="hidden">
               <label
                 for="rollingWindow"
                 class="input-label"
@@ -1256,9 +1319,9 @@
                 type="number"
                 id="thresholdScore"
                 class="input-field"
-                value="210" />
+                value="200" />
             </div>
-            <div>
+            <div class="hidden">
               <label
                 for="pointsConsumed"
                 class="input-label"
@@ -1283,7 +1346,7 @@
                 type="number"
                 id="rewardPerClaim"
                 class="input-field"
-                value="90" />
+                value="50" />
             </div>
           </div>
 
@@ -1366,7 +1429,7 @@
           guideStep1:
             "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
           guideStep2:
-            "<strong>Token Swap Card:</strong> Visual aid for ZKJ/KOGE swap; includes notes on slippage (0.01%) and Binance Wallet.",
+            "<strong>Token Swap Card:</strong> Shows recommended tokens like KOGE, BR, and OIK for trading. It also provides key reminders about setting a low slippage tolerance (e.g., 0.01%) and the benefits of trading on a CEX with limit orders for point bonuses.",
           guideStep5:
             "<strong>Note:</strong> This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
           guideStep6: "",
@@ -1382,18 +1445,20 @@
           resultsTitle: "Simulation Details",
           swapCardTitle: "Token Swap Recommended",
           slippageText: "Slippage Tolerance: 0.01%",
-          tradedOnWalletText: "Traded on Binance Wallet",
+          tradedOnWalletText: "Traded on CEX Limit",
           tokenSwapInfoText:
-            "<strong>Token Swap Info:</strong> Consider tokens with good market cap like <strong>ZKJ</strong> and <strong>KOGE</strong> for potentially less price swing. Always set slippage around <strong>0.01%</strong>. Recommended trading on <strong>Binance Wallet</strong>.",
+            "<strong>Token Swap Info:</strong> Consider tokens with good market cap like <strong>KOGE</strong>, <strong>BR</strong>, and <strong>OIK</strong> for potentially less price swing. If trading on a wallet, always set slippage around <strong>0.01%</strong>. Recommended trading on <strong>CEX Limit</strong> for 4x Points Bonus.",
           volumeCalcTitle: "Volume Points Trade Calculator",
           initialInvestmentVolCalcLabel: "Initial Investment (USD per trade)",
           targetVolumePointsCalcLabel: "Target Volume Points",
           calculateTradesButtonLabel: "Calculate Trades",
-          bnbChainToggleLabel: "Trade on BNB Chain (2x Points Bonus)",
+          bnbChainToggleLabel: "Trade on Wallet (2x Points Bonus)",
+          cexLimitToggleLabel: "Trade on CEX Limit (x4 Point Bonus)",
           volCalcMsg1: "Target:",
           pointsUnit: "points",
           volCalcMsg2: "Standard trade volume for points:",
-          bnbBonusMsgLabel: "BNB Bonus - Effective Volume:",
+          bnbBonusMsgLabel: "Wallet Bonus - Effective Volume:",
+          cexBonusMsgLabel: "CEX Limit Bonus - Effective Volume:",
           volCalcMsg3: "Investment per Trade:",
           volCalcMsg4: "Approx. Trades Needed:",
           tradesUnit: "trades",
@@ -1428,7 +1493,7 @@
           guideStep1:
             "<strong>កម្មវិធីគណនាពិន្ទុអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
           guideStep2:
-            "<strong>កាតព័ត៌មានការដោះដូរថូខឹន៖</strong> បង្ហាញការដោះដូរ ZKJ/KOGE; រួមមានកំណត់ត្រាស្តីពី slippage (0.01%) និង Binance Wallet។",
+            "<strong>កាតដោះដូរថូខឹន៖</strong> បង្ហាញថូខឹនដែលបានណែនាំដូចជា KOGE, BR, និង OIK សម្រាប់​ការជួញដូរ។ វាក៏ផ្តល់នូវការរំលឹកសំខាន់ៗអំពីការកំណត់ Slippage Tolerance ឱ្យទាប (ឧ. 0.01%) និងអត្ថប្រយោជន៍នៃការជួញដូរនៅលើ CEX ជាមួយ Limit Order ដើម្បីទទួលបានពិន្ទុបន្ថែម។",
           guideStep5:
             "<strong>កំណត់ចំណាំ៖</strong> កម្មវិធីគណនាធ្វើនេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
           guideStep6: "",
@@ -1444,18 +1509,20 @@
           resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
           swapCardTitle: "ការដោះដូរថូខឹនដែលបានណែនាំ",
           slippageText: "ការអត់ធ្មត់លើថ្លៃ​ Slippage ៖ 0.01%",
-          tradedOnWalletText: "ជួញដូរនៅលើ Binance Wallet",
+          tradedOnWalletText: "ជួញដូរនៅលើ CEX Limit",
           tokenSwapInfoText:
-            "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>ZKJ</strong> និង <strong>KOGE</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ កំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>Binance Wallet</strong>។",
+            "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>KOGE</strong>, <strong>BR</strong>, និង <strong>OIK</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ ប្រសិនបើជួញដូរលើ Wallet សូមកំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>CEX Limit</strong> សម្រាប់ Bonus ពិន្ទុ4ដង។",
           volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
           initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)",
           targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
           calculateTradesButtonLabel: "គណនាការជួញដូរ",
-          bnbChainToggleLabel: "ជួញដូរលើ BNB Chain (គុណនឹង2ពិន្ទុ)",
+          bnbChainToggleLabel: "ជួញដូរលើ Wallet (គុណនឹង2ពិន្ទុ)",
+          cexLimitToggleLabel: "ជួញដូរលើ CEX Limit (គុណនឹង4ពិន្ទុ)",
           volCalcMsg1: "គោលដៅ៖",
           pointsUnit: "ពិន្ទុ",
           volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
-          bnbBonusMsgLabel: "Bonus BNB - បរិមាណមានប្រសិទ្ធភាព៖",
+          bnbBonusMsgLabel: "Bonus Wallet - បរិមាណមានប្រសិទ្ធភាព៖",
+          cexBonusMsgLabel: "Bonus CEX Limit - បរិមាណមានប្រសិទ្ធភាព៖",
           volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖",
           volCalcMsg4: "ចំនួនការជួញដូរដែលត្រូវការ (ប្រហាក់ប្រហែល)៖",
           tradesUnit: "ការជួញដូរ",
@@ -1519,16 +1586,7 @@
 
       // DOM Elements for Token Swap Card
       const swapCardEl = document.getElementById("swapCard");
-      const tokenAIconEl = document.getElementById("tokenAIcon");
-      const tokenANameEl = document.getElementById("tokenAName");
-      const tokenAPlaceholderEl = document.getElementById("tokenAPlaceholder");
-
-      const tokenBIconEl = document.getElementById("tokenBIcon");
-      const tokenBNameEl = document.getElementById("tokenBName");
-      const tokenBPlaceholderEl = document.getElementById("tokenBPlaceholder");
-
-      const swapTokensButtonEl = document.getElementById("swapTokensButton");
-
+      
       // DOM Elements for Volume Points Calculator
       const initialInvestmentVolCalcEl = document.getElementById(
         "initialInvestmentVolCalc"
@@ -1537,6 +1595,7 @@
         "targetVolumePointsCalc"
       );
       const bnbChainToggleEl = document.getElementById("bnbChainToggle");
+      const cexLimitToggleEl = document.getElementById("cexLimitToggle");
       const calculateTradesButtonEl = document.getElementById(
         "calculateTradesButton"
       );
@@ -1552,36 +1611,43 @@
       );
       const bnbBonusResultItemEl =
         document.getElementById("bnbBonusResultItem");
+      const cexBonusResultItemEl =
+        document.getElementById("cexBonusResultItem");
       const effectiveVolumeDisplayVEl = document.getElementById(
         "effectiveVolumeDisplayV"
+      );
+       const effectiveCexVolumeDisplayVEl = document.getElementById(
+        "effectiveCexVolumeDisplayV"
       );
       const investmentPerTradeDisplayVEl = document.getElementById(
         "investmentPerTradeDisplayV"
       );
-      const numTradesDisplayVEl = document.getElementById("numTradesDisplayV");
+      const tradesNeededResultEl = document.getElementById("tradesNeededResult");
       const totalAchievedVolumeDisplayVEl = document.getElementById(
         "totalAchievedVolumeDisplayV"
       );
 
       // Initial data for tokens
       const tokenData = {
-        zkj: {
-          name: "ZKJ",
-          iconSrc:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeagb23HhoS9L6Zd08XT4q_Rh76WPKCQHyTw&s",
-          alt: "ZKJ Token",
-          placeholderText: "ZKJ",
-        },
         koge: {
           name: "KOGE",
-          iconSrc:
-            "https://s2.coinmarketcap.com/static/img/coins/64x64/7184.png",
+          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/7184.png",
           alt: "KOGE Token",
           placeholderText: "KOGE",
         },
+        br: {
+          name: "BR",
+          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/36063.png",
+          alt: "BR Token",
+          placeholderText: "BR",
+        },
+        oik: {
+          name: "OIK",
+          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/36011.png",
+          alt: "OIK Token",
+          placeholderText: "OIK",
+        }
       };
-
-      let tokenAisZKJ = true;
 
       // Function to handle card collapse/expand
       function toggleCardContent(buttonElement) {
@@ -1713,12 +1779,9 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               });
-            investmentPerTradeDisplayVEl.textContent =
-              lastCalc.initialInvestment.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-            numTradesDisplayVEl.textContent = lastCalc.numberOfTrades;
+            
+            tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${lastCalc.numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
+
             totalAchievedVolumeDisplayVEl.textContent =
               lastCalc.totalAchievedVolume.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
@@ -1893,24 +1956,24 @@
           // Add a row to the results table.
           const tr = document.createElement("tr");
           tr.innerHTML = `
-                        <td class="text-center">${currentDayNumber}</td>
-                        <td class="text-center">${
-                          dailyScoresEarned[dayIndex]
-                        }</td>
-                        <td class="text-center">${scoreForCheck.toFixed(
-                          0
-                        )}</td> 
-                        <td class="text-center">${
-                          claimedToday ? "✅" : "❌"
-                        }</td>
-                        <td class="text-center">${consumedForTableDisplay}</td>
-                        <td class="text-center">${runningTotalReward.toFixed(
-                          2
-                        )}</td> 
-                        <td>Day ${
-                          windowStartDayIndex + 1
-                        } ~ Day ${currentDayNumber}</td>
-                    `;
+                                <td class="text-center">${currentDayNumber}</td>
+                                <td class="text-center">${
+                                  dailyScoresEarned[dayIndex]
+                                }</td>
+                                <td class="text-center">${scoreForCheck.toFixed(
+                                  0
+                                )}</td> 
+                                <td class="text-center">${
+                                  claimedToday ? "✅" : "❌"
+                                }</td>
+                                <td class="text-center">${consumedForTableDisplay}</td>
+                                <td class="text-center">${runningTotalReward.toFixed(
+                                  2
+                                )}</td> 
+                                <td>Day ${
+                                  windowStartDayIndex + 1
+                                } ~ Day ${currentDayNumber}</td>
+                            `;
           resultsTableBodyEl.appendChild(tr);
         }
 
@@ -1970,40 +2033,6 @@
         }
       }
 
-      if (swapTokensButtonEl) {
-        swapTokensButtonEl.addEventListener("click", () => {
-          tokenAisZKJ = !tokenAisZKJ;
-
-          if (tokenAisZKJ) {
-            setupTokenSection(
-              tokenAIconEl,
-              tokenAPlaceholderEl,
-              tokenANameEl,
-              tokenData.zkj
-            );
-            setupTokenSection(
-              tokenBIconEl,
-              tokenBPlaceholderEl,
-              tokenBNameEl,
-              tokenData.koge
-            );
-          } else {
-            setupTokenSection(
-              tokenAIconEl,
-              tokenAPlaceholderEl,
-              tokenANameEl,
-              tokenData.koge
-            );
-            setupTokenSection(
-              tokenBIconEl,
-              tokenBPlaceholderEl,
-              tokenBNameEl,
-              tokenData.zkj
-            );
-          }
-        });
-      }
-
       // Volume Points Calculator Logic
       function calculateVolumeForPoints(points) {
         if (points <= 0) return 0;
@@ -2015,12 +2044,16 @@
           clearError(volumeCalcErrorMessageContainerEl);
           volumeCalcResultsEl.style.display = "none";
           bnbBonusResultItemEl.style.display = "none";
+          cexBonusResultItemEl.style.display = "none";
+          document.getElementById('investmentResultItem').style.display = 'none';
+
 
           const initialInvestment = parseFloat(
             initialInvestmentVolCalcEl.value
           );
           const targetPoints = parseInt(targetVolumePointsCalcEl.value);
-          const isBnbChain = bnbChainToggleEl.checked;
+          const isWalletTrade = bnbChainToggleEl.checked;
+          const isCexLimitTrade = cexLimitToggleEl.checked;
 
           if (isNaN(initialInvestment) || initialInvestment <= 0) {
             displayError(
@@ -2040,10 +2073,15 @@
           const standardTargetUSDVolume =
             calculateVolumeForPoints(targetPoints);
           let adjustedTargetUSDVolume = standardTargetUSDVolume;
+          let bonusMultiplier = 1;
 
-          if (isBnbChain) {
-            adjustedTargetUSDVolume = standardTargetUSDVolume / 2;
+          if (isCexLimitTrade) {
+            bonusMultiplier = 4;
+          } else if (isWalletTrade) {
+            bonusMultiplier = 2;
           }
+
+          adjustedTargetUSDVolume = standardTargetUSDVolume / bonusMultiplier;
 
           const numberOfTrades = Math.ceil(
             adjustedTargetUSDVolume / initialInvestment
@@ -2054,7 +2092,8 @@
           volumeCalcResultsEl.dataset.lastCalc = JSON.stringify({
             targetPoints,
             standardTargetUSDVolume,
-            isBnbChain,
+            isWalletTrade,
+            isCexLimitTrade,
             adjustedTargetUSDVolume,
             initialInvestment,
             numberOfTrades,
@@ -2068,28 +2107,14 @@
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             });
-          investmentPerTradeDisplayVEl.textContent =
-            initialInvestment.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            });
-          numTradesDisplayVEl.textContent = numberOfTrades;
+          
+          tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
+          
           totalAchievedVolumeDisplayVEl.textContent =
             totalAchievedVolume.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             });
-
-          if (isBnbChain) {
-            effectiveVolumeDisplayVEl.textContent =
-              adjustedTargetUSDVolume.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-            bnbBonusResultItemEl.style.display = "flex";
-          } else {
-            bnbBonusResultItemEl.style.display = "none";
-          }
 
           volumeCalcResultsEl.style.display = "block";
           updateUIText();
@@ -2103,6 +2128,20 @@
         if (bnbChainToggleEl) {
           bnbChainToggleEl.checked = true;
         }
+
+        // Logic to make checkboxes mutually exclusive
+        bnbChainToggleEl.addEventListener('change', () => {
+            if (bnbChainToggleEl.checked) {
+                cexLimitToggleEl.checked = false;
+            }
+        });
+
+        cexLimitToggleEl.addEventListener('change', () => {
+            if (cexLimitToggleEl.checked) {
+                bnbChainToggleEl.checked = false;
+            }
+        });
+
 
         document.querySelectorAll(".neobrutalist-card").forEach((card) => {
           const header = card.querySelector(".card-header");
@@ -2159,16 +2198,22 @@
 
         if (swapCardEl) {
           setupTokenSection(
-            tokenAIconEl,
-            tokenAPlaceholderEl,
-            tokenANameEl,
-            tokenData.zkj
+            document.getElementById("tokenKogeIcon"),
+            document.getElementById("tokenKogePlaceholder"),
+            document.getElementById("tokenKogeName"),
+            tokenData.koge
           );
           setupTokenSection(
-            tokenBIconEl,
-            tokenBPlaceholderEl,
-            tokenBNameEl,
-            tokenData.koge
+            document.getElementById("tokenBrIcon"),
+            document.getElementById("tokenBrPlaceholder"),
+            document.getElementById("tokenBrName"),
+            tokenData.br
+          );
+          setupTokenSection(
+            document.getElementById("tokenOikIcon"),
+            document.getElementById("tokenOikPlaceholder"),
+            document.getElementById("tokenOikName"),
+            tokenData.oik
           );
         }
       });
