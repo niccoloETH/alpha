@@ -37,16 +37,8 @@
         --error-text-light: #9f1239;
         --error-bg-light: #fecdd3;
         --grid-line-color-light: rgba(229,231,235,0.8); /* From user request */
-        --marquee-bg-light: linear-gradient(90deg, #c4b5fd, #93c5fd);
-        --marquee-text-light: #ffffff;
         --disclaimer-text-light: #4b5563;
-        --token-swap-section-bg-light: #f9fafb;
-        --badge-bg-light: #fef3c7; /* amber-100 */
-        --badge-text-light: #92400e; /* amber-800 */
-        --wallet-badge-bg-light: #dbeafe; /* blue-100 */
-        --wallet-badge-text-light: #1e40af; /* blue-800 */
         --guide-list-marker-light: #2563eb; /* blue-600 for list markers */
-        --token-swap-info-text-light: #374151; /* gray-700 */
         --calc-result-strong-light: #1d4ed8; /* blue-700 */
         --bnb-bonus-text-light: #059669; /* green-600 */
         --card-header-hover-bg-light: #f3f4f6; /* For card header hover */
@@ -72,16 +64,8 @@
         --error-text-dark: #9f1239;
         --error-bg-dark: #fecdd3;
         --grid-line-color-dark: rgba(255, 255, 255, 0.05);
-        --marquee-bg-dark: linear-gradient(90deg, #8b5cf6, #3b82f6);
-        --marquee-text-dark: #ffffff;
         --disclaimer-text-dark: #9ca3af;
-        --token-swap-section-bg-dark: #374151;
-        --badge-bg-dark: #b45309; /* amber-700 */
-        --badge-text-dark: #fef3c7; /* amber-100 */
-        --wallet-badge-bg-dark: #1e3a8a; /* blue-800 */
-        --wallet-badge-text-dark: #bfdbfe; /* blue-200 */
         --guide-list-marker-dark: #60a5fa; /* blue-400 for list markers */
-        --token-swap-info-text-dark: #d1d5db; /* gray-300 */
         --calc-result-strong-dark: #60a5fa; /* blue-400 */
         --bnb-bonus-text-dark: #34d399; /* green-400 */
         --card-header-hover-bg-dark: #374151; /* For card header hover */
@@ -127,6 +111,7 @@
         padding-right: 1rem;
         flex-grow: 1;
         padding-bottom: 2rem;
+        padding-top: 1.5rem;
       }
       @media (min-width: 640px) {
         .main-container {
@@ -155,68 +140,6 @@
         background: linear-gradient(to right, rgb(67, 215, 100) 0%, rgb(255, 183, 44) 12%, rgb(255, 93, 0) 22%, rgb(236, 10, 10) 33%, rgb(180, 5, 183) 44%, rgb(128, 0, 255) 55%, rgb(40, 92, 255) 66%, rgb(67, 215, 100) 77%, rgb(255, 183, 44) 88%, rgb(255, 93, 0) 100%) 0% 0% / 300%;
         animation: 2s linear 0s infinite alternate none running border-shine;
         z-index: 9999;
-      }
-
-      .neobrutalist-marquee {
-        background: var(--marquee-bg-light);
-        color: var(--marquee-text-light);
-        border: 3px solid var(--border-color);
-        border-radius: 0.5rem;
-        box-shadow: 6px 6px 0px var(--shadow-color);
-        padding: 0.75rem 1rem;
-        margin-bottom: 1.5rem;
-        font-weight: 700;
-        font-size: 1rem;
-        overflow: hidden;
-        transition: background-color 0.3s, color 0.3s;
-        white-space: nowrap;
-        position: relative;
-      }
-
-      body.dark-mode .neobrutalist-marquee {
-        background: var(--marquee-bg-dark);
-        color: var(--marquee-text-dark);
-      }
-      .neobrutalist-marquee .marquee-item {
-        display: inline-flex;
-        align-items: center;
-        margin-right: 1.5rem;
-        vertical-align: middle;
-      }
-      .neobrutalist-marquee .marquee-svg-item {
-        width: 20px;
-        height: 20px;
-        margin: 0 0.45rem;
-      }
-      .neobrutalist-marquee .marquee-svg-item path {
-        transition: fill 0.3s;
-      }
-      .neobrutalist-marquee
-        .marquee-item
-        .marquee-svg-item
-        path[fill="currentColor"] {
-        fill: var(--marquee-text-light);
-      }
-      body.dark-mode
-        .neobrutalist-marquee
-        .marquee-item
-        .marquee-svg-item
-        path[fill="currentColor"] {
-        fill: var(--marquee-text-dark);
-      }
-      .neobrutalist-marquee
-        .marquee-item
-        .marquee-svg-item
-        path[stroke="black"] {
-        stroke: var(--border-color);
-        fill: var(--marquee-text-light);
-      }
-      body.dark-mode
-        .neobrutalist-marquee
-        .marquee-item
-        .marquee-svg-item
-        path[stroke="black"] {
-        fill: var(--marquee-text-dark);
       }
 
       .neobrutalist-card {
@@ -518,9 +441,9 @@
       }
       #alphaScoreSimulatorCard .card-header h1, /* Targeting specific h1 */
       #resultsCard .card-header h2, 
-      #swapCard .card-header h2, 
       #guideCard .card-header h2, 
       #volumeCalcCard .card-header h2,
+      #alphaVolumeCard .card-header h1,
       #summaryCard .card-header h2 {
         /* Targeting title in summary card header */
         color: var(--text-light);
@@ -529,9 +452,9 @@
       }
       body.dark-mode #alphaScoreSimulatorCard .card-header h1,
       body.dark-mode #resultsCard .card-header h2,
-      body.dark-mode #swapCard .card-header h2,
       body.dark-mode #guideCard .card-header h2,
       body.dark-mode #volumeCalcCard .card-header h2,
+      body.dark-mode #alphaVolumeCard .card-header h1,
       body.dark-mode #summaryCard .card-header h2 {
         color: var(--text-dark);
       }
@@ -546,146 +469,6 @@
       }
       body.dark-mode .disclaimer-text {
         color: var(--disclaimer-text-dark);
-      }
-
-      /* Styles for Token Swap Card */
-      .token-display-card {
-        padding: 0.75rem;
-        border: 3px solid var(--border-color);
-        border-radius: 0.375rem;
-        background-color: var(--token-swap-section-bg-light);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-        width: 120px; /* Or use flex-basis */
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .token-display-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 8px 8px 0px var(--shadow-color);
-      }
-      body.dark-mode .token-display-card {
-        background-color: var(--token-swap-section-bg-dark);
-      }
-      .token-display-card .token-icon, .token-display-card .token-icon-placeholder {
-          width: 3rem; /* 48px */
-          height: 3rem; /* 48px */
-          margin-right: 0;
-      }
-
-      .token-icon {
-        width: 2rem; /* 32px */
-        height: 2rem; /* 32px */
-        margin-right: 0.5rem;
-        border-radius: 9999px; /* full */
-        object-fit: cover;
-        border: 1px solid var(--border-color);
-      }
-      .token-icon-placeholder {
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.5rem;
-        border-radius: 9999px;
-        background-color: #e5e7eb;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.65rem;
-        font-weight: 600;
-        color: #4b5563;
-        border: 1px solid var(--border-color);
-      }
-      body.dark-mode .token-icon-placeholder {
-        background-color: #4b5563;
-        color: #d1d5db;
-      }
-      .token-name {
-        font-weight: 700;
-        font-size: 1.125rem;
-        color: var(--text-light);
-      }
-      body.dark-mode .token-name {
-        color: var(--text-dark);
-      }
-      .swap-button-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-      .swap-button {
-        padding: 0.5rem;
-        border-radius: 9999px;
-        border: 3px solid var(--border-color);
-        box-shadow: 3px 3px 0px var(--shadow-color);
-        background-color: var(--button-toggle-bg-light);
-        color: var(--button-toggle-icon-light);
-        cursor: pointer;
-        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
-          background-color 0.3s, color 0.3s;
-      }
-      body.dark-mode .swap-button {
-        background-color: var(--button-toggle-bg-dark);
-        color: var(--button-toggle-icon-dark);
-      }
-      .swap-button:hover {
-        transform: translate(-1px, -1px);
-        box-shadow: 4px 4px 0px var(--shadow-color);
-      }
-      .swap-button:active {
-        transform: translate(1px, 1px);
-        box-shadow: 2px 2px 0px var(--shadow-color);
-      }
-
-      .info-badges-container {
-        margin-bottom: 0.5rem;
-      }
-
-      .slippage-badge,
-      .wallet-badge {
-        display: inline-block;
-        padding: 0.35rem 0.75rem;
-        border-radius: 0.375rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        border: 2px solid var(--border-color);
-        box-shadow: 2px 2px 0px var(--shadow-color);
-        transition: background-color 0.3s, color 0.3s;
-        margin: 0.25rem;
-      }
-
-      .slippage-badge {
-        background-color: var(--badge-bg-light);
-        color: var(--badge-text-light);
-      }
-      body.dark-mode .slippage-badge {
-        background-color: var(--badge-bg-dark);
-        color: var(--badge-text-dark);
-      }
-      .wallet-badge {
-        background-color: var(--wallet-badge-bg-light);
-        color: var(--wallet-badge-text-light);
-      }
-      body.dark-mode .wallet-badge {
-        background-color: var(--wallet-badge-bg-dark);
-        color: var(--wallet-badge-text-dark);
-      }
-
-      .token-swap-additional-info {
-        font-size: 0.875rem;
-        text-align: center;
-        margin-top: 1rem;
-        padding: 0.5rem;
-        color: var(--token-swap-info-text-light);
-        transition: color 0.3s;
-        line-height: 1.6;
-      }
-      body.dark-mode .token-swap-additional-info {
-        color: var(--token-swap-info-text-dark);
-      }
-      .token-swap-additional-info strong {
-        font-weight: 700;
       }
 
       /* Guide Card Styles */
@@ -841,16 +624,16 @@
         font-size: 1.5rem; /* text-2xl */
       }
 
-      #bnbBonusResultItem .bnb-bonus-text, #cexBonusResultItem .bnb-bonus-text {
+      #otherChainBonusResultItem .bnb-bonus-text, #bscBonusResultItem .bnb-bonus-text {
         color: var(--bnb-bonus-text-light) !important;
       }
-      body.dark-mode #bnbBonusResultItem .bnb-bonus-text, body.dark-mode #cexBonusResultItem .bnb-bonus-text {
+      body.dark-mode #otherChainBonusResultItem .bnb-bonus-text, body.dark-mode #bscBonusResultItem .bnb-bonus-text {
         color: var(--bnb-bonus-text-dark) !important;
       }
-      #bnbBonusResultItem strong, #cexBonusResultItem strong {
+      #otherChainBonusResultItem strong, #bscBonusResultItem strong {
         color: var(--bnb-bonus-text-light) !important;
       }
-      body.dark-mode #bnbBonusResultItem strong, body.dark-mode #cexBonusResultItem strong {
+      body.dark-mode #otherChainBonusResultItem strong, body.dark-mode #bscBonusResultItem strong {
         color: var(--bnb-bonus-text-dark) !important;
       }
 
@@ -894,6 +677,144 @@
       }
       /* END: Trades Needed Value Style */
 
+      /* START: Alpha Volume Card Styles */
+      #alphaVolumeCard .last-up{ text-align:left;font-size:.8rem;color:var(--disclaimer-text-light);margin-bottom:12px }
+      body.dark-mode #alphaVolumeCard .last-up { color: var(--disclaimer-text-dark); }
+
+      #alphaVolumeCard #bar{
+        display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+        padding: 0; margin-bottom: 1rem;
+      }
+      #alphaVolumeCard #bar-left{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+      #alphaVolumeCard #bar-left input { flex:1;min-width:160px }
+      #alphaVolumeCard #bar-left input[type="text"]{width:120px}
+      #alphaVolumeCard #bar-left input[type="datetime-local"]{width:190px}
+      #alphaVolumeCard #bar-left input, #alphaVolumeCard #rangeBtn, #alphaVolumeCard #refreshBtn {
+        padding: 0.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        background-color: var(--card-bg-light);
+        font-weight: 500;
+        color: var(--text-light);
+      }
+      body.dark-mode #alphaVolumeCard #bar-left input, body.dark-mode #alphaVolumeCard #rangeBtn, body.dark-mode #alphaVolumeCard #refreshBtn {
+        background-color: var(--card-bg-dark);
+        color: var(--text-dark);
+      }
+       #alphaVolumeCard #rangeBtn, #alphaVolumeCard #refreshBtn {
+         background-color: var(--button-primary-bg-light);
+         color: var(--button-primary-text-light);
+         cursor: pointer;
+         font-weight: 600;
+       }
+       body.dark-mode #alphaVolumeCard #rangeBtn, body.dark-mode #alphaVolumeCard #refreshBtn {
+         background-color: var(--button-primary-bg-dark);
+         color: var(--button-primary-text-dark);
+       }
+        #alphaVolumeCard .btn[disabled]{background:#9ca3af;border-color:#9ca3af;cursor:not-allowed}
+      #alphaVolumeCard .badge{
+        display:none;padding:0 6px;border-radius:10px;font-size:.7rem;font-weight:700;
+        background:#fff;color:var(--button-primary-bg-light);
+      }
+      
+      #alphaVolumeCard #tokenTable{ width:100%; border-collapse:collapse;min-width:600px; overflow-x: auto; }
+      #alphaVolumeCard th,#alphaVolumeCard td{
+        padding:10px 6px;border-bottom:1px solid var(--grid-line-color-light);
+        font-size:.85rem;text-align:left;white-space:nowrap
+      }
+      body.dark-mode #alphaVolumeCard th, body.dark-mode #alphaVolumeCard td { border-bottom-color: var(--grid-line-color-dark); }
+      #alphaVolumeCard tbody tr:hover{background:rgba(0,0,0,.04);cursor:pointer}
+      body.dark-mode #alphaVolumeCard tbody tr:hover{ background: rgba(255,255,255,0.04); }
+      #alphaVolumeCard th { font-weight: 700; }
+      #alphaVolumeCard th.sortable{cursor:pointer;user-select:none;position:relative}
+      #alphaVolumeCard th.sortable::after{
+        content:'▲';position:absolute;right:4px;font-size:.6rem;color: var(--text-light);
+        transform:scale(.8);opacity:0;transition:opacity .2s
+      }
+      body.dark-mode #alphaVolumeCard th.sortable::after { color: var(--text-dark); }
+      #alphaVolumeCard th.sortable.desc::after{content:'▼';opacity:1}
+      #alphaVolumeCard th.sortable.asc::after{content:'▲';opacity:1}
+      #alphaVolumeCard .star{cursor:pointer;font-size:1rem;color:var(--disclaimer-text-light);user-select:none;transition:transform .15s,color .15s}
+      #alphaVolumeCard .star.fav{color:#f7b500}.star.bounce{transform:scale(1.4)}
+      #alphaVolumeCard .logo{width:18px;height:18px;margin-right:4px;vertical-align:middle;border-radius:50%}
+      #alphaVolumeCard .up{color:#16a34a}
+      #alphaVolumeCard .down{color:#dc2626}
+      #alphaVolumeCard .subl{display:block;font-size:.72rem;color:var(--disclaimer-text-light)}
+      body.dark-mode #alphaVolumeCard .subl { color: var(--disclaimer-text-dark); }
+      
+      .new-token-icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+          margin-left: 6px;
+          color: var(--summary-card-bg-light); /* Yellow */
+      }
+       .bsc-icon-bonus {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+          margin: 0 4px;
+          color: var(--summary-card-bg-light); /* Yellow */
+      }
+      body.dark-mode .new-token-icon, body.dark-mode .bsc-icon-bonus {
+          color: var(--summary-card-bg-dark); /* Same yellow */
+      }
+
+      #toast{
+        position:fixed;bottom:40px;left:50%;transform:translateX(-50%);
+        background:rgba(0,0,0,.8);color:#fff;padding:8px 16px;border-radius:6px;
+        font-size:.85rem;opacity:0;pointer-events:none;transition:opacity .3s; z-index: 10000;
+      }
+      #customVol{ margin: 1rem 0;font-size:.9rem;color:var(--button-primary-bg-light)}
+      body.dark-mode #customVol { color: #93c5fd; }
+       p.bonus-remark {
+        font-size: 0.75rem;
+        color: var(--bnb-bonus-text-light);
+        padding-left: 0.25rem;
+        margin-top: 0.25rem;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+      }
+      body.dark-mode p.bonus-remark {
+        color: var(--bnb-bonus-text-dark);
+      }
+      .bonus-button {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-align: center;
+        background-color: var(--card-bg-light);
+        color: var(--text-light);
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        border-right: 2px solid var(--border-color);
+      }
+      .bonus-button:last-child {
+          border-right: none;
+      }
+      .bonus-button.active {
+          background-color: var(--button-primary-bg-light);
+          color: var(--button-primary-text-light);
+      }
+      body.dark-mode .bonus-button {
+          background-color: var(--card-bg-dark);
+          color: var(--text-dark);
+          border-right-color: var(--border-color);
+      }
+      body.dark-mode .bonus-button.active {
+          background-color: var(--button-primary-bg-dark);
+          color: var(--button-primary-text-dark);
+      }
+      /* END: Alpha Volume Card Styles */
+
+
+      @media (max-width: 760px){
+        #alphaVolumeCard #bar-left input[type="datetime-local"]{flex:1;min-width:140px}
+      }
 
       @media (max-width: 640px) {
         /* sm breakpoint */
@@ -912,14 +833,7 @@
           padding: 0.3rem;
           font-size: 0.75rem;
         }
-        .neobrutalist-marquee {
-          font-size: 0.875rem;
-          padding: 0.5rem 0.75rem;
-        }
-        .neobrutalist-marquee .marquee-item svg {
-          width: 16px;
-          height: 16px;
-        }
+       
         .slippage-badge,
         .wallet-badge {
           font-size: 0.75rem;
@@ -928,9 +842,7 @@
         #guideCard li {
           font-size: 0.8rem;
         }
-        .token-swap-additional-info {
-          font-size: 0.8rem;
-        }
+       
         .toggle-container {
           flex-direction: column;
           align-items: flex-start;
@@ -995,37 +907,6 @@
         </div>
       </div>
 
-      <marquee
-        class="neobrutalist-marquee"
-        behavior="scroll"
-        direction="left"
-        scrollamount="5">
-        <span class="marquee-item">HASHNODE</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_triangle-4)"><mask id="cs_mask_1_triangle-4" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M0 0a99.977 99.977 0 0029.273 70.71 100.027 100.027 0 0070.71 29.306V0H0zm99.984 100.016H200V0a100.028 100.028 0 00-70.735 29.292 99.976 99.976 0 00-29.281 70.724zm0 0V200H200a99.957 99.957 0 00-29.293-70.703 100.02 100.02 0 00-70.723-29.281zm0 0H0V200a100.017 100.017 0 0070.703-29.292 99.963 99.963 0 0029.28-70.692z"></path></mask><g mask="url(#cs_mask_1_triangle-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_4949)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_4949)"><ellipse cx="162.682" cy="0.587" fill="#FFD749" rx="83" ry="57" transform="rotate(-33.875 162.682 .587)"></ellipse></g></g></g><defs><filter id="filter0_f_748_4949" width="291.802" height="272.361" x="16.781" y="-135.593" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_4949" stdDeviation="35"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_4949" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_triangle-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_triangle-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_triangle-4)"></path></g><defs><filter id="cs_noise_1_triangle-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-        <span class="marquee-item">0xPRERICH</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_misc-4)"><mask id="cs_mask_1_misc-4" style="mask-type:alpha" width="137" height="200" x="31" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M82 124H44.017c-9.288 0-15.054-10.119-10.334-18.135l58.26-98.942C99.186-5.377 118-.23 118 14.053V76h37.982c9.288 0 15.054 10.12 10.334 18.135l-58.26 98.942C100.813 205.377 82 200.23 82 185.948V124z"></path></mask><g mask="url(#cs_mask_1_misc-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5038)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_5038)"><path fill="#18A0FB" d="M216 79H96v135h120V79z"></path></g></g></g><defs><filter id="filter0_f_748_5038" width="245" height="260" x="33.5" y="16.5" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_5038" stdDeviation="31.25"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_5038" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_misc-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_misc-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_misc-4)"></path></g><defs><filter id="cs_noise_1_misc-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-        <span class="marquee-item">BINANCE ALPHA</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_rectangle-6)"><mask id="cs_mask_1_rectangle-6" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M150 0v50H50V0h100zM50 150V50H0v100h50zM150 150V50h50v100h-50zM150 150H50v50h100v-50z"></path></mask><g mask="url(#cs_mask_1_rectangle-6)"><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5083)" d="M200 0H0v200h200V0z"></path></g></g><defs><linearGradient id="paint0_linear_748_5083" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_rectangle-6"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_rectangle-6)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_rectangle-6)"></path></g><defs><filter id="cs_noise_1_rectangle-6" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-        <span class="marquee-item">HASHNODE</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_triangle-4)"><mask id="cs_mask_1_triangle-4" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M0 0a99.977 99.977 0 0029.273 70.71 100.027 100.027 0 0070.71 29.306V0H0zm99.984 100.016H200V0a100.028 100.028 0 00-70.735 29.292 99.976 99.976 0 00-29.281 70.724zm0 0V200H200a99.957 99.957 0 00-29.293-70.703 100.02 100.02 0 00-70.723-29.281zm0 0H0V200a100.017 100.017 0 0070.703-29.292 99.963 99.963 0 0029.28-70.692z"></path></mask><g mask="url(#cs_mask_1_triangle-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_4949)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_4949)"><ellipse cx="162.682" cy="0.587" fill="#FFD749" rx="83" ry="57" transform="rotate(-33.875 162.682 .587)"></ellipse></g></g></g><defs><filter id="filter0_f_748_4949" width="291.802" height="272.361" x="16.781" y="-135.593" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_4949" stdDeviation="35"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_4949" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_triangle-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_triangle-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_triangle-4)"></path></g><defs><filter id="cs_noise_1_triangle-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-        <span class="marquee-item">0xPRERICH</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_misc-4)"><mask id="cs_mask_1_misc-4" style="mask-type:alpha" width="137" height="200" x="31" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M82 124H44.017c-9.288 0-15.054-10.119-10.334-18.135l58.26-98.942C99.186-5.377 118-.23 118 14.053V76h37.982c9.288 0 15.054 10.12 10.334 18.135l-58.26 98.942C100.813 205.377 82 200.23 82 185.948V124z"></path></mask><g mask="url(#cs_mask_1_misc-4)"><path fill="#fff" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5038)" d="M200 0H0v200h200V0z"></path><g filter="url(#filter0_f_748_5038)"><path fill="#18A0FB" d="M216 79H96v135h120V79z"></path></g></g></g><defs><filter id="filter0_f_748_5038" width="245" height="260" x="33.5" y="16.5" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur result="effect1_foregroundBlur_748_5038" stdDeviation="31.25"></feGaussianBlur></filter><linearGradient id="paint0_linear_748_5038" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_misc-4"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_misc-4)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_misc-4)"></path></g><defs><filter id="cs_noise_1_misc-4" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-        <span class="marquee-item">BINANCE ALPHA</span>
-        <span class="marquee-item">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="marquee-svg-item"><g clip-path="url(#cs_clip_1_rectangle-6)"><mask id="cs_mask_1_rectangle-6" style="mask-type:alpha" width="200" height="200" x="0" y="0" maskUnits="userSpaceOnUse"><path fill="currentColor" d="M150 0v50H50V0h100zM50 150V50H0v100h50zM150 150V50h50v100h-50zM150 150H50v50h100v-50z"></path></mask><g mask="url(#cs_mask_1_rectangle-6)"><path fill="#07FFE1" d="M200 0H0v200h200V0z"></path><path fill="url(#paint0_linear_748_5083)" d="M200 0H0v200h200V0z"></path></g></g><defs><linearGradient id="paint0_linear_748_5083" x1="38" x2="119" y1="14.5" y2="181.5" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE500"></stop><stop offset="1" stop-color="#07FFE1"></stop></linearGradient><clipPath id="cs_clip_1_rectangle-6"><path fill="#fff" d="M0 0H200V200H0z"></path></clipPath></defs><g style="mix-blend-mode:overlay" mask="url(#cs_mask_1_rectangle-6)"><path fill="gray" stroke="transparent" d="M200 0H0v200h200V0z" filter="url(#cs_noise_1_rectangle-6)"></path></g><defs><filter id="cs_noise_1_rectangle-6" width="100%" height="100%" x="0%" y="0%" filterUnits="objectBoundingBox"><feTurbulence baseFrequency="0.6" numOctaves="5" result="out1" seed="4"></feTurbulence><feComposite in="out1" in2="SourceGraphic" operator="in" result="out2"></feComposite><feBlend in="SourceGraphic" in2="out2" mode="overlay" result="out3"></feBlend></filter></defs></svg>
-        </span>
-      </marquee>
-
       <!-- How to Use Card -->
       <div id="guideCard" class="neobrutalist-card">
         <div class="card-header" data-collapsible-target="guideContent">
@@ -1042,59 +923,10 @@
         <div id="guideContent" class="card-content pt-4 hidden">
           <ul id="guideList">
             <li data-translate="guideStep1"></li>
-            <li data-translate="guideStep2"></li>
+            <li data-translate="guideStep7"></li>
             <li data-translate="guideStep5"></li>
             <li data-translate="guideStep6"></li>
-            <li data-translate="guideStep7"></li>
           </ul>
-        </div>
-      </div>
-
-      <!-- Token Swap Card -->
-      <div id="swapCard" class="neobrutalist-card">
-        <div class="card-header" data-collapsible-target="swapContent">
-          <h2 class="text-xl font-semibold" data-translate="swapCardTitle">
-            Token Swap Recommended
-          </h2>
-          <button
-            aria-label="Toggle token swap content"
-            aria-expanded="false"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
-          </button>
-        </div>
-        <div id="swapContent" class="card-content pt-4 hidden">
-            <div class="w-full max-w-md mx-auto">
-                <div class="flex justify-center items-center flex-wrap gap-2">
-                    <!-- KOGE Token -->
-                    <a href="https://coinmarketcap.com/currencies/bnb48-club-token/" target="_blank" rel="noopener noreferrer" class="token-display-card">
-                        <img id="tokenKogeIcon" src="" alt="KOGE Token" class="token-icon">
-                        <div id="tokenKogePlaceholder" class="token-icon-placeholder" style="display: none;"></div>
-                        <span id="tokenKogeName" class="token-name"></span>
-                    </a>
-                    <!-- BR Token -->
-                    <a href="https://coinmarketcap.com/currencies/bedrock-dao/" target="_blank" rel="noopener noreferrer" class="token-display-card">
-                        <img id="tokenBrIcon" src="" alt="BR Token" class="token-icon">
-                        <div id="tokenBrPlaceholder" class="token-icon-placeholder" style="display: none;"></div>
-                        <span id="tokenBrName" class="token-name"></span>
-                    </a>
-                    <!-- OIK Token -->
-                    <a href="https://coinmarketcap.com/currencies/space-nation/" target="_blank" rel="noopener noreferrer" class="token-display-card">
-                        <img id="tokenOikIcon" src="" alt="OIK Token" class="token-icon">
-                        <div id="tokenOikPlaceholder" class="token-icon-placeholder" style="display: none;"></div>
-                        <span id="tokenOikName" class="token-name"></span>
-                    </a>
-                </div>
-                <p
-                    class="token-swap-additional-info mt-4"
-                    data-translate="tokenSwapInfoText">
-                    <!-- Content will be injected by JavaScript -->
-                </p>
-                <div class="info-badges-container flex justify-center mt-4">
-                    <span class="slippage-badge" data-translate="slippageText">Slippage Tolerance: 0.01%</span>
-                    <span class="wallet-badge" data-translate="tradedOnWalletText">Traded on CEX Limit</span>
-                </div>
-            </div>
         </div>
       </div>
 
@@ -1106,12 +938,12 @@
           </h2>
           <button
             aria-label="Toggle volume calculator content"
-            aria-expanded="true"
+            aria-expanded="false"
             class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
           </button>
         </div>
-        <div id="volumeCalcContent" class="card-content pt-4">
+        <div id="volumeCalcContent" class="card-content pt-4 hidden">
           <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
             <div>
@@ -1143,28 +975,14 @@
                 min="1" />
             </div>
           </div>
-          <div class="toggle-container">
-            <input type="checkbox" id="bnbChainToggle" />
-            <label for="bnbChainToggle">
-                <span class="custom-checkbox-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                </span>
-                <span data-translate="bnbChainToggleLabel">Trade on Wallet (2x Points Bonus)</span>
-            </label>
+          <label class="input-label" data-translate="bonusSelectionLabel">Bonus Option</label>
+          <div id="bonusOptions" class="flex w-full rounded-md border-2 border-[var(--border-color)] mb-2">
+              <button class="bonus-button flex-1 rounded-l-sm active" data-multiplier="1" data-translate="notNewTokenToggleLabel"></button>
+              <button class="bonus-button flex-1" data-multiplier="2" data-translate="otherChainToggleLabel"></button>
+              <button class="bonus-button flex-1 rounded-r-sm" data-multiplier="4" data-translate="bscChainToggleLabel" class="inline-flex items-center"></button>
           </div>
-          <div class="toggle-container">
-            <input type="checkbox" id="cexLimitToggle" />
-            <label for="cexLimitToggle">
-                <span class="custom-checkbox-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                </span>
-                <span data-translate="cexLimitToggleLabel">Trade on CEX Limit (x4 Point Bonus)</span>
-            </label>
-          </div>
+           <p class="bonus-remark" data-translate="bonusRemark"></p>
+
           <button
             id="calculateTradesButton"
             class="simulate-button mt-4"
@@ -1194,29 +1012,29 @@
               ></span>
             </div>
             <div
-              id="bnbBonusResultItem"
+              id="otherChainBonusResultItem"
               class="calc-result-item"
               style="display: none">
               <span
                 class="calc-result-label bnb-bonus-text"
-                data-translate="bnbBonusMsgLabel"
-                >Wallet Bonus - Effective Volume:</span
+                data-translate="otherChainBonusMsgLabel"
+                >Other Chain Bonus - Effective Volume:</span
               >
               <span class="calc-result-value bnb-bonus-text"
-                >$<strong id="effectiveVolumeDisplayV"></strong
+                >$<strong id="effectiveOtherChainVolumeDisplayV"></strong
               ></span>
             </div>
             <div
-              id="cexBonusResultItem"
+              id="bscBonusResultItem"
               class="calc-result-item"
               style="display: none">
               <span
                 class="calc-result-label bnb-bonus-text"
-                data-translate="cexBonusMsgLabel"
-                >CEX Limit Bonus - Effective Volume:</span
+                data-translate="bscBonusMsgLabel"
+                >BSC Bonus - Effective Volume:</span
               >
               <span class="calc-result-value bnb-bonus-text"
-                >$<strong id="effectiveCexVolumeDisplayV"></strong
+                >$<strong id="effectiveBscVolumeDisplayV"></strong
               ></span>
             </div>
             <div id="investmentResultItem" class="calc-result-item">
@@ -1359,8 +1177,8 @@
         </div>
       </div>
 
+      <!-- Summary and Results card moved here -->
       <div id="summaryCard" class="neobrutalist-card hidden">
-        <!-- Initially hidden, shown by JS -->
         <div class="card-header" data-collapsible-target="summaryContent">
           <h2 class="text-xl font-semibold" data-translate="summaryTitle">
             Simulation Summary
@@ -1378,7 +1196,6 @@
       </div>
 
       <div id="resultsCard" class="neobrutalist-card hidden">
-        <!-- Initially hidden, shown by JS -->
         <div class="card-header" data-collapsible-target="resultsContent">
           <h2 class="text-xl font-semibold" data-translate="resultsTitle">
             Simulation Details
@@ -1409,6 +1226,65 @@
           </div>
         </div>
       </div>
+      
+      <!-- Alpha Volume Card -->
+      <div id="alphaVolumeCard" class="neobrutalist-card">
+        <div class="card-header" data-collapsible-target="alphaVolumeContent">
+          <h1 class="page-title" data-translate="alphaVolumeTitle" style="text-align: center; flex-grow: 1;">
+            Alpha Volume
+          </h1>
+          <button
+            aria-label="Toggle alpha volume content"
+            aria-expanded="true"
+            class="card-toggle-button p-1">
+            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
+          </button>
+        </div>
+        <div id="alphaVolumeContent" class="card-content pt-4">
+          <div class="flex justify-between items-center mb-4">
+            <p id="lastUp" class="last-up" style="margin-bottom: 0;"></p>
+            <div class="toggle-container" style="margin-bottom: 0;">
+                <input type="checkbox" id="onlyNew" checked />
+                <label for="onlyNew">
+                    <span class="custom-checkbox-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                    </span>
+                    <span data-translate="onlyNewCheckbox"></span>
+                </label>
+            </div>
+          </div>
+          <div id="bar">
+            <div id="bar-left">
+              <input id="search" type="search" data-translate-placeholder="searchPlaceholder">
+              <button id="refreshBtn" class="btn" data-translate="refreshButton">
+                <span id="progress" class="badge">0%</span>
+              </button>
+            </div>
+          </div>
+           <div id="customVol"></div>
+           <div class="overflow-x-auto">
+              <table id="tokenTable">
+                <thead>
+                  <tr>
+                    <th style="width:26px"></th>
+                    <th data-translate="tableHeaderRank"></th>
+                    <th data-translate="tableHeaderToken"></th>
+                    <th id="thPrice" data-translate="tableHeaderPrice"></th>
+                    <th id="thVol24h" class="sortable" data-key="vol24h" data-translate="tableHeaderVol24h"></th>
+                    <th data-translate="tableHeaderChange24h"></th>
+                    <th id="thToday" class="sortable" data-key="todayQV" data-translate="tableHeaderTodayVol"></th>
+                    <th id="thPrev" class="sortable" data-key="prevQV" data-translate="tableHeaderPrevVol"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td colspan="8" data-translate="loadingText"></td></tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
 
       <div id="disclaimerSection" class="disclaimer-text">
         <p data-translate="disclaimerText">
@@ -1417,6 +1293,7 @@
         </p>
       </div>
     </div>
+    <div id="toast"></div>
 
     <script>
       lucide.createIcons();
@@ -1428,12 +1305,10 @@
           guideTitle: "How to Use This Simulator",
           guideStep1:
             "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
-          guideStep2:
-            "<strong>Token Swap Card:</strong> Shows recommended tokens like KOGE, BR, and OIK for trading. It also provides key reminders about setting a low slippage tolerance (e.g., 0.01%) and the benefits of trading on a CEX with limit orders for point bonuses.",
           guideStep5:
             "<strong>Note:</strong> This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
           guideStep6: "",
-          guideStep7: "",
+          guideStep7: "<strong>Volume Calc:</strong> Input your investment per trade and target points. Select a bonus (2x for other chains or 4x for BSC) to see the required trades and total volume.",
           fixedDailyScoreLabel: "Fixed Daily Score",
           totalDaysLabel: "Total Days",
           rollingWindowLabel: "Rolling Window (days)",
@@ -1443,22 +1318,20 @@
           simulateButton: "Simulate",
           summaryTitle: "Simulation Summary",
           resultsTitle: "Simulation Details",
-          swapCardTitle: "Token Swap Recommended",
-          slippageText: "Slippage Tolerance: 0.01%",
-          tradedOnWalletText: "Traded on CEX Limit",
-          tokenSwapInfoText:
-            "<strong>Token Swap Info:</strong> Consider tokens with good market cap like <strong>KOGE</strong>, <strong>BR</strong>, and <strong>OIK</strong> for potentially less price swing. If trading on a wallet, always set slippage around <strong>0.01%</strong>. Recommended trading on <strong>CEX Limit</strong> for 4x Points Bonus.",
           volumeCalcTitle: "Volume Points Trade Calculator",
           initialInvestmentVolCalcLabel: "Initial Investment (USD per trade)",
           targetVolumePointsCalcLabel: "Target Volume Points",
           calculateTradesButtonLabel: "Calculate Trades",
-          bnbChainToggleLabel: "Trade on Wallet (2x Points Bonus)",
-          cexLimitToggleLabel: "Trade on CEX Limit (x4 Point Bonus)",
+          otherChainToggleLabel: "Other Chain (2x)",
+          bscChainToggleLabel: "BSC (4x)",
+          notNewTokenToggleLabel: "Not New (1x)",
+          bonusRemark: "Note: 2x and 4x bonuses only apply to tokens listed in the last 30 days.",
+          bonusSelectionLabel: "Bonus Option",
           volCalcMsg1: "Target:",
           pointsUnit: "points",
           volCalcMsg2: "Standard trade volume for points:",
-          bnbBonusMsgLabel: "Wallet Bonus - Effective Volume:",
-          cexBonusMsgLabel: "CEX Limit Bonus - Effective Volume:",
+          otherChainBonusMsgLabel: "Other Chain Bonus - Effective Volume:",
+          bscBonusMsgLabel: "BSC Bonus - Effective Volume:",
           volCalcMsg3: "Investment per Trade:",
           volCalcMsg4: "Approx. Trades Needed:",
           tradesUnit: "trades",
@@ -1485,6 +1358,25 @@
             "✅ Claimed {count} times, total reward {reward} USD",
           disclaimerText:
             "Disclaimer: This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
+          alphaVolumeTitle: "Alpha Volume Board",
+          lastUpdated: "Last Updated: {time}",
+          searchPlaceholder: "🔍 Filter by Token Name / Symbol…",
+          refreshButton: "⟳ Refresh Data",
+          onlyNewCheckbox: "Only show tokens listed in last 30 days",
+          tableHeaderRank: "#",
+          tableHeaderToken: "Token",
+          tableHeaderPrice: "Price",
+          tableHeaderVol24h: "24H Volume",
+          tableHeaderChange24h: "24H Change",
+          tableHeaderTodayVol: "Today's Limit Order Volume",
+          tableHeaderPrevVol: "Prev. Day's Limit Order Volume",
+          loadingText: "Loading…",
+          loadFailedText: "Failed to load…",
+          toastFavAdded: "Added to favorites",
+          toastFavRemoved: "Removed from favorites",
+          toastEnterSymbol: "Please enter a token symbol",
+          toastTokenNotFound: "Token not found",
+          toastInvalidTime: "Invalid time range",
         },
         km: {
           languageToggle: "ភាសាខ្មែរ",
@@ -1492,12 +1384,10 @@
           guideTitle: "របៀបប្រើកម្មវិធីគណនានេះ",
           guideStep1:
             "<strong>កម្មវិធីគណនាពិន្ទុអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
-          guideStep2:
-            "<strong>កាតដោះដូរថូខឹន៖</strong> បង្ហាញថូខឹនដែលបានណែនាំដូចជា KOGE, BR, និង OIK សម្រាប់​ការជួញដូរ។ វាក៏ផ្តល់នូវការរំលឹកសំខាន់ៗអំពីការកំណត់ Slippage Tolerance ឱ្យទាប (ឧ. 0.01%) និងអត្ថប្រយោជន៍នៃការជួញដូរនៅលើ CEX ជាមួយ Limit Order ដើម្បីទទួលបានពិន្ទុបន្ថែម។",
           guideStep5:
             "<strong>កំណត់ចំណាំ៖</strong> កម្មវិធីគណនាធ្វើនេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
           guideStep6: "",
-          guideStep7: "",
+          guideStep7: "<strong>កម្មវិធីគណនាបរិមាណ៖</strong> បញ្ចូលការវិនិយោគរបស់អ្នកក្នុងមួយការជួញដូរ និងពិន្ទុគោលដៅ។ ជ្រើសរើសប្រាក់រង្វាន់ (2ដងសម្រាប់បណ្តាញផ្សេងទៀត ឬ 4ដងសម្រាប់ BSC) ដើម្បីមើលការជួញដូរដែលត្រូវការ និងបរិមាណសរុប។",
           fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ",
           totalDaysLabel: "ចំនួនថ្ងៃសរុប",
           rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)",
@@ -1507,22 +1397,20 @@
           simulateButton: "គណនា",
           summaryTitle: "សេចក្ដីសង្ខេបនៃការគណនា",
           resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
-          swapCardTitle: "ការដោះដូរថូខឹនដែលបានណែនាំ",
-          slippageText: "ការអត់ធ្មត់លើថ្លៃ​ Slippage ៖ 0.01%",
-          tradedOnWalletText: "ជួញដូរនៅលើ CEX Limit",
-          tokenSwapInfoText:
-            "<strong>ព័ត៌មានអំពីការដោះដូរថូខឹន៖</strong> សូមពិចារណាថូខឹនដែលមានទីផ្សារល្អដូចជា <strong>KOGE</strong>, <strong>BR</strong>, និង <strong>OIK</strong> ដែលអាចមានការប្រែប្រួលតម្លៃតិចជាង។ ប្រសិនបើជួញដូរលើ Wallet សូមកំណត់ slippage ប្រហែល <strong>0.01%</strong> ជានិច្ច។ បានណែនាំឱ្យធ្វើពាណិជ្ជកម្មនៅលើ <strong>CEX Limit</strong> សម្រាប់ Bonus ពិន្ទុ4ដង។",
           volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
           initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)",
           targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
           calculateTradesButtonLabel: "គណនាការជួញដូរ",
-          bnbChainToggleLabel: "ជួញដូរលើ Wallet (គុណនឹង2ពិន្ទុ)",
-          cexLimitToggleLabel: "ជួញដូរលើ CEX Limit (គុណនឹង4ពិន្ទុ)",
+          otherChainToggleLabel: "បណ្តាញផ្សេងទៀត (x2)",
+          bscChainToggleLabel: "BSC (x4)",
+          notNewTokenToggleLabel: "មិនថ្មី (x1)",
+          bonusRemark: "ចំណាំ៖ ប្រាក់រង្វាន់ 2x និង 4x គឺសម្រាប់តែថូខឹនដែលបានចុះបញ្ជីក្នុងរយៈពេល 30 ថ្ងៃចុងក្រោយប៉ុណ្ណោះ។",
+          bonusSelectionLabel: "ជម្រើសប្រាក់រង្វាន់",
           volCalcMsg1: "គោលដៅ៖",
           pointsUnit: "ពិន្ទុ",
           volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
-          bnbBonusMsgLabel: "Bonus Wallet - បរិមាណមានប្រសិទ្ធភាព៖",
-          cexBonusMsgLabel: "Bonus CEX Limit - បរិមាណមានប្រសិទ្ធភាព៖",
+          otherChainBonusMsgLabel: "ប្រាក់រង្វាន់បណ្តាញផ្សេងទៀត - បរិមាណមានប្រសិទ្ធភាព៖",
+          bscBonusMsgLabel: "ប្រាក់រង្វាន់ BSC - បរិមាណមានប្រសិទ្ធភាព៖",
           volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖",
           volCalcMsg4: "ចំនួនការជួញដូរដែលត្រូវការ (ប្រហាក់ប្រហែល)៖",
           tradesUnit: "ការជួញដូរ",
@@ -1550,6 +1438,25 @@
             "✅ ប្រហែលអាចទទួលបាន {count} ដង, រង្វាន់សរុប {reward} USD",
           disclaimerText:
             "ការបដិសេធ៖ កម្មវិធីគណនានេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
+          alphaVolumeTitle: "តារាងបរិមាណអាល់ហ្វា",
+          lastUpdated: "បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ៖ {time}",
+          searchPlaceholder: "🔍 តម្រងតាមឈ្មោះ / និមិត្តសញ្ញា…",
+          refreshButton: "⟳ ផ្ទុកទិន្នន័យឡើងវិញ",
+          onlyNewCheckbox: "បង្ហាញតែថូខឹនដែលបានចុះក្នុងរយៈពេល 30 ថ្ងៃចុងក្រោយ",
+          tableHeaderRank: "#",
+          tableHeaderToken: "ថូខឹន",
+          tableHeaderPrice: "តម្លៃ",
+          tableHeaderVol24h: "បរិមាណ 24 ម៉ោង",
+          tableHeaderChange24h: "ការផ្លាស់ប្តូរ 24 ម៉ោង",
+          tableHeaderTodayVol: "បរិមាណថ្ងៃនេះ",
+          tableHeaderPrevVol: "បរិមាណថ្ងៃមុន",
+          loadingText: "កំពុង​ផ្ទុក…",
+          loadFailedText: "ការផ្ទុកបានបរាជ័យ…",
+          toastFavAdded: "បានបន្ថែមទៅចំណូលចិត្ត",
+          toastFavRemoved: "បានដកចេញពីចំណូលចិត្ត",
+          toastEnterSymbol: "សូមបញ្ចូលនិមិត្តសញ្ញាថូខឹន",
+          toastTokenNotFound: "រកមិនឃើញថូខឹនទេ",
+          toastInvalidTime: "ជួរពេលវេលាមិនត្រឹមត្រូវ",
         },
       };
 
@@ -1583,9 +1490,6 @@
       const darkModeToggle = document.getElementById("darkModeToggle");
       const twitterButton = document.getElementById("twitterButton");
       const bodyEl = document.body;
-
-      // DOM Elements for Token Swap Card
-      const swapCardEl = document.getElementById("swapCard");
       
       // DOM Elements for Volume Points Calculator
       const initialInvestmentVolCalcEl = document.getElementById(
@@ -1594,8 +1498,6 @@
       const targetVolumePointsCalcEl = document.getElementById(
         "targetVolumePointsCalc"
       );
-      const bnbChainToggleEl = document.getElementById("bnbChainToggle");
-      const cexLimitToggleEl = document.getElementById("cexLimitToggle");
       const calculateTradesButtonEl = document.getElementById(
         "calculateTradesButton"
       );
@@ -1609,16 +1511,11 @@
       const standardVolumeDisplayVEl = document.getElementById(
         "standardVolumeDisplayV"
       );
-      const bnbBonusResultItemEl =
-        document.getElementById("bnbBonusResultItem");
-      const cexBonusResultItemEl =
-        document.getElementById("cexBonusResultItem");
-      const effectiveVolumeDisplayVEl = document.getElementById(
-        "effectiveVolumeDisplayV"
-      );
-       const effectiveCexVolumeDisplayVEl = document.getElementById(
-        "effectiveCexVolumeDisplayV"
-      );
+      const otherChainBonusResultItemEl = document.getElementById("otherChainBonusResultItem");
+      const bscBonusResultItemEl = document.getElementById("bscBonusResultItem");
+
+      const effectiveOtherChainVolumeDisplayVEl = document.getElementById("effectiveOtherChainVolumeDisplayV");
+      const effectiveBscVolumeDisplayVEl = document.getElementById("effectiveBscVolumeDisplayV");
       const investmentPerTradeDisplayVEl = document.getElementById(
         "investmentPerTradeDisplayV"
       );
@@ -1626,28 +1523,6 @@
       const totalAchievedVolumeDisplayVEl = document.getElementById(
         "totalAchievedVolumeDisplayV"
       );
-
-      // Initial data for tokens
-      const tokenData = {
-        koge: {
-          name: "KOGE",
-          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/7184.png",
-          alt: "KOGE Token",
-          placeholderText: "KOGE",
-        },
-        br: {
-          name: "BR",
-          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/36063.png",
-          alt: "BR Token",
-          placeholderText: "BR",
-        },
-        oik: {
-          name: "OIK",
-          iconSrc: "https://s2.coinmarketcap.com/static/img/coins/64x64/36011.png",
-          alt: "OIK Token",
-          placeholderText: "OIK",
-        }
-      };
 
       // Function to handle card collapse/expand
       function toggleCardContent(buttonElement) {
@@ -1683,7 +1558,9 @@
           });
         }
       }
-
+      
+      const bscIconSVG = `<svg class="bsc-icon-bonus" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g clip-path="url(#clip0_5610_132428)"><path d="M7.37207 11.751L8.01953 10.6709H9.61914L8.19531 12.8076L9.65137 14.999H8.01953L7.34766 13.8711L6.66797 14.999H5.06738L6.52344 12.8232L5.09961 10.6709H6.73145L7.37207 11.751ZM14.292 12.751H15.0039V13.9111H14.292V14.999H12.7959V13.9111H10.0762L9.82812 12.8154L12.7314 9.35938H14.292V12.751ZM11.4521 12.7598H12.7959V11.1436L11.4521 12.7598ZM6.33691 1.06641C9.25713 1.06641 11.6034 3.48064 11.6035 6.43164C11.6035 7.13375 11.4705 7.80634 11.2285 8.42285C11.1585 8.60111 11.0798 8.77514 10.9922 8.94336C10.8391 9.23715 10.4765 9.35130 10.1826 9.19824C9.88877 9.04515 9.77466 8.68253 9.92773 8.38867C9.99581 8.25796 10.0569 8.12292 10.1113 7.98438C10.2993 7.50559 10.4033 6.98168 10.4033 6.43164C10.4032 4.11956 8.57088 2.26660 6.33691 2.26660C4.10309 2.26678 2.27165 4.11967 2.27148 6.43164C2.27157 7.71656 2.83807 8.86268 3.72754 9.62598C3.97903 9.84172 4.00774 10.2212 3.79199 10.4727C3.57625 10.7236 3.19859 10.7525 2.94727 10.5371C1.79931 9.55232 1.0704 8.07674 1.07031 6.43164C1.07048 3.48075 3.41685 1.06658 6.33691 1.06641ZM5.54102 4C6.17511 4 6.55894 4.30508 6.83301 4.64355V4.09863H8.32129V6.94043C8.3214 7.27051 8.46233 7.39453 8.74414 7.39453C8.82242 7.39452 8.909 7.38565 9.00293 7.36914V8.50098C8.81506 8.55877 8.53282 8.63275 8.21191 8.63281C7.60891 8.63281 7.22504 8.40144 7.04492 7.93066C6.73167 8.38492 6.26913 8.66602 5.61914 8.66602C4.53071 8.66589 3.66895 7.78225 3.66895 6.35352V6.33691C3.66903 4.88345 4.53869 4.00003 5.54102 4ZM5.99512 5.30469C5.52539 5.30478 5.12611 5.72588 5.12598 6.32031V6.33691C5.12598 6.93151 5.52531 7.35245 5.99512 7.35254C6.48065 7.35254 6.86426 6.93157 6.86426 6.33691V6.32031C6.86413 5.72581 6.48057 5.30469 5.99512 5.30469Z" fill="currentColor"></path></g><defs><clipPath id="clip0_5610_132428"><rect width="15.9992" height="15.9992" fill="white"></rect></clipPath></defs></svg>`;
+      
       function updateUIText() {
         document.querySelectorAll("[data-translate]").forEach((element) => {
           const key = element.getAttribute("data-translate");
@@ -1691,8 +1568,16 @@
             translations[currentLanguage] && translations[currentLanguage][key];
 
           if (translationExists) {
-            const translationText = translations[currentLanguage][key];
-            if (element.id === "languageToggleButton") {
+            let translationText = translations[currentLanguage][key];
+            
+            if (key === 'bscChainToggleLabel') {
+                 translationText = currentLanguage === 'km' ? `ជួញដូរលើ BSC ${bscIconSVG} (ពិន្ទុ x 4)` : `Trade on BSC ${bscIconSVG} (Point x 4)`;
+                 element.innerHTML = translationText;
+            } else if (key === 'notNewTokenToggleLabel') {
+                 element.textContent = currentLanguage === 'km' ? 'មិនថ្មី (x1)' : 'Not New (1x)';
+            } else if (key === 'otherChainToggleLabel') {
+                 element.textContent = currentLanguage === 'km' ? 'បណ្តាញផ្សេងទៀត (x2)' : 'Other Chain (2x)';
+            } else if (element.id === "languageToggleButton") {
               const textSpan = element.querySelector("span");
               if (textSpan) {
                 textSpan.textContent = translationText;
@@ -1710,7 +1595,7 @@
             ) {
               if (
                 translationText.trim() === "" &&
-                (key === "guideStep6" || key === "guideStep7")
+                (key === "guideStep6")
               ) {
                 element.style.display = "none";
               } else {
@@ -1738,11 +1623,20 @@
             element.tagName === "LI" &&
             element.parentElement &&
             element.parentElement.id === "guideList" &&
-            (key === "guideStep6" || key === "guideStep7")
+            (key === "guideStep6")
           ) {
             element.style.display = "none";
           }
         });
+        
+         // Update placeholders
+        document.querySelectorAll("[data-translate-placeholder]").forEach(element => {
+            const key = element.getAttribute("data-translate-placeholder");
+            if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                element.placeholder = translations[currentLanguage][key];
+            }
+        });
+
       }
 
       function toggleLanguage() {
@@ -1773,32 +1667,27 @@
             volumeCalcResultsEl.dataset.lastCalc || "{}"
           );
           if (lastCalc.targetPoints) {
-            targetPointsDisplayVEl.textContent = lastCalc.targetPoints;
-            standardVolumeDisplayVEl.textContent =
-              lastCalc.standardTargetUSDVolume.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-            
             tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${lastCalc.numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
 
-            totalAchievedVolumeDisplayVEl.textContent =
-              lastCalc.totalAchievedVolume.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-            if (lastCalc.isBnbChain) {
-              effectiveVolumeDisplayVEl.textContent =
+            if (lastCalc.isBscTrade) {
+                effectiveBscVolumeDisplayVEl.textContent =
+                  lastCalc.adjustedTargetUSDVolume.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  });
+                bscBonusResultItemEl.style.display = "flex";
+            } else if (lastCalc.isOtherChainTrade) {
+              effectiveOtherChainVolumeDisplayVEl.textContent =
                 lastCalc.adjustedTargetUSDVolume.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 });
-              bnbBonusResultItemEl.style.display = "flex";
-            } else {
-              bnbBonusResultItemEl.style.display = "none";
+              otherChainBonusResultItemEl.style.display = "flex";
             }
           }
-          updateUIText();
+        }
+         if (alphaVolumeState.rows.length > 0) {
+            reloadAllAlphaVolume(false); // Rerender table with new language without fetching data
         }
       }
 
@@ -1845,35 +1734,11 @@
       function runSimulation() {
         clearError();
         resultsTableBodyEl.innerHTML = "";
-
-        const summaryContent = document.getElementById("summaryContent");
-        const resultsContent = document.getElementById("resultsContent");
-        const summaryHeaderButton = document.querySelector(
-          "#summaryCard .card-toggle-button"
-        );
-        const resultsHeaderButton = document.querySelector(
-          "#resultsCard .card-toggle-button"
-        );
-
+        
+        const alphaSimCard = document.getElementById('alphaScoreSimulatorCard');
+        
         summaryCardEl.classList.add("hidden");
-        if (summaryContent) summaryContent.classList.add("hidden");
-        if (summaryHeaderButton) {
-          summaryHeaderButton.setAttribute("aria-expanded", "false");
-          const summaryIcon =
-            summaryHeaderButton.querySelector("i.card-toggle-icon");
-          if (summaryIcon)
-            summaryIcon.setAttribute("data-lucide", "chevron-down");
-        }
-
         resultsCardEl.classList.add("hidden");
-        if (resultsContent) resultsContent.classList.add("hidden");
-        if (resultsHeaderButton) {
-          resultsHeaderButton.setAttribute("aria-expanded", "false");
-          const resultsIcon =
-            resultsHeaderButton.querySelector("i.card-toggle-icon");
-          if (resultsIcon)
-            resultsIcon.setAttribute("data-lucide", "chevron-down");
-        }
 
         const inputs = {
           fixedDailyScore: parseInt(fixedDailyScoreEl.value) || 0,
@@ -1890,36 +1755,26 @@
           return;
         }
 
-        // Store history of claims: { dayIndex: number, pointsConsumed: number }
         const claimHistory = [];
         let runningTotalReward = 0;
         let runningClaimCount = 0;
-        // Create an array representing the score earned each day.
-        // For this simulation, it's fixed, but could be variable in other scenarios.
         const dailyScoresEarned = Array(inputs.totalDays).fill(
           inputs.fixedDailyScore
         );
 
-        // Loop through each day of the simulation period.
         for (let dayIndex = 0; dayIndex < inputs.totalDays; dayIndex++) {
           const currentDayNumber = dayIndex + 1;
-          // Determine the start and end of the current rolling window.
-          // dayIndex is 0-based, currentDayNumber is 1-based.
           const windowStartDayIndex = Math.max(
             0,
             dayIndex - inputs.rollingWindow + 1
           );
           const windowEndDayIndex = dayIndex;
 
-          // Calculate the raw score accumulated within the current window.
           let rawScoreInWindow = 0;
           for (let i = windowStartDayIndex; i <= windowEndDayIndex; i++) {
             rawScoreInWindow += dailyScoresEarned[i];
           }
 
-          // Calculate points consumed from past claims that are STILL RELEVANT to this window.
-          // A past claim is relevant if the day it was made (pastClaim.dayIndex)
-          // is within the current window's start.
           let pointsConsumedFromRelevantPastClaims = 0;
           claimHistory.forEach((pastClaim) => {
             if (pastClaim.dayIndex >= windowStartDayIndex) {
@@ -1927,33 +1782,27 @@
             }
           });
 
-          // This is the score to check against the threshold.
           const scoreForCheck =
             rawScoreInWindow - pointsConsumedFromRelevantPastClaims;
 
           let claimedToday = false;
-          let rewardTodayValue = 0; // Store the reward for this specific day if a claim occurs.
-          // This is the "Consumed" value to display in the table for the current day's row.
-          // It represents the points subtracted BEFORE this day's claim decision.
+          let rewardTodayValue = 0; 
           const consumedForTableDisplay = pointsConsumedFromRelevantPastClaims;
 
-          // Check if a claim can be made.
           if (
             scoreForCheck >= inputs.thresholdScore &&
             inputs.pointsConsumedPerClaim >= 0
           ) {
             claimedToday = true;
-            rewardTodayValue = inputs.rewardPerClaim; // Reward for this specific claim
-            runningTotalReward += rewardTodayValue; // Add to cumulative reward
+            rewardTodayValue = inputs.rewardPerClaim;
+            runningTotalReward += rewardTodayValue;
             runningClaimCount++;
-            // Record this claim in history
             claimHistory.push({
-              dayIndex: dayIndex, // Record the 0-based index of the day the claim was made
+              dayIndex: dayIndex,
               pointsConsumed: inputs.pointsConsumedPerClaim,
             });
           }
 
-          // Add a row to the results table.
           const tr = document.createElement("tr");
           tr.innerHTML = `
                                 <td class="text-center">${currentDayNumber}</td>
@@ -1977,7 +1826,6 @@
           resultsTableBodyEl.appendChild(tr);
         }
 
-        // Update summary card.
         summaryTextEl.dataset.summaryData = JSON.stringify({
           count: runningClaimCount,
           reward: runningTotalReward,
@@ -1987,53 +1835,19 @@
         ].summaryClaimedText
           .replace("{count}", runningClaimCount)
           .replace("{reward}", runningTotalReward.toFixed(2));
+        
+        alphaSimCard.insertAdjacentElement('afterend', resultsCardEl);
+        alphaSimCard.insertAdjacentElement('afterend', summaryCardEl);
 
-        // Show summary and results cards.
+
         summaryCardEl.classList.remove("hidden");
-        if (summaryContent) summaryContent.classList.remove("hidden");
-        if (summaryHeaderButton) {
-          summaryHeaderButton.setAttribute("aria-expanded", "true");
-          const summaryIcon =
-            summaryHeaderButton.querySelector("i.card-toggle-icon");
-          if (summaryIcon)
-            summaryIcon.setAttribute("data-lucide", "chevron-up");
-        }
-
         resultsCardEl.classList.remove("hidden");
-        if (resultsContent) resultsContent.classList.remove("hidden");
-        if (resultsHeaderButton) {
-          resultsHeaderButton.setAttribute("aria-expanded", "true");
-          const resultsIcon =
-            resultsHeaderButton.querySelector("i.card-toggle-icon");
-          if (resultsIcon)
-            resultsIcon.setAttribute("data-lucide", "chevron-up");
-        }
-        lucide.createIcons(); // Re-render icons if any were changed.
+       
+        lucide.createIcons();
 
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
       }
 
-      // Token Swap Logic
-      function setupTokenSection(iconEl, placeholderEl, nameEl, token) {
-        iconEl.src = token.iconSrc;
-        iconEl.alt = token.alt;
-        nameEl.textContent = token.name;
-        placeholderEl.textContent = token.placeholderText;
-
-        iconEl.style.display = "inline-block";
-        placeholderEl.style.display = "none";
-
-        if (!token.iconSrc.startsWith("data:image")) {
-          iconEl.onerror = () => {
-            iconEl.style.display = "none";
-            placeholderEl.style.display = "flex";
-          };
-        } else {
-          iconEl.onerror = null;
-        }
-      }
-
-      // Volume Points Calculator Logic
       function calculateVolumeForPoints(points) {
         if (points <= 0) return 0;
         return 2 * 2 ** (points - 1);
@@ -2043,17 +1857,23 @@
         calculateTradesButtonEl.addEventListener("click", () => {
           clearError(volumeCalcErrorMessageContainerEl);
           volumeCalcResultsEl.style.display = "none";
-          bnbBonusResultItemEl.style.display = "none";
-          cexBonusResultItemEl.style.display = "none";
+          otherChainBonusResultItemEl.style.display = "none";
+          bscBonusResultItemEl.style.display = "none";
           document.getElementById('investmentResultItem').style.display = 'none';
-
 
           const initialInvestment = parseFloat(
             initialInvestmentVolCalcEl.value
           );
           const targetPoints = parseInt(targetVolumePointsCalcEl.value);
-          const isWalletTrade = bnbChainToggleEl.checked;
-          const isCexLimitTrade = cexLimitToggleEl.checked;
+          const activeBonusButton = document.querySelector('#bonusOptions .bonus-button.active');
+          
+          let bonusMultiplier = 1;
+          if (activeBonusButton) {
+              bonusMultiplier = parseInt(activeBonusButton.dataset.multiplier);
+          }
+
+          const isOtherChainTrade = bonusMultiplier === 2;
+          const isBscTrade = bonusMultiplier === 4;
 
           if (isNaN(initialInvestment) || initialInvestment <= 0) {
             displayError(
@@ -2072,35 +1892,24 @@
 
           const standardTargetUSDVolume =
             calculateVolumeForPoints(targetPoints);
-          let adjustedTargetUSDVolume = standardTargetUSDVolume;
-          let bonusMultiplier = 1;
-
-          if (isCexLimitTrade) {
-            bonusMultiplier = 4;
-          } else if (isWalletTrade) {
-            bonusMultiplier = 2;
-          }
-
-          adjustedTargetUSDVolume = standardTargetUSDVolume / bonusMultiplier;
+          let adjustedTargetUSDVolume = standardTargetUSDVolume / bonusMultiplier;
 
           const numberOfTrades = Math.ceil(
             adjustedTargetUSDVolume / initialInvestment
           );
           const totalAchievedVolume = numberOfTrades * initialInvestment;
 
-          // Store calculated values for re-translation
           volumeCalcResultsEl.dataset.lastCalc = JSON.stringify({
             targetPoints,
             standardTargetUSDVolume,
-            isWalletTrade,
-            isCexLimitTrade,
+            isOtherChainTrade,
+            isBscTrade,
             adjustedTargetUSDVolume,
             initialInvestment,
             numberOfTrades,
             totalAchievedVolume,
           });
 
-          // Update display elements with formatted numbers
           targetPointsDisplayVEl.textContent = targetPoints;
           standardVolumeDisplayVEl.textContent =
             standardTargetUSDVolume.toLocaleString(undefined, {
@@ -2116,31 +1925,242 @@
               maximumFractionDigits: 2,
             });
 
+          if (isBscTrade) {
+             effectiveBscVolumeDisplayVEl.textContent =
+              adjustedTargetUSDVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+             bscBonusResultItemEl.style.display = "flex";
+          } else if (isOtherChainTrade) {
+             effectiveOtherChainVolumeDisplayVEl.textContent =
+              adjustedTargetUSDVolume.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              });
+             otherChainBonusResultItemEl.style.display = "flex";
+          }
+          
           volumeCalcResultsEl.style.display = "block";
           updateUIText();
         });
       }
 
+      /*--- Alpha Volume Script START ---*/
+      const alphaVolumeState = {
+          rows: [],
+          filter: '',
+          sortKey: 'vol24h',
+          sortDir: 'desc',
+          showNewOnly: true,
+          boundary: 0
+      };
+
+      const av = { // Alpha Volume DOM elements
+          tbody: document.querySelector('#tokenTable tbody'),
+          refreshBtn: document.getElementById('refreshBtn'),
+          progressEl: document.getElementById('progress'),
+          lastUpEl: document.getElementById('lastUp'),
+          thToday: document.getElementById('thToday'),
+          thPrev: document.getElementById('thPrev'),
+          toast: document.getElementById('toast'),
+          search: document.getElementById('search'),
+          onlyNew: document.getElementById('onlyNew')
+      };
+
+      const LIST_API='https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list';
+      const K_API ='https://www.binance.com/bapi/defi/v1/public/alpha-trade/klines';
+      const nf0=new Intl.NumberFormat('en-US',{maximumFractionDigits:0});
+      const nf2=new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      const FAV_KEY='alphaFavs',CONCURRENCY=5;
+      const THIRTY_DAYS = 30*24*60*60*1000;
+      
+      const fmtShort=ts=>new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Phnom_Penh',hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit' }).format(new Date(ts)).replace(/\//g,'-');
+      const fmtFull=ts=>new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Phnom_Penh',hour12:false,year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit',minute:'2-digit',second:'2-digit' }).format(new Date(ts)).replace(/\//g,'-');
+      const nearest8UTC=()=>{ const n=new Date(),b=new Date(); b.setHours(8,0,0,0); if(n<b)b.setDate(b.getDate()-1); return b.getTime(); };
+
+      function showToast(msgKey){
+        const msg = translations[currentLanguage][msgKey] || msgKey;
+        av.toast.textContent=msg;av.toast.style.opacity='1';
+        setTimeout(()=>av.toast.style.opacity='0',3000);
+      }
+      
+      function pLimit(n){
+        const q=[];let run=0;
+        const next=()=>{if(run>=n||!q.length)return;run++;q.shift()().finally(()=>{run--;next();});};
+        return fn=>new Promise(res=>{q.push(()=>fn().then(res));next();});
+      }
+
+      const limit=pLimit(CONCURRENCY);
+
+      async function qv(sym,start,end){
+        if(start>=end)return 0;
+        const url=`${K_API}?symbol=${sym}&interval=1h&startTime=${start}&endTime=${end}&limit=1500`;
+        try{
+          const {data=[]}=await fetch(url).then(r=>r.json());
+          return data.reduce((s,k)=>s+parseFloat(k[7]),0);
+        }catch{return 0;}
+      }
+
+      async function fillQVAll(list,today8,yest8,endTs){
+        let done=0,total=list.length;
+        av.progressEl.style.display='inline-block';
+        await Promise.all(list.map(r=>limit(async()=>{
+          [r.todayQV,r.prevQV]=await Promise.all([
+            qv(r.sym,today8,endTs),
+            qv(r.sym,yest8,today8-1)
+          ]);
+          av.progressEl.textContent=`${Math.floor(++done/total*100)}%`;
+        })));
+        av.progressEl.style.display='none';
+      }
+      const favs=()=>JSON.parse(localStorage.getItem(FAV_KEY)||'[]');
+      function toggleFav(sym){
+        const f=favs();const i=f.indexOf(sym);
+        i>-1?f.splice(i,1):f.push(sym);
+        localStorage.setItem(FAV_KEY,JSON.stringify(f));
+        showToast(i>-1?'toastFavRemoved':'toastFavAdded');
+        renderAlphaVolume();
+      }
+
+      async function fetchList(){
+        const resp=await fetch(LIST_API);
+        if(!resp.ok)throw new Error('LIST_API Error');
+        const {data=[]}=await resp.json();
+        return data
+          .filter(t=>+t.volume24h>0)
+          .map(t=>{
+            const raw = Number(t.listingTime || 0);
+            const ltMs = raw ? (raw < 1e12 ? raw*1000 : raw) : 0;
+            const isNew = ltMs ? (Date.now() - ltMs) <= THIRTY_DAYS : false;
+            return {
+              price:+t.price, vol24h:+t.volume24h, chg:+t.percentChange24h,
+              symbol:t.symbol, icon:t.iconUrl, sym:`${t.alphaId}USDT`,
+              todayQV:0, prevQV:0, listingTime: ltMs,
+              listingTimeFmt: ltMs ? fmtFull(ltMs) : '', isNew
+            };
+          });
+      }
+
+      function sortRows(arr){
+        const { sortKey, sortDir } = alphaVolumeState;
+        return [...arr].sort((a,b)=>sortDir==='desc'?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey]);
+      }
+      function updateSortIcons(){
+        document.querySelectorAll('#alphaVolumeCard th.sortable').forEach(th=>{
+          th.classList.remove('asc','desc');
+          if(th.dataset.key===alphaVolumeState.sortKey)th.classList.add(alphaVolumeState.sortDir);
+        });
+      }
+
+      function renderAlphaVolume(){
+        const { rows, filter, showNewOnly } = alphaVolumeState;
+        const favSet=new Set(favs());
+        const filtered=rows.filter(r=>{
+          const matched = r.symbol.toLowerCase().includes(filter)||r.sym.toLowerCase().includes(filter);
+          const newOk = !showNewOnly || r.isNew;
+          return matched && newOk;
+        });
+        const sorted=sortRows(filtered);
+        const display=[...sorted.filter(x=>favSet.has(x.sym)),...sorted.filter(x=>!favSet.has(x.sym))];
+
+        if (display.length === 0) {
+            av.tbody.innerHTML = `<tr><td colspan="8">${translations[currentLanguage].loadingText}</td></tr>`;
+            return;
+        }
+        
+        const newIconSVG = `<svg class="new-token-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g clip-path="url(#clip0_5610_132428)"><path d="M7.37207 11.751L8.01953 10.6709H9.61914L8.19531 12.8076L9.65137 14.999H8.01953L7.34766 13.8711L6.66797 14.999H5.06738L6.52344 12.8232L5.09961 10.6709H6.73145L7.37207 11.751ZM14.292 12.751H15.0039V13.9111H14.292V14.999H12.7959V13.9111H10.0762L9.82812 12.8154L12.7314 9.35938H14.292V12.751ZM11.4521 12.7598H12.7959V11.1436L11.4521 12.7598ZM6.33691 1.06641C9.25713 1.06641 11.6034 3.48064 11.6035 6.43164C11.6035 7.13375 11.4705 7.80634 11.2285 8.42285C11.1585 8.60111 11.0798 8.77514 10.9922 8.94336C10.8391 9.23715 10.4765 9.35130 10.1826 9.19824C9.88877 9.04515 9.77466 8.68253 9.92773 8.38867C9.99581 8.25796 10.0569 8.12292 10.1113 7.98438C10.2993 7.50559 10.4033 6.98168 10.4033 6.43164C10.4032 4.11956 8.57088 2.26660 6.33691 2.26660C4.10309 2.26678 2.27165 4.11967 2.27148 6.43164C2.27157 7.71656 2.83807 8.86268 3.72754 9.62598C3.97903 9.84172 4.00774 10.2212 3.79199 10.4727C3.57625 10.7236 3.19859 10.7525 2.94727 10.5371C1.79931 9.55232 1.0704 8.07674 1.07031 6.43164C1.07048 3.48075 3.41685 1.06658 6.33691 1.06641ZM5.54102 4C6.17511 4 6.55894 4.30508 6.83301 4.64355V4.09863H8.32129V6.94043C8.3214 7.27051 8.46233 7.39453 8.74414 7.39453C8.82242 7.39452 8.909 7.38565 9.00293 7.36914V8.50098C8.81506 8.55877 8.53282 8.63275 8.21191 8.63281C7.60891 8.63281 7.22504 8.40144 7.04492 7.93066C6.73167 8.38492 6.26913 8.66602 5.61914 8.66602C4.53071 8.66589 3.66895 7.78225 3.66895 6.35352V6.33691C3.66903 4.88345 4.53869 4.00003 5.54102 4ZM5.99512 5.30469C5.52539 5.30478 5.12611 5.72588 5.12598 6.32031V6.33691C5.12598 6.93151 5.52531 7.35245 5.99512 7.35254C6.48065 7.35254 6.86426 6.93157 6.86426 6.33691V6.32031C6.86413 5.72581 6.48057 5.30469 5.99512 5.30469Z" fill="currentColor"></path></g><defs><clipPath id="clip0_5610_132428"><rect width="15.9992" height="15.9992" fill="white"></rect></clipPath></defs></svg>`;
+
+        av.tbody.innerHTML=display.map((t,i)=>`
+          <tr data-sym="${t.sym}">
+            <td class="star ${favSet.has(t.sym)?'fav':''}">${favSet.has(t.sym)?'★':'☆'}</td>
+            <td>${i+1}</td>
+            <td title="${t.listingTimeFmt ? ('${translations[currentLanguage].tableHeaderToken}：'+t.listingTimeFmt) : ''}">
+              <img class="logo" loading="lazy" src="${t.icon}" referrerpolicy="no-referrer" onerror="this.src='https://bin.bnbstatic.com/static/images/common/base-token-default.png'">
+              ${t.symbol}
+              ${t.isNew ? `<span title="New: ${t.listingTimeFmt}">${newIconSVG}</span>` : ''}
+            </td>
+            <td>${nf2.format(t.price)}</td>
+            <td>${nf0.format(t.vol24h)}</td>
+            <td class="${t.chg>=0?'up':'down'}">${t.chg.toFixed(2)}%</td>
+            <td>${t.todayQV?nf0.format(t.todayQV):'…'}</td>
+            <td>${t.prevQV?nf0.format(t.prevQV):'…'}</td>
+          </tr>
+        `).join('');
+        updateSortIcons();
+      }
+
+      async function reloadAllAlphaVolume(fetchData = true){
+        av.refreshBtn.disabled=true;av.progressEl.textContent='0%';
+        const today8=nearest8UTC(),yest8=today8-864e5,endTs=Date.now();
+
+        const todayText = translations[currentLanguage].tableHeaderTodayVol;
+        const prevText = translations[currentLanguage].tableHeaderPrevVol;
+        av.thToday.innerHTML=`${todayText}<span class="subl">(${fmtShort(today8)}&nbsp;~&nbsp;${fmtShort(endTs)})</span>`;
+        av.thPrev.innerHTML =`${prevText}<span class="subl">(${fmtShort(yest8)}&nbsp;~&nbsp;${fmtShort(today8-1)})</span>`;
+
+        try{
+          if (fetchData) {
+            alphaVolumeState.rows=await fetchList();
+            await fillQVAll(alphaVolumeState.rows,today8,yest8,endTs);
+          }
+          renderAlphaVolume();
+          const time = fmtFull(Date.now());
+          av.lastUpEl.textContent = translations[currentLanguage].lastUpdated.replace('{time}', time);
+          alphaVolumeState.boundary = today8;
+        }catch(e){
+          console.error(e);
+          av.tbody.innerHTML=`<tr><td colspan="8">${translations[currentLanguage].loadFailedText}</td></tr>`;
+          showToast('loadFailedText');
+        }finally{
+          av.refreshBtn.disabled=false;
+        }
+      }
+
+      function functionToRunOnDOMLoad() {
+         /* --- Alpha Volume Listeners --- */
+        av.search.addEventListener('input',e=>{
+          alphaVolumeState.filter=e.target.value.trim().toLowerCase();renderAlphaVolume();
+        });
+        av.tbody.addEventListener('click',e=>{
+          const s=e.target.closest('.star');
+          if(s){s.classList.add('bounce');setTimeout(()=>s.classList.remove('bounce'),150);toggleFav(s.closest('tr').dataset.sym);}
+        });
+        document.querySelectorAll('#alphaVolumeCard th.sortable').forEach(th=>{
+          th.addEventListener('click',()=>{
+            const key=th.dataset.key;
+            alphaVolumeState.sortDir=(alphaVolumeState.sortKey===key&&alphaVolumeState.sortDir==='desc')?'asc':'desc';alphaVolumeState.sortKey=key;renderAlphaVolume();
+          });
+        });
+        av.onlyNew.addEventListener('change', (e)=>{
+          alphaVolumeState.showNewOnly = e.target.checked;
+          renderAlphaVolume();
+        });
+        av.refreshBtn.addEventListener('click', () => reloadAllAlphaVolume(true));
+        
+        reloadAllAlphaVolume(true);
+      }
+      /*--- Alpha Volume Script END ---*/
+
+
       document.addEventListener("DOMContentLoaded", () => {
         bodyEl.lang = currentLanguage;
         setDarkModeIcon();
 
-        if (bnbChainToggleEl) {
-          bnbChainToggleEl.checked = true;
+        if(av.onlyNew) {
+            av.onlyNew.checked = true;
         }
 
-        // Logic to make checkboxes mutually exclusive
-        bnbChainToggleEl.addEventListener('change', () => {
-            if (bnbChainToggleEl.checked) {
-                cexLimitToggleEl.checked = false;
-            }
-        });
-
-        cexLimitToggleEl.addEventListener('change', () => {
-            if (cexLimitToggleEl.checked) {
-                bnbChainToggleEl.checked = false;
-            }
-        });
+        const bonusOptionsContainer = document.getElementById('bonusOptions');
+        if (bonusOptionsContainer) {
+            const bonusButtons = bonusOptionsContainer.querySelectorAll('.bonus-button');
+            bonusButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    bonusButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+        }
 
 
         document.querySelectorAll(".neobrutalist-card").forEach((card) => {
@@ -2171,8 +2191,8 @@
 
             if (contentElement && iconElement) {
               let isInitiallyOpen =
-                cardId === "volumeCalcCard" ||
-                cardId === "alphaScoreSimulatorCard";
+                cardId === "alphaScoreSimulatorCard" ||
+                cardId === "alphaVolumeCard";
 
               if (cardId === "summaryCard" || cardId === "resultsCard") {
                 if (card) card.classList.add("hidden");
@@ -2180,9 +2200,11 @@
                 toggleButton.setAttribute("aria-expanded", "false");
                 iconElement.setAttribute("data-lucide", "chevron-down");
               } else if (isInitiallyOpen) {
-                contentElement.classList.remove("hidden");
-                toggleButton.setAttribute("aria-expanded", "true");
-                iconElement.setAttribute("data-lucide", "chevron-up");
+                 if(cardId === "alphaVolumeCard") { // Make sure alpha volume is open
+                    contentElement.classList.remove("hidden");
+                    toggleButton.setAttribute("aria-expanded", "true");
+                    iconElement.setAttribute("data-lucide", "chevron-up");
+                 }
               } else {
                 contentElement.classList.add("hidden");
                 toggleButton.setAttribute("aria-expanded", "false");
@@ -2191,32 +2213,14 @@
             }
           }
         });
-
+        
+        functionToRunOnDOMLoad();
         lucide.createIcons();
         updateUIText();
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
 
-        if (swapCardEl) {
-          setupTokenSection(
-            document.getElementById("tokenKogeIcon"),
-            document.getElementById("tokenKogePlaceholder"),
-            document.getElementById("tokenKogeName"),
-            tokenData.koge
-          );
-          setupTokenSection(
-            document.getElementById("tokenBrIcon"),
-            document.getElementById("tokenBrPlaceholder"),
-            document.getElementById("tokenBrName"),
-            tokenData.br
-          );
-          setupTokenSection(
-            document.getElementById("tokenOikIcon"),
-            document.getElementById("tokenOikPlaceholder"),
-            document.getElementById("tokenOikName"),
-            tokenData.oik
-          );
-        }
       });
     </script>
   </body>
 </html>
+
