@@ -678,6 +678,14 @@
       /* END: Trades Needed Value Style */
 
       /* START: Alpha Volume Card Styles */
+       @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .spinning {
+        animation: spin 1s linear infinite;
+      }
+
       #alphaVolumeCard .last-up{ text-align:left;font-size:.8rem;color:var(--disclaimer-text-light);margin-bottom:12px }
       body.dark-mode #alphaVolumeCard .last-up { color: var(--disclaimer-text-dark); }
 
@@ -697,9 +705,15 @@
         background-color: var(--card-bg-light);
         font-weight: 500;
         color: var(--text-light);
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
       }
-      body.dark-mode #alphaVolumeCard #bar-left input, body.dark-mode #alphaVolumeCard #rangeBtn, body.dark-mode #alphaVolumeCard #refreshBtn {
-        background-color: var(--card-bg-dark);
+       #alphaVolumeCard #bar-left input:focus {
+        outline: none;
+        box-shadow: 3px 3px 0px var(--shadow-color);
+        transform: translate(-1px, -1px);
+      }
+      body.dark-mode #alphaVolumeCard #bar-left input {
+        background-color: var(--bg-dark);
         color: var(--text-dark);
       }
        #alphaVolumeCard #rangeBtn, #alphaVolumeCard #refreshBtn {
@@ -707,11 +721,26 @@
          color: var(--button-primary-text-light);
          cursor: pointer;
          font-weight: 600;
+         display: inline-flex;
+         align-items: center;
+         gap: 0.35rem;
        }
        body.dark-mode #alphaVolumeCard #rangeBtn, body.dark-mode #alphaVolumeCard #refreshBtn {
          background-color: var(--button-primary-bg-dark);
          color: var(--button-primary-text-dark);
        }
+       #alphaVolumeCard #refreshBtn:not([disabled]):hover {
+        background-color: var(--button-primary-hover-bg-light);
+        transform: translate(-2px, -2px);
+        box-shadow: 2px 2px 0px var(--shadow-color);
+      }
+      body.dark-mode #alphaVolumeCard #refreshBtn:not([disabled]):hover {
+          background-color: var(--button-primary-hover-bg-dark);
+      }
+      #alphaVolumeCard #refreshBtn:not([disabled]):active {
+          transform: translate(1px, 1px);
+          box-shadow: 1px 1px 0px var(--shadow-color);
+      }
         #alphaVolumeCard .btn[disabled]{background:#9ca3af;border-color:#9ca3af;cursor:not-allowed}
       #alphaVolumeCard .badge{
         display:none;padding:0 6px;border-radius:10px;font-size:.7rem;font-weight:700;
@@ -1258,8 +1287,10 @@
           <div id="bar">
             <div id="bar-left">
               <input id="search" type="search" data-translate-placeholder="searchPlaceholder">
-              <button id="refreshBtn" class="btn" data-translate="refreshButton">
-                <span id="progress" class="badge">0%</span>
+              <button id="refreshBtn" class="btn">
+                  <i data-lucide="rotate-cw" id="refreshIcon" class="w-4 h-4"></i>
+                  <span data-translate="refreshButton">Refresh Data</span>
+                  <span id="progress" class="badge">0%</span>
               </button>
             </div>
           </div>
@@ -1361,7 +1392,7 @@
           alphaVolumeTitle: "Alpha Volume Board",
           lastUpdated: "Last Updated: {time}",
           searchPlaceholder: "🔍 Filter by Token Name / Symbol…",
-          refreshButton: "⟳ Refresh Data",
+          refreshButton: "Refresh Data",
           onlyNewCheckbox: "Only show tokens listed in last 30 days",
           tableHeaderRank: "#",
           tableHeaderToken: "Token",
@@ -1441,7 +1472,7 @@
           alphaVolumeTitle: "តារាងបរិមាណអាល់ហ្វា",
           lastUpdated: "បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ៖ {time}",
           searchPlaceholder: "🔍 តម្រងតាមឈ្មោះ / និមិត្តសញ្ញា…",
-          refreshButton: "⟳ ផ្ទុកទិន្នន័យឡើងវិញ",
+          refreshButton: "ផ្ទុកទិន្នន័យឡើងវិញ",
           onlyNewCheckbox: "បង្ហាញតែថូខឹនដែលបានចុះក្នុងរយៈពេល 30 ថ្ងៃចុងក្រោយ",
           tableHeaderRank: "#",
           tableHeaderToken: "ថូខឹន",
@@ -1583,12 +1614,6 @@
                 textSpan.textContent = translationText;
               }
             } else if (
-              element.classList.contains("slippage-badge") ||
-              element.classList.contains("wallet-badge") ||
-              element.classList.contains("token-swap-additional-info")
-            ) {
-              element.innerHTML = translationText;
-            } else if (
               element.tagName === "LI" &&
               element.parentElement &&
               element.parentElement.id === "guideList"
@@ -1699,12 +1724,6 @@
       }
 
       languageToggleButton.addEventListener("click", toggleLanguage);
-
-      darkModeToggle.addEventListener("click", () => {
-        isDarkMode = !isDarkMode;
-        bodyEl.classList.toggle("dark-mode", isDarkMode);
-        setDarkModeIcon();
-      });
 
       simulateButtonEl.addEventListener("click", runSimulation);
 
@@ -2091,7 +2110,11 @@
       }
 
       async function reloadAllAlphaVolume(fetchData = true){
-        av.refreshBtn.disabled=true;av.progressEl.textContent='0%';
+        const refreshIcon = document.getElementById('refreshIcon');
+        if (refreshIcon) refreshIcon.classList.add('spinning');
+        
+        av.refreshBtn.disabled=true;
+        av.progressEl.textContent='0%';
         const today8=nearest8UTC(),yest8=today8-864e5,endTs=Date.now();
 
         const todayText = translations[currentLanguage].tableHeaderTodayVol;
@@ -2113,6 +2136,7 @@
           av.tbody.innerHTML=`<tr><td colspan="8">${translations[currentLanguage].loadFailedText}</td></tr>`;
           showToast('loadFailedText');
         }finally{
+          if (refreshIcon) refreshIcon.classList.remove('spinning');
           av.refreshBtn.disabled=false;
         }
       }
@@ -2145,7 +2169,28 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         bodyEl.lang = currentLanguage;
-        setDarkModeIcon();
+
+        // --- START THEME LOGIC ---
+        function applyTheme(isDark) {
+            isDarkMode = isDark;
+            bodyEl.classList.toggle("dark-mode", isDarkMode);
+            setDarkModeIcon();
+        }
+
+        // Check for system preference for dark mode
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+        // Set initial theme based on system preference
+        applyTheme(prefersDarkScheme.matches);
+        
+        // Listen for changes in system preference to auto-update the theme
+        prefersDarkScheme.addEventListener("change", (e) => {
+            applyTheme(e.matches);
+        });
+        
+        // Manual toggle overrides system preference for the session
+        darkModeToggle.addEventListener("click", () => applyTheme(!isDarkMode));
+        // --- END THEME LOGIC ---
 
         if(av.onlyNew) {
             av.onlyNew.checked = true;
@@ -2193,6 +2238,13 @@
               let isInitiallyOpen =
                 cardId === "alphaScoreSimulatorCard" ||
                 cardId === "alphaVolumeCard";
+              
+              if(cardId === "volumeCalcCard"){
+                  isInitiallyOpen = false;
+              }
+              if(cardId === "alphaVolumeCard"){
+                  isInitiallyOpen = true;
+              }
 
               if (cardId === "summaryCard" || cardId === "resultsCard") {
                 if (card) card.classList.add("hidden");
@@ -2200,11 +2252,9 @@
                 toggleButton.setAttribute("aria-expanded", "false");
                 iconElement.setAttribute("data-lucide", "chevron-down");
               } else if (isInitiallyOpen) {
-                 if(cardId === "alphaVolumeCard") { // Make sure alpha volume is open
-                    contentElement.classList.remove("hidden");
-                    toggleButton.setAttribute("aria-expanded", "true");
-                    iconElement.setAttribute("data-lucide", "chevron-up");
-                 }
+                contentElement.classList.remove("hidden");
+                toggleButton.setAttribute("aria-expanded", "true");
+                iconElement.setAttribute("data-lucide", "chevron-up");
               } else {
                 contentElement.classList.add("hidden");
                 toggleButton.setAttribute("aria-expanded", "false");
