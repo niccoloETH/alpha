@@ -55,7 +55,7 @@
         --button-toggle-text-dark: #f3f4f6;
         --button-toggle-icon-dark: #ffffff;
         --summary-card-bg-dark: #facc15;
-        --summary-card-text-dark: var(--text-dark); /* Changed from #000000 */
+        --summary-card-text-dark: #1f2937; /* Using a dark gray for contrast on yellow in dark mode */
         --table-header-bg-dark: #34d399;
         --table-header-text-dark: #000000;
         --table-even-row-bg-dark: #374151;
@@ -338,28 +338,30 @@
       }
 
       .summary-card {
-        /* This is a specific card, will apply general neobrutalist-card and then specific header/content */
-        /* background-color already handled by neobrutalist-card and specific vars */
-      }
-      body.dark-mode .summary-card {
-        /* background-color already handled by neobrutalist-card and specific vars */
+        margin-top: 1rem;
       }
       .summary-text {
-        /* This is the content of summary card */
         font-size: 1.125rem;
         font-weight: 700;
         text-align: center;
-        color: var(
-          --summary-card-text-light
-        ); /* Ensure text color is applied */
+        padding: 1rem;
+        background-color: var(--summary-card-bg-light);
+        color: var(--summary-card-text-light);
+        border: 3px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 6px 6px 0px var(--shadow-color);
       }
       body.dark-mode .summary-text {
+        background-color: var(--summary-card-bg-dark);
         color: var(--summary-card-text-dark);
+      }
+      
+      .results-card {
+          margin-top: 1rem;
       }
 
       .results-table {
         width: 100%;
-        /* margin-top: 1rem;  This margin will be part of card-content padding */
         border-collapse: collapse;
         font-size: 0.875rem;
         border: 3px solid var(--border-color);
@@ -439,23 +441,13 @@
         margin-bottom: 1rem;
         flex-wrap: nowrap; /* UPDATED */
       }
-      #alphaScoreSimulatorCard .card-header h1, /* Targeting specific h1 */
-      #resultsCard .card-header h2, 
-      #guideCard .card-header h2, 
-      #volumeCalcCard .card-header h2,
-      #alphaVolumeCard .card-header h1,
-      #summaryCard .card-header h2 {
-        /* Targeting title in summary card header */
+      
+      #guideCard .card-header h2 {
         color: var(--text-light);
         transition: color 0.3s;
         flex-grow: 1; /* Allow title to take space */
       }
-      body.dark-mode #alphaScoreSimulatorCard .card-header h1,
-      body.dark-mode #resultsCard .card-header h2,
-      body.dark-mode #guideCard .card-header h2,
-      body.dark-mode #volumeCalcCard .card-header h2,
-      body.dark-mode #alphaVolumeCard .card-header h1,
-      body.dark-mode #summaryCard .card-header h2 {
+      body.dark-mode #guideCard .card-header h2 {
         color: var(--text-dark);
       }
 
@@ -665,7 +657,7 @@
         color: #000; /* Black text on yellow looks better in dark mode too */
         background-image: linear-gradient(to right, #F0B90B, #F8D33A);
       }
-       /* END: Highlight Text Animation Styles */
+      /* END: Highlight Text Animation Styles */
 
       /* START: Trades Needed Value Style */
       .trades-needed-highlight {
@@ -678,7 +670,7 @@
       /* END: Trades Needed Value Style */
 
       /* START: Alpha Volume Card Styles */
-       @keyframes spin {
+      @keyframes spin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
@@ -686,18 +678,18 @@
         animation: spin 1s linear infinite;
       }
 
-      #alphaVolumeCard .last-up{ text-align:left;font-size:.8rem;color:var(--disclaimer-text-light);margin-bottom:12px }
-      body.dark-mode #alphaVolumeCard .last-up { color: var(--disclaimer-text-dark); }
+      #alphaVolumeContent .last-up{ text-align:left;font-size:.8rem;color:var(--disclaimer-text-light);margin-bottom:12px }
+      body.dark-mode #alphaVolumeContent .last-up { color: var(--disclaimer-text-dark); }
 
-      #alphaVolumeCard #bar{
+      #alphaVolumeContent #bar{
         display:flex;flex-wrap:wrap;align-items:center;gap:8px;
         padding: 0; margin-bottom: 1rem;
       }
-      #alphaVolumeCard #bar-left{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-      #alphaVolumeCard #bar-left input { flex:1;min-width:160px }
-      #alphaVolumeCard #bar-left input[type="text"]{width:120px}
-      #alphaVolumeCard #bar-left input[type="datetime-local"]{width:190px}
-      #alphaVolumeCard #bar-left input, #alphaVolumeCard #rangeBtn, #alphaVolumeCard #refreshBtn {
+      #alphaVolumeContent #bar-left{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+      #alphaVolumeContent #bar-left input { flex:1;min-width:160px }
+      #alphaVolumeContent #bar-left input[type="text"]{width:120px}
+      #alphaVolumeContent #bar-left input[type="datetime-local"]{width:190px}
+      #alphaVolumeContent #bar-left input, #alphaVolumeContent #rangeBtn, #alphaVolumeContent #refreshBtn {
         padding: 0.5rem;
         border: 2px solid var(--border-color);
         border-radius: 0.375rem;
@@ -707,16 +699,16 @@
         color: var(--text-light);
         transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.3s, color 0.3s;
       }
-       #alphaVolumeCard #bar-left input:focus {
+       #alphaVolumeContent #bar-left input:focus {
         outline: none;
         box-shadow: 3px 3px 0px var(--shadow-color);
         transform: translate(-1px, -1px);
       }
-      body.dark-mode #alphaVolumeCard #bar-left input {
+      body.dark-mode #alphaVolumeContent #bar-left input {
         background-color: var(--bg-dark);
         color: var(--text-dark);
       }
-       #alphaVolumeCard #rangeBtn, #alphaVolumeCard #refreshBtn {
+       #alphaVolumeContent #rangeBtn, #alphaVolumeContent #refreshBtn {
          background-color: var(--button-primary-bg-light);
          color: var(--button-primary-text-light);
          cursor: pointer;
@@ -725,59 +717,63 @@
          align-items: center;
          gap: 0.35rem;
        }
-       body.dark-mode #alphaVolumeCard #rangeBtn, body.dark-mode #alphaVolumeCard #refreshBtn {
+       body.dark-mode #alphaVolumeContent #rangeBtn, body.dark-mode #alphaVolumeContent #refreshBtn {
          background-color: var(--button-primary-bg-dark);
          color: var(--button-primary-text-dark);
        }
-       #alphaVolumeCard #refreshBtn:not([disabled]):hover {
+       #alphaVolumeContent #refreshBtn:not([disabled]):hover {
         background-color: var(--button-primary-hover-bg-light);
         transform: translate(-2px, -2px);
         box-shadow: 2px 2px 0px var(--shadow-color);
       }
-      body.dark-mode #alphaVolumeCard #refreshBtn:not([disabled]):hover {
-          background-color: var(--button-primary-hover-bg-dark);
+      body.dark-mode #alphaVolumeContent #refreshBtn:not([disabled]):hover {
+         background-color: var(--button-primary-hover-bg-dark);
       }
-      #alphaVolumeCard #refreshBtn:not([disabled]):active {
-          transform: translate(1px, 1px);
-          box-shadow: 1px 1px 0px var(--shadow-color);
+      #alphaVolumeContent #refreshBtn:not([disabled]):active {
+         transform: translate(1px, 1px);
+         box-shadow: 1px 1px 0px var(--shadow-color);
       }
-        #alphaVolumeCard .btn[disabled]{background:#9ca3af;border-color:#9ca3af;cursor:not-allowed}
-      #alphaVolumeCard .badge{
+        #alphaVolumeContent .btn[disabled]{background:#9ca3af;border-color:#9ca3af;cursor:not-allowed}
+      #alphaVolumeContent .badge{
         display:none;padding:0 6px;border-radius:10px;font-size:.7rem;font-weight:700;
         background:#fff;color:var(--button-primary-bg-light);
       }
       
-      #alphaVolumeCard #tokenTable{ width:100%; border-collapse:collapse;min-width:600px; overflow-x: auto; }
-      #alphaVolumeCard th,#alphaVolumeCard td{
-        padding:10px 6px;border-bottom:1px solid var(--grid-line-color-light);
-        font-size:.85rem;text-align:left;white-space:nowrap
+      #alphaVolumeContent #tokenTable{ width:100%; border-collapse:collapse;min-width:600px; overflow-x: auto; }
+      #alphaVolumeContent th,#alphaVolumeContent td{
+        padding: 4px; /* MINIMALIST: Further reduced padding */
+        border-bottom:1px solid var(--grid-line-color-light);
+        font-size: .75rem; /* MINIMALIST: Further reduced font size */
+        text-align:left;
+        white-space:nowrap;
+        vertical-align: middle;
       }
-      body.dark-mode #alphaVolumeCard th, body.dark-mode #alphaVolumeCard td { border-bottom-color: var(--grid-line-color-dark); }
-      #alphaVolumeCard tbody tr:hover{background:rgba(0,0,0,.04);cursor:pointer}
-      body.dark-mode #alphaVolumeCard tbody tr:hover{ background: rgba(255,255,255,0.04); }
-      #alphaVolumeCard th { font-weight: 700; }
-      #alphaVolumeCard th.sortable{cursor:pointer;user-select:none;position:relative}
-      #alphaVolumeCard th.sortable::after{
+      body.dark-mode #alphaVolumeContent th, body.dark-mode #alphaVolumeContent td { border-bottom-color: var(--grid-line-color-dark); }
+      #alphaVolumeContent tbody tr:hover{background:rgba(0,0,0,.04);cursor:pointer}
+      body.dark-mode #alphaVolumeContent tbody tr:hover{ background: rgba(255,255,255,0.04); }
+      #alphaVolumeContent th { font-weight: 700; }
+      #alphaVolumeContent th.sortable{cursor:pointer;user-select:none;position:relative}
+      #alphaVolumeContent th.sortable::after{
         content:'▲';position:absolute;right:4px;font-size:.6rem;color: var(--text-light);
         transform:scale(.8);opacity:0;transition:opacity .2s
       }
-      body.dark-mode #alphaVolumeCard th.sortable::after { color: var(--text-dark); }
-      #alphaVolumeCard th.sortable.desc::after{content:'▼';opacity:1}
-      #alphaVolumeCard th.sortable.asc::after{content:'▲';opacity:1}
-      #alphaVolumeCard .star{cursor:pointer;font-size:1rem;color:var(--disclaimer-text-light);user-select:none;transition:transform .15s,color .15s}
-      #alphaVolumeCard .star.fav{color:#f7b500}.star.bounce{transform:scale(1.4)}
-      #alphaVolumeCard .logo{width:18px;height:18px;margin-right:4px;vertical-align:middle;border-radius:50%}
-      #alphaVolumeCard .up{color:#16a34a}
-      #alphaVolumeCard .down{color:#dc2626}
-      #alphaVolumeCard .subl{display:block;font-size:.72rem;color:var(--disclaimer-text-light)}
-      body.dark-mode #alphaVolumeCard .subl { color: var(--disclaimer-text-dark); }
+      body.dark-mode #alphaVolumeContent th.sortable::after { color: var(--text-dark); }
+      #alphaVolumeContent th.sortable.desc::after{content:'▼';opacity:1}
+      #alphaVolumeContent th.sortable.asc::after{content:'▲';opacity:1}
+      #alphaVolumeContent .star{cursor:pointer;font-size:.85rem;color:var(--disclaimer-text-light);user-select:none;transition:transform .15s,color .15s} /* MINIMALIST: Reduced size */
+      #alphaVolumeContent .star.fav{color:#f7b500}.star.bounce{transform:scale(1.4)}
+      #alphaVolumeContent .logo{width:14px;height:14px;margin-right:4px;vertical-align:middle;border-radius:50%} /* MINIMALIST: Reduced size */
+      #alphaVolumeContent .up{color:#16a34a}
+      #alphaVolumeContent .down{color:#dc2626}
+      #alphaVolumeContent .subl{display:block;font-size:.7rem;color:var(--disclaimer-text-light)} /* MINIMALIST: Reduced size */
+      body.dark-mode #alphaVolumeContent .subl { color: var(--disclaimer-text-dark); }
       
       .new-token-icon {
           display: inline-block;
-          width: 16px;
-          height: 16px;
+          width: 14px; /* MINIMALIST: Reduced size */
+          height: 14px; /* MINIMALIST: Reduced size */
           vertical-align: middle;
-          margin-left: 6px;
+          margin-left: 4px; /* MINIMALIST: Reduced margin */
           color: var(--summary-card-bg-light); /* Yellow */
       }
        .bsc-icon-bonus {
@@ -799,7 +795,7 @@
       }
       #customVol{ margin: 1rem 0;font-size:.9rem;color:var(--button-primary-bg-light)}
       body.dark-mode #customVol { color: #93c5fd; }
-       p.bonus-remark {
+      p.bonus-remark {
         font-size: 0.75rem;
         color: var(--bnb-bonus-text-light);
         padding-left: 0.25rem;
@@ -840,9 +836,70 @@
       }
       /* END: Alpha Volume Card Styles */
 
+      /* START: Tab Styles */
+      .tab-navigation {
+        display: flex;
+        border-bottom: 3px solid var(--border-color);
+      }
+      .tab-button {
+        flex: 1;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-align: center;
+        background-color: var(--card-bg-light);
+        color: var(--text-light);
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s, border-bottom-color 0.2s;
+        border-right: 3px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-bottom: 3px solid transparent;
+        transform: translateY(3px); /* To align with the bottom border of the nav */
+      }
+      .tab-button:last-child {
+        border-right: none;
+      }
+      body.dark-mode .tab-button {
+        background-color: var(--card-bg-dark);
+        color: var(--text-dark);
+      }
+      .tab-button:hover {
+        background-color: var(--card-header-hover-bg-light);
+      }
+      body.dark-mode .tab-button:hover {
+        background-color: var(--card-header-hover-bg-dark);
+      }
+      .tab-button.active {
+        background-color: var(--bg-light);
+        color: var(--button-primary-bg-light);
+        border-bottom-color: var(--button-primary-bg-light);
+      }
+      body.dark-mode .tab-button.active {
+        background-color: var(--bg-dark);
+        color: var(--button-primary-bg-dark);
+        border-bottom-color: var(--button-primary-bg-dark);
+      }
+      .tab-button .lucide {
+        width: 24px;
+        height: 24px;
+      }
+
+      .tab-content {
+        display: none;
+        padding-top: 1rem;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      /* END: Tab Styles */
+
 
       @media (max-width: 760px){
-        #alphaVolumeCard #bar-left input[type="datetime-local"]{flex:1;min-width:140px}
+        #alphaVolumeContent #bar-left input[type="datetime-local"]{flex:1;min-width:140px}
       }
 
       @media (max-width: 640px) {
@@ -862,7 +919,7 @@
           padding: 0.3rem;
           font-size: 0.75rem;
         }
-       
+        
         .slippage-badge,
         .wallet-badge {
           font-size: 0.75rem;
@@ -871,7 +928,7 @@
         #guideCard li {
           font-size: 0.8rem;
         }
-       
+        
         .toggle-container {
           flex-direction: column;
           align-items: flex-start;
@@ -959,363 +1016,296 @@
         </div>
       </div>
 
-      <!-- Volume Points Trade Calculator Card -->
-      <div id="volumeCalcCard" class="neobrutalist-card">
-        <div class="card-header" data-collapsible-target="volumeCalcContent">
-          <h2 class="text-xl font-semibold" data-translate="volumeCalcTitle">
-            Volume Points Trade Calculator
-          </h2>
-          <button
-            aria-label="Toggle volume calculator content"
-            aria-expanded="false"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-down" class="card-toggle-icon w-6 h-6"></i>
-          </button>
+      <!-- Main Tools Tabbed Interface -->
+      <div class="neobrutalist-card">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button" data-tab-target="#alphaVolumeContent">
+                <i data-lucide="trending-up"></i>
+                <span data-translate="alphaVolumeTitle">Alpha Volume</span>
+            </button>
+            <button class="tab-button" data-tab-target="#volumeCalcContent">
+                <i data-lucide="calculator"></i>
+                <span data-translate="volumeCalcTitleShort">Point Trade</span>
+            </button>
+            <button class="tab-button" data-tab-target="#alphaScoreContent">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="lucide" fill="currentColor">
+                    <g clip-path="url(#clip0_12751_9509)">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7315 10.9211V9.43274C11.6011 9.45446 11.4816 9.46533 11.3729 9.46533C10.9818 9.46533 10.7863 9.30237 10.7863 8.8678V5.13055H8.7221V5.84758C8.34186 5.40215 7.80952 5.00018 6.92953 5.00018C5.53892 5.00018 4.33301 6.16264 4.33301 8.07472V8.09645C4.33301 9.97594 5.52806 11.1384 7.03817 11.1384C7.93989 11.1384 8.58087 10.769 9.01543 10.1715C9.26531 10.7907 9.79765 11.0949 10.6342 11.0949C11.0796 11.0949 11.4707 10.9972 11.7315 10.9211ZM8.76556 8.07472C8.76556 8.85694 8.23322 9.41101 7.55965 9.41101C6.9078 9.41101 6.35373 8.85694 6.35373 8.07472V8.053C6.35373 7.27078 6.9078 6.71671 7.55965 6.71671C8.23322 6.71671 8.76556 7.27078 8.76556 8.053V8.07472Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.03219 2.167C4.8107 2.167 2.19917 4.77853 2.19917 8.00003C2.19917 11.2215 4.8107 13.8331 8.03219 13.8331C11.2537 13.8331 13.8652 11.2215 13.8652 8.00003C13.8652 4.77853 11.2537 2.167 8.03219 2.167ZM1.19922 8.00003C1.19922 4.22628 4.25844 1.16705 8.03219 1.16705C11.8059 1.16705 14.8652 4.22628 14.8652 8.00003C14.8652 11.7738 11.8059 14.833 8.03219 14.833C4.25844 14.833 1.19922 11.7738 1.19922 8.00003Z" fill="currentColor"></path>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_12751_9509">
+                            <rect width="15.9992" height="15.9992" fill="white" transform="translate(0 0.000427246)"></rect>
+                        </clipPath>
+                    </defs>
+                </svg>
+                <span data-translate="profitCalcTitle">Profit Calculator</span>
+            </button>
         </div>
-        <div id="volumeCalcContent" class="card-content pt-4 hidden">
-          <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
-            <div>
-              <label
-                for="initialInvestmentVolCalc"
-                class="input-label"
-                data-translate="initialInvestmentVolCalcLabel"
-                >Initial Investment (USD per trade)</label
-              >
-              <input
-                type="number"
-                id="initialInvestmentVolCalc"
-                class="input-field"
-                value="500"
-                min="1" />
+        
+        <!-- Tab Content Panels -->
+        <div class="p-4">
+            <!-- Alpha Volume Panel -->
+            <div id="alphaVolumeContent" class="tab-content">
+                <div class="flex justify-between items-center mb-4">
+                    <p id="lastUp" class="last-up" style="margin-bottom: 0;"></p>
+                    <div class="toggle-container" style="margin-bottom: 0;">
+                        <input type="checkbox" id="onlyNew" checked />
+                        <label for="onlyNew">
+                            <span class="custom-checkbox-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                            </span>
+                            <span data-translate="onlyNewCheckbox"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="bar">
+                    <div id="bar-left">
+                    <input id="search" type="search" data-translate-placeholder="searchPlaceholder">
+                    <button id="refreshBtn" class="btn">
+                        <i data-lucide="rotate-cw" id="refreshIcon" class="w-4 h-4"></i>
+                        <span data-translate="refreshButton">Refresh Data</span>
+                        <span id="progress" class="badge">0%</span>
+                    </button>
+                    </div>
+                </div>
+                <div id="customVol"></div>
+                <div class="overflow-x-auto">
+                    <table id="tokenTable">
+                    <thead>
+                        <tr>
+                        <th style="width:26px"></th>
+                        <th data-translate="tableHeaderRank"></th>
+                        <th data-translate="tableHeaderToken"></th>
+                        <th id="thPrice" data-translate="tableHeaderPrice"></th>
+                        <th id="thVol24h" class="sortable" data-key="vol24h" data-translate="tableHeaderVol24h"></th>
+                        <th data-translate="tableHeaderChange24h"></th>
+                        <th id="thToday" class="sortable" data-key="todayQV" data-translate="tableHeaderTodayVol"></th>
+                        <th id="thPrev" class="sortable" data-key="prevQV" data-translate="tableHeaderPrevVol"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="8" data-translate="loadingText"></td></tr>
+                    </tbody>
+                    </table>
+                </div>
             </div>
-            <div>
-              <label
-                for="targetVolumePointsCalc"
-                class="input-label"
-                data-translate="targetVolumePointsCalcLabel"
-                >Target Volume Points</label
-              >
-              <input
-                type="number"
-                id="targetVolumePointsCalc"
-                class="input-field"
-                value="14"
-                min="1" />
-            </div>
-          </div>
-          <label class="input-label" data-translate="bonusSelectionLabel">Bonus Option</label>
-          <div id="bonusOptions" class="flex w-full rounded-md border-2 border-[var(--border-color)] mb-2">
-              <button class="bonus-button flex-1 rounded-l-sm active" data-multiplier="1" data-translate="notNewTokenToggleLabel"></button>
-              <button class="bonus-button flex-1" data-multiplier="2" data-translate="otherChainToggleLabel"></button>
-              <button class="bonus-button flex-1 rounded-r-sm" data-multiplier="4" data-translate="bscChainToggleLabel" class="inline-flex items-center"></button>
-          </div>
-           <p class="bonus-remark" data-translate="bonusRemark"></p>
 
-          <button
-            id="calculateTradesButton"
-            class="simulate-button mt-4"
-            data-translate="calculateTradesButtonLabel">
-            Calculate Trades
-          </button>
+            <!-- Volume Calculator Panel -->
+            <div id="volumeCalcContent" class="tab-content">
+                <div id="volumeCalcErrorMessageContainer" class="mb-4"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 mb-2">
+                    <div>
+                    <label
+                        for="initialInvestmentVolCalc"
+                        class="input-label"
+                        data-translate="initialInvestmentVolCalcLabel"
+                        >Initial Investment (USD per trade)</label
+                    >
+                    <input
+                        type="number"
+                        id="initialInvestmentVolCalc"
+                        class="input-field"
+                        value="500"
+                        min="1" />
+                    </div>
+                    <div>
+                    <label
+                        for="targetVolumePointsCalc"
+                        class="input-label"
+                        data-translate="targetVolumePointsCalcLabel"
+                        >Target Volume Points</label
+                    >
+                    <input
+                        type="number"
+                        id="targetVolumePointsCalc"
+                        class="input-field"
+                        value="14"
+                        min="1" />
+                    </div>
+                </div>
+                <label class="input-label" data-translate="bonusSelectionLabel">Bonus Option</label>
+                <div id="bonusOptions" class="flex w-full rounded-md border-2 border-[var(--border-color)] mb-2">
+                    <button class="bonus-button flex-1 rounded-l-sm active" data-multiplier="1" data-translate="notNewTokenToggleLabel"></button>
+                    <button class="bonus-button flex-1" data-multiplier="2" data-translate="otherChainToggleLabel"></button>
+                    <button class="bonus-button flex-1 rounded-r-sm" data-multiplier="4" data-translate="bscChainToggleLabel" class="inline-flex items-center"></button>
+                </div>
+                <p class="bonus-remark" data-translate="bonusRemark"></p>
 
-          <div
-            id="volumeCalcResults"
-            class="mt-6 space-y-3"
-            style="display: none">
-            <div class="calc-result-item">
-              <span class="calc-result-label" data-translate="volCalcMsg1"
-                >Target:</span
-              >
-              <span class="calc-result-value"
-                ><strong id="targetPointsDisplayV"></strong>
-                <span data-translate="pointsUnit">points</span></span
-              >
-            </div>
-            <div class="calc-result-item">
-              <span class="calc-result-label" data-translate="volCalcMsg2"
-                >Standard trade volume for points:</span
-              >
-              <span class="calc-result-value"
-                >$<strong id="standardVolumeDisplayV"></strong
-              ></span>
-            </div>
-            <div
-              id="otherChainBonusResultItem"
-              class="calc-result-item"
-              style="display: none">
-              <span
-                class="calc-result-label bnb-bonus-text"
-                data-translate="otherChainBonusMsgLabel"
-                >Other Chain Bonus - Effective Volume:</span
-              >
-              <span class="calc-result-value bnb-bonus-text"
-                >$<strong id="effectiveOtherChainVolumeDisplayV"></strong
-              ></span>
-            </div>
-            <div
-              id="bscBonusResultItem"
-              class="calc-result-item"
-              style="display: none">
-              <span
-                class="calc-result-label bnb-bonus-text"
-                data-translate="bscBonusMsgLabel"
-                >BSC Bonus - Effective Volume:</span
-              >
-              <span class="calc-result-value bnb-bonus-text"
-                >$<strong id="effectiveBscVolumeDisplayV"></strong
-              ></span>
-            </div>
-            <div id="investmentResultItem" class="calc-result-item">
-              <span class="calc-result-label" data-translate="volCalcMsg3"
-                >Investment per Trade:</span
-              >
-              <span class="calc-result-value"
-                >$<strong id="investmentPerTradeDisplayV"></strong
-              ></span>
-            </div>
-            <div class="calc-result-item">
-              <!-- Reordered: Total Actual Volume before Trades Needed -->
-              <span class="calc-result-label" data-translate="volCalcMsg5"
-                >Total Actual Volume:</span
-              >
-              <span class="calc-result-value"
-                >$<strong id="totalAchievedVolumeDisplayV"></strong
-              ></span>
-            </div>
-            <div class="calc-result-item trades-needed-item">
-              <span class="calc-result-label" data-translate="volCalcMsg4"
-                >Approx. Trades Needed:</span
-              >
-              <span id="tradesNeededResult" class="calc-result-value">
-                <!-- Content injected by JS -->
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+                <button
+                    id="calculateTradesButton"
+                    class="simulate-button mt-4"
+                    data-translate="calculateTradesButtonLabel">
+                    Calculate Trades
+                </button>
 
-      <!-- Alpha Score Rolling Simulator Card -->
-      <div id="alphaScoreSimulatorCard" class="neobrutalist-card">
-        <div class="card-header" data-collapsible-target="alphaScoreContent">
-          <h1 class="page-title" data-translate="pageTitle">
-            Alpha Score Rolling Simulator
-          </h1>
-          <button
-            aria-label="Toggle alpha score simulator content"
-            aria-expanded="true"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
-          </button>
-        </div>
-        <div id="alphaScoreContent" class="card-content pt-4">
-          <div id="errorMessageContainer" class="mb-4"></div>
-
-          <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-8">
-            <div>
-              <label
-                for="fixedDailyScore"
-                class="input-label"
-                data-translate="fixedDailyScoreLabel"
-                >Fixed Daily Score</label
-              >
-              <input
-                type="number"
-                id="fixedDailyScore"
-                class="input-field"
-                value="16" />
-            </div>
-            <div>
-              <label
-                for="totalDays"
-                class="input-label"
-                data-translate="totalDaysLabel"
-                >Total Days</label
-              >
-              <input
-                type="number"
-                id="totalDays"
-                class="input-field"
-                value="15"
-                min="1" />
-            </div>
-            <div class="hidden">
-              <label
-                for="rollingWindow"
-                class="input-label"
-                data-translate="rollingWindowLabel"
-                >Rolling Window (days)</label
-              >
-              <input
-                type="number"
-                id="rollingWindow"
-                class="input-field"
-                value="15"
-                min="1"
-                readonly />
-            </div>
-            <div>
-              <label
-                for="thresholdScore"
-                class="input-label"
-                data-translate="thresholdScoreLabel"
-                >Threshold Score</label
-              >
-              <input
-                type="number"
-                id="thresholdScore"
-                class="input-field"
-                value="220" />
-            </div>
-            <div class="hidden">
-              <label
-                for="pointsConsumed"
-                class="input-label"
-                data-translate="pointsConsumedLabel"
-                >Points Consumed per Claim</label
-              >
-              <input
-                type="number"
-                id="pointsConsumed"
-                class="input-field"
-                value="15"
-                readonly />
-            </div>
-            <div>
-              <label
-                for="rewardPerClaim"
-                class="input-label"
-                data-translate="rewardPerClaimLabel"
-                >Reward per Claim (USD)</label
-              >
-              <input
-                type="number"
-                id="rewardPerClaim"
-                class="input-field"
-                value="50" />
-            </div>
-          </div>
-
-          <button
-            id="simulateButton"
-            class="simulate-button"
-            data-translate="simulateButton">
-            Simulate
-          </button>
-        </div>
-      </div>
-
-      <!-- Summary and Results card moved here -->
-      <div id="summaryCard" class="neobrutalist-card hidden">
-        <div class="card-header" data-collapsible-target="summaryContent">
-          <h2 class="text-xl font-semibold" data-translate="summaryTitle">
-            Simulation Summary
-          </h2>
-          <button
-            aria-label="Toggle summary content"
-            aria-expanded="true"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
-          </button>
-        </div>
-        <div id="summaryContent" class="card-content pt-4">
-          <p id="summaryText" class="summary-text"></p>
-        </div>
-      </div>
-
-      <div id="resultsCard" class="neobrutalist-card hidden">
-        <div class="card-header" data-collapsible-target="resultsContent">
-          <h2 class="text-xl font-semibold" data-translate="resultsTitle">
-            Simulation Details
-          </h2>
-          <button
-            aria-label="Toggle results content"
-            aria-expanded="true"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
-          </button>
-        </div>
-        <div id="resultsContent" class="card-content pt-4">
-          <div class="overflow-x-auto">
-            <table class="results-table">
-              <thead>
-                <tr>
-                  <th data-translate="tableDay">Day</th>
-                  <th data-translate="tableDailyScore">Score</th>
-                  <th data-translate="tableTotalInWindow">Total</th>
-                  <th data-translate="tableClaimed">Claimed?</th>
-                  <th data-translate="tablePtsConsumed">Pts Used</th>
-                  <th data-translate="tableRewardToday">Reward (USD)</th>
-                  <th data-translate="tableWindowRange">Window</th>
-                </tr>
-              </thead>
-              <tbody id="resultsTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Alpha Volume Card -->
-      <div id="alphaVolumeCard" class="neobrutalist-card">
-        <div class="card-header" data-collapsible-target="alphaVolumeContent">
-          <h1 class="page-title" data-translate="alphaVolumeTitle" style="text-align: center; flex-grow: 1;">
-            Alpha Volume
-          </h1>
-          <button
-            aria-label="Toggle alpha volume content"
-            aria-expanded="true"
-            class="card-toggle-button p-1">
-            <i data-lucide="chevron-up" class="card-toggle-icon w-6 h-6"></i>
-          </button>
-        </div>
-        <div id="alphaVolumeContent" class="card-content pt-4">
-          <div class="flex justify-between items-center mb-4">
-            <p id="lastUp" class="last-up" style="margin-bottom: 0;"></p>
-            <div class="toggle-container" style="margin-bottom: 0;">
-                <input type="checkbox" id="onlyNew" checked />
-                <label for="onlyNew">
-                    <span class="custom-checkbox-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
+                <div
+                    id="volumeCalcResults"
+                    class="mt-6 space-y-3"
+                    style="display: none">
+                    <div class="calc-result-item">
+                    <span class="calc-result-label" data-translate="volCalcMsg1"
+                        >Target:</span
+                    >
+                    <span class="calc-result-value"
+                        ><strong id="targetPointsDisplayV"></strong>
+                        <span data-translate="pointsUnit">points</span></span
+                    >
+                    </div>
+                    <div class="calc-result-item">
+                    <span class="calc-result-label" data-translate="volCalcMsg2"
+                        >Standard trade volume for points:</span
+                    >
+                    <span class="calc-result-value"
+                        >$<strong id="standardVolumeDisplayV"></strong
+                    ></span>
+                    </div>
+                    <div id="investmentResultItem" class="calc-result-item">
+                    <span class="calc-result-label" data-translate="volCalcMsg3"
+                        >Investment per Trade:</span
+                    >
+                    <span class="calc-result-value"
+                        >$<strong id="investmentPerTradeDisplayV"></strong
+                    ></span>
+                    </div>
+                    <div class="calc-result-item trades-needed-item">
+                    <span class="calc-result-label" data-translate="volCalcMsg4"
+                        >Approx. Trades Needed:</span
+                    >
+                    <span id="tradesNeededResult" class="calc-result-value">
+                        <!-- Content injected by JS -->
                     </span>
-                    <span data-translate="onlyNewCheckbox"></span>
-                </label>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div id="bar">
-            <div id="bar-left">
-              <input id="search" type="search" data-translate-placeholder="searchPlaceholder">
-              <button id="refreshBtn" class="btn">
-                  <i data-lucide="rotate-cw" id="refreshIcon" class="w-4 h-4"></i>
-                  <span data-translate="refreshButton">Refresh Data</span>
-                  <span id="progress" class="badge">0%</span>
-              </button>
-            </div>
-          </div>
-           <div id="customVol"></div>
-           <div class="overflow-x-auto">
-              <table id="tokenTable">
-                <thead>
-                  <tr>
-                    <th style="width:26px"></th>
-                    <th data-translate="tableHeaderRank"></th>
-                    <th data-translate="tableHeaderToken"></th>
-                    <th id="thPrice" data-translate="tableHeaderPrice"></th>
-                    <th id="thVol24h" class="sortable" data-key="vol24h" data-translate="tableHeaderVol24h"></th>
-                    <th data-translate="tableHeaderChange24h"></th>
-                    <th id="thToday" class="sortable" data-key="todayQV" data-translate="tableHeaderTodayVol"></th>
-                    <th id="thPrev" class="sortable" data-key="prevQV" data-translate="tableHeaderPrevVol"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td colspan="8" data-translate="loadingText"></td></tr>
-                </tbody>
-              </table>
+
+            <!-- Profit Calculator Panel -->
+            <div id="alphaScoreContent" class="tab-content">
+                <div id="errorMessageContainer" class="mb-4"></div>
+
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-8">
+                    <div>
+                    <label
+                        for="fixedDailyScore"
+                        class="input-label"
+                        data-translate="fixedDailyScoreLabel"
+                        >Fixed Daily Score</label
+                    >
+                    <input
+                        type="number"
+                        id="fixedDailyScore"
+                        class="input-field"
+                        value="16" />
+                    </div>
+                    <div>
+                    <label
+                        for="totalDays"
+                        class="input-label"
+                        data-translate="totalDaysLabel"
+                        >Total Days</label
+                    >
+                    <input
+                        type="number"
+                        id="totalDays"
+                        class="input-field"
+                        value="15"
+                        min="1" />
+                    </div>
+                    <div class="hidden">
+                    <label
+                        for="rollingWindow"
+                        class="input-label"
+                        data-translate="rollingWindowLabel"
+                        >Rolling Window (days)</label
+                    >
+                    <input
+                        type="number"
+                        id="rollingWindow"
+                        class="input-field"
+                        value="15"
+                        min="1"
+                        readonly />
+                    </div>
+                    <div>
+                    <label
+                        for="thresholdScore"
+                        class="input-label"
+                        data-translate="thresholdScoreLabel"
+                        >Threshold Score</label
+                    >
+                    <input
+                        type="number"
+                        id="thresholdScore"
+                        class="input-field"
+                        value="220" />
+                    </div>
+                    <div class="hidden">
+                    <label
+                        for="pointsConsumed"
+                        class="input-label"
+                        data-translate="pointsConsumedLabel"
+                        >Points Consumed per Claim</label
+                    >
+                    <input
+                        type="number"
+                        id="pointsConsumed"
+                        class="input-field"
+                        value="15"
+                        readonly />
+                    </div>
+                    <div>
+                    <label
+                        for="rewardPerClaim"
+                        class="input-label"
+                        data-translate="rewardPerClaimLabel"
+                        >Reward per Claim (USD)</label
+                    >
+                    <input
+                        type="number"
+                        id="rewardPerClaim"
+                        class="input-field"
+                        value="50" />
+                    </div>
+                </div>
+
+                <button
+                    id="simulateButton"
+                    class="simulate-button"
+                    data-translate="simulateButton">
+                    Simulate
+                </button>
+                
+                <div id="summaryCard" class="summary-card hidden">
+                    <p id="summaryText" class="summary-text"></p>
+                </div>
+
+                <div id="resultsCard" class="results-card hidden">
+                    <div class="overflow-x-auto">
+                        <table class="results-table">
+                        <thead>
+                            <tr>
+                            <th data-translate="tableDay">Day</th>
+                            <th data-translate="tableDailyScore">Score</th>
+                            <th data-translate="tableTotalInWindow">Total</th>
+                            <th data-translate="tableClaimed">Claimed?</th>
+                            <th data-translate="tablePtsConsumed">Pts Used</th>
+                            <th data-translate="tableRewardToday">Reward (USD)</th>
+                            <th data-translate="tableWindowRange">Window</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
       </div>
+
 
       <div id="disclaimerSection" class="disclaimer-text">
         <p data-translate="disclaimerText">
@@ -1332,14 +1322,15 @@
       const translations = {
         en: {
           languageToggle: "English",
-          pageTitle: "Alpha Score Rolling Simulator",
+          pageTitle: "Alpha Score Rolling Simulator", // This is not displayed directly anymore
+          profitCalcTitle: "Profit Calculator",
           guideTitle: "How to Use This Simulator",
           guideStep1:
-            "<strong>Alpha Sim:</strong> Enter daily score, total days, rolling window, threshold, points consumed, and reward to see claim projections.",
+            "<strong>Profit Calculator:</strong> Enter daily score, total days, threshold, and reward to see claim projections.",
           guideStep5:
             "<strong>Note:</strong> This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
           guideStep6: "",
-          guideStep7: "<strong>Volume Calc:</strong> Input your investment per trade and target points. Select a bonus (2x for other chains or 4x for BSC) to see the required trades and total volume.",
+          guideStep7: "<strong>Point Trade:</strong> Input your investment per trade and target points. Select a bonus (2x for other chains or 4x for BSC) to see the required trades and total volume.",
           fixedDailyScoreLabel: "Fixed Daily Score",
           totalDaysLabel: "Total Days",
           rollingWindowLabel: "Rolling Window (days)",
@@ -1350,6 +1341,7 @@
           summaryTitle: "Simulation Summary",
           resultsTitle: "Simulation Details",
           volumeCalcTitle: "Volume Points Trade Calculator",
+          volumeCalcTitleShort: "Point Trade",
           initialInvestmentVolCalcLabel: "Initial Investment (USD per trade)",
           targetVolumePointsCalcLabel: "Target Volume Points",
           calculateTradesButtonLabel: "Calculate Trades",
@@ -1361,12 +1353,9 @@
           volCalcMsg1: "Target:",
           pointsUnit: "points",
           volCalcMsg2: "Standard trade volume for points:",
-          otherChainBonusMsgLabel: "Other Chain Bonus - Effective Volume:",
-          bscBonusMsgLabel: "BSC Bonus - Effective Volume:",
           volCalcMsg3: "Investment per Trade:",
           volCalcMsg4: "Approx. Trades Needed:",
           tradesUnit: "trades",
-          volCalcMsg5: "Total Actual Volume:",
           errorInitialInvestment:
             "Initial Investment must be a positive number.",
           errorTargetVolumePoints:
@@ -1389,7 +1378,7 @@
             "✅ Claimed {count} times, total reward {reward} USD",
           disclaimerText:
             "Disclaimer: This simulator is for informational and entertainment purposes only and does not constitute financial advice.",
-          alphaVolumeTitle: "Alpha Volume Board",
+          alphaVolumeTitle: "Alpha Volume",
           lastUpdated: "Last Updated: {time}",
           searchPlaceholder: "🔍 Filter by Token Name / Symbol…",
           refreshButton: "Refresh Data",
@@ -1399,8 +1388,8 @@
           tableHeaderPrice: "Price",
           tableHeaderVol24h: "24H Volume",
           tableHeaderChange24h: "24H Change",
-          tableHeaderTodayVol: "Today's Limit Order Volume",
-          tableHeaderPrevVol: "Prev. Day's Limit Order Volume",
+          tableHeaderTodayVol: "Today's Volume",
+          tableHeaderPrevVol: "Prev. Day's Volume",
           loadingText: "Loading…",
           loadFailedText: "Failed to load…",
           toastFavAdded: "Added to favorites",
@@ -1412,13 +1401,14 @@
         km: {
           languageToggle: "ភាសាខ្មែរ",
           pageTitle: "កម្មវិធីគណនាពិន្ទុអាល់ហ្វា",
+          profitCalcTitle: "គណនាប្រាក់ចំណេញ",
           guideTitle: "របៀបប្រើកម្មវិធីគណនានេះ",
           guideStep1:
-            "<strong>កម្មវិធីគណនាពិន្ទុអាល់ហ្វា៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, រយៈពេលវិលជុំ, កម្រិតពិន្ទុ, ពិន្ទុប្រើប្រាស់, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
+            "<strong>គណនាប្រាក់ចំណេញ៖</strong> បញ្ចូលពិន្ទុប្រចាំថ្ងៃ, ចំនួនថ្ងៃ, កម្រិតពិន្ទុ, និងរង្វាន់ ដើម្បីមើលការព្យាករណ៍។",
           guideStep5:
             "<strong>កំណត់ចំណាំ៖</strong> កម្មវិធីគណនាធ្វើនេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
           guideStep6: "",
-          guideStep7: "<strong>កម្មវិធីគណនាបរិមាណ៖</strong> បញ្ចូលការវិនិយោគរបស់អ្នកក្នុងមួយការជួញដូរ និងពិន្ទុគោលដៅ។ ជ្រើសរើសប្រាក់រង្វាន់ (2ដងសម្រាប់បណ្តាញផ្សេងទៀត ឬ 4ដងសម្រាប់ BSC) ដើម្បីមើលការជួញដូរដែលត្រូវការ និងបរិមាណសរុប។",
+          guideStep7: "<strong>ការជួញដូរពិន្ទុ៖</strong> បញ្ចូលការវិនិយោគរបស់អ្នកក្នុងមួយការជួញដូរ និងពិន្ទុគោលដៅ។ ជ្រើសរើសប្រាក់រង្វាន់ (2ដងសម្រាប់បណ្តាញផ្សេងទៀត ឬ 4ដងសម្រាប់ BSC) ដើម្បីមើលការជួញដូរដែលត្រូវការ និងបរិមាណសរុប។",
           fixedDailyScoreLabel: "ពិន្ទុថេរប្រចាំថ្ងៃ",
           totalDaysLabel: "ចំនួនថ្ងៃសរុប",
           rollingWindowLabel: "វិលត្រលប់ (ថ្ងៃ)",
@@ -1429,6 +1419,7 @@
           summaryTitle: "សេចក្ដីសង្ខេបនៃការគណនា",
           resultsTitle: "ព័ត៌មានលម្អិតនៃការគណនា",
           volumeCalcTitle: "កម្មវិធីគណនាពិន្ទុបរិមាណការជួញដូរ",
+          volumeCalcTitleShort: "ការជួញដូរពិន្ទុ",
           initialInvestmentVolCalcLabel: "ការវិនិយោគ (USD ក្នុងការជួញដូរម្តង)",
           targetVolumePointsCalcLabel: "គោលដៅពិន្ទុបរិមាណ",
           calculateTradesButtonLabel: "គណនាការជួញដូរ",
@@ -1440,12 +1431,9 @@
           volCalcMsg1: "គោលដៅ៖",
           pointsUnit: "ពិន្ទុ",
           volCalcMsg2: "បរិមាណការជួញដូរស្ដង់ដារសម្រាប់ពិន្ទុនេះ៖",
-          otherChainBonusMsgLabel: "ប្រាក់រង្វាន់បណ្តាញផ្សេងទៀត - បរិមាណមានប្រសិទ្ធភាព៖",
-          bscBonusMsgLabel: "ប្រាក់រង្វាន់ BSC - បរិមាណមានប្រសិទ្ធភាព៖",
           volCalcMsg3: "ការវិនិយោគក្នុងមួយការជួញដូរម្តង៖",
           volCalcMsg4: "ចំនួនការជួញដូរដែលត្រូវការ (ប្រហាក់ប្រហែល)៖",
           tradesUnit: "ការជួញដូរ",
-          volCalcMsg5: "បរិមាណជួញដូរសរុបជាក់ស្តែង៖",
           errorInitialInvestment: "ការវិនិយោគដំបូងត្រូវតែជាលេខវិជ្ជមាន។",
           errorTargetVolumePoints: "គោលដៅពិន្ទុបរិមាណត្រូវតែជាលេខវិជ្ជមាន។",
           tableDay: "ថ្ងៃទី",
@@ -1469,7 +1457,7 @@
             "✅ ប្រហែលអាចទទួលបាន {count} ដង, រង្វាន់សរុប {reward} USD",
           disclaimerText:
             "ការបដិសេធ៖ កម្មវិធីគណនានេះគឺសម្រាប់គោលបំណងផ្តល់ព័ត៌មាន និងការកម្សាន្តតែប៉ុណ្ណោះ ហើយមិនមែនជាដំបូន្មានផ្នែកហិរញ្ញវត្ថុទេ។",
-          alphaVolumeTitle: "តារាងបរិមាណអាល់ហ្វា",
+          alphaVolumeTitle: "បរិមាណអាល់ហ្វា",
           lastUpdated: "បានធ្វើបច្ចុប្បន្នភាពចុងក្រោយ៖ {time}",
           searchPlaceholder: "🔍 តម្រងតាមឈ្មោះ / និមិត្តសញ្ញា…",
           refreshButton: "ផ្ទុកទិន្នន័យឡើងវិញ",
@@ -1542,18 +1530,10 @@
       const standardVolumeDisplayVEl = document.getElementById(
         "standardVolumeDisplayV"
       );
-      const otherChainBonusResultItemEl = document.getElementById("otherChainBonusResultItem");
-      const bscBonusResultItemEl = document.getElementById("bscBonusResultItem");
-
-      const effectiveOtherChainVolumeDisplayVEl = document.getElementById("effectiveOtherChainVolumeDisplayV");
-      const effectiveBscVolumeDisplayVEl = document.getElementById("effectiveBscVolumeDisplayV");
       const investmentPerTradeDisplayVEl = document.getElementById(
         "investmentPerTradeDisplayV"
       );
       const tradesNeededResultEl = document.getElementById("tradesNeededResult");
-      const totalAchievedVolumeDisplayVEl = document.getElementById(
-        "totalAchievedVolumeDisplayV"
-      );
 
       // Function to handle card collapse/expand
       function toggleCardContent(buttonElement) {
@@ -1693,22 +1673,6 @@
           );
           if (lastCalc.targetPoints) {
             tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${lastCalc.numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
-
-            if (lastCalc.isBscTrade) {
-                effectiveBscVolumeDisplayVEl.textContent =
-                  lastCalc.adjustedTargetUSDVolume.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  });
-                bscBonusResultItemEl.style.display = "flex";
-            } else if (lastCalc.isOtherChainTrade) {
-              effectiveOtherChainVolumeDisplayVEl.textContent =
-                lastCalc.adjustedTargetUSDVolume.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                });
-              otherChainBonusResultItemEl.style.display = "flex";
-            }
           }
         }
          if (alphaVolumeState.rows.length > 0) {
@@ -1753,8 +1717,6 @@
       function runSimulation() {
         clearError();
         resultsTableBodyEl.innerHTML = "";
-        
-        const alphaSimCard = document.getElementById('alphaScoreSimulatorCard');
         
         summaryCardEl.classList.add("hidden");
         resultsCardEl.classList.add("hidden");
@@ -1824,24 +1786,24 @@
 
           const tr = document.createElement("tr");
           tr.innerHTML = `
-                                <td class="text-center">${currentDayNumber}</td>
-                                <td class="text-center">${
-                                  dailyScoresEarned[dayIndex]
-                                }</td>
-                                <td class="text-center">${scoreForCheck.toFixed(
-                                  0
-                                )}</td> 
-                                <td class="text-center">${
-                                  claimedToday ? "✅" : "❌"
-                                }</td>
-                                <td class="text-center">${consumedForTableDisplay}</td>
-                                <td class="text-center">${runningTotalReward.toFixed(
-                                  2
-                                )}</td> 
-                                <td>Day ${
-                                  windowStartDayIndex + 1
-                                } ~ Day ${currentDayNumber}</td>
-                            `;
+                                  <td class="text-center">${currentDayNumber}</td>
+                                  <td class="text-center">${
+                                    dailyScoresEarned[dayIndex]
+                                  }</td>
+                                  <td class="text-center">${scoreForCheck.toFixed(
+                                    0
+                                  )}</td> 
+                                  <td class="text-center">${
+                                    claimedToday ? "✅" : "❌"
+                                  }</td>
+                                  <td class="text-center">${consumedForTableDisplay}</td>
+                                  <td class="text-center">${runningTotalReward.toFixed(
+                                    2
+                                  )}</td> 
+                                  <td>Day ${
+                                    windowStartDayIndex + 1
+                                  } ~ Day ${currentDayNumber}</td>
+                                `;
           resultsTableBodyEl.appendChild(tr);
         }
 
@@ -1855,13 +1817,10 @@
           .replace("{count}", runningClaimCount)
           .replace("{reward}", runningTotalReward.toFixed(2));
         
-        alphaSimCard.insertAdjacentElement('afterend', resultsCardEl);
-        alphaSimCard.insertAdjacentElement('afterend', summaryCardEl);
-
 
         summaryCardEl.classList.remove("hidden");
         resultsCardEl.classList.remove("hidden");
-       
+        
         lucide.createIcons();
 
         if (disclaimerSectionEl) disclaimerSectionEl.classList.remove("hidden");
@@ -1876,9 +1835,7 @@
         calculateTradesButtonEl.addEventListener("click", () => {
           clearError(volumeCalcErrorMessageContainerEl);
           volumeCalcResultsEl.style.display = "none";
-          otherChainBonusResultItemEl.style.display = "none";
-          bscBonusResultItemEl.style.display = "none";
-          document.getElementById('investmentResultItem').style.display = 'none';
+          document.getElementById('investmentResultItem').style.display = 'flex';
 
           const initialInvestment = parseFloat(
             initialInvestmentVolCalcEl.value
@@ -1916,8 +1873,7 @@
           const numberOfTrades = Math.ceil(
             adjustedTargetUSDVolume / initialInvestment
           );
-          const totalAchievedVolume = numberOfTrades * initialInvestment;
-
+          
           volumeCalcResultsEl.dataset.lastCalc = JSON.stringify({
             targetPoints,
             standardTargetUSDVolume,
@@ -1926,7 +1882,6 @@
             adjustedTargetUSDVolume,
             initialInvestment,
             numberOfTrades,
-            totalAchievedVolume,
           });
 
           targetPointsDisplayVEl.textContent = targetPoints;
@@ -1936,29 +1891,13 @@
               maximumFractionDigits: 2,
             });
           
-          tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
-          
-          totalAchievedVolumeDisplayVEl.textContent =
-            totalAchievedVolume.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+          investmentPerTradeDisplayVEl.textContent = 
+            initialInvestment.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
             });
 
-          if (isBscTrade) {
-             effectiveBscVolumeDisplayVEl.textContent =
-              adjustedTargetUSDVolume.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-             bscBonusResultItemEl.style.display = "flex";
-          } else if (isOtherChainTrade) {
-             effectiveOtherChainVolumeDisplayVEl.textContent =
-              adjustedTargetUSDVolume.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              });
-             otherChainBonusResultItemEl.style.display = "flex";
-          }
+          tradesNeededResultEl.innerHTML = `<strong class="trades-needed-highlight">${numberOfTrades}</strong> <span class="trades-needed-highlight" data-translate="tradesUnit">${translations[currentLanguage].tradesUnit}</span>`;
           
           volumeCalcResultsEl.style.display = "block";
           updateUIText();
@@ -1976,7 +1915,7 @@
       };
 
       const av = { // Alpha Volume DOM elements
-          tbody: document.querySelector('#tokenTable tbody'),
+          tbody: document.querySelector('#alphaVolumeContent #tokenTable tbody'),
           refreshBtn: document.getElementById('refreshBtn'),
           progressEl: document.getElementById('progress'),
           lastUpEl: document.getElementById('lastUp'),
@@ -1996,7 +1935,11 @@
       
       const fmtShort=ts=>new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Phnom_Penh',hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit' }).format(new Date(ts)).replace(/\//g,'-');
       const fmtFull=ts=>new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Phnom_Penh',hour12:false,year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit',minute:'2-digit',second:'2-digit' }).format(new Date(ts)).replace(/\//g,'-');
-      const nearest8UTC=()=>{ const n=new Date(),b=new Date(); b.setHours(8,0,0,0); if(n<b)b.setDate(b.getDate()-1); return b.getTime(); };
+      
+      // CORRECTED: Gets the timestamp for the start of the current day in UTC (00:00:00)
+      const getStartOfUTCDay = (date = new Date()) => {
+        return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)).getTime();
+      };
 
       function showToast(msgKey){
         const msg = translations[currentLanguage][msgKey] || msgKey;
@@ -2021,13 +1964,13 @@
         }catch{return 0;}
       }
 
-      async function fillQVAll(list,today8,yest8,endTs){
+      async function fillQVAll(list,todayStart,prevStart,now){
         let done=0,total=list.length;
         av.progressEl.style.display='inline-block';
         await Promise.all(list.map(r=>limit(async()=>{
           [r.todayQV,r.prevQV]=await Promise.all([
-            qv(r.sym,today8,endTs),
-            qv(r.sym,yest8,today8-1)
+            qv(r.sym,todayStart,now),
+            qv(r.sym,prevStart,todayStart-1)
           ]);
           av.progressEl.textContent=`${Math.floor(++done/total*100)}%`;
         })));
@@ -2066,7 +2009,7 @@
         return [...arr].sort((a,b)=>sortDir==='desc'?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey]);
       }
       function updateSortIcons(){
-        document.querySelectorAll('#alphaVolumeCard th.sortable').forEach(th=>{
+        document.querySelectorAll('#alphaVolumeContent th.sortable').forEach(th=>{
           th.classList.remove('asc','desc');
           if(th.dataset.key===alphaVolumeState.sortKey)th.classList.add(alphaVolumeState.sortDir);
         });
@@ -2115,22 +2058,26 @@
         
         av.refreshBtn.disabled=true;
         av.progressEl.textContent='0%';
-        const today8=nearest8UTC(),yest8=today8-864e5,endTs=Date.now();
+        
+        // CORRECTED: Use UTC start of day for accurate daily volume
+        const endTs = Date.now();
+        const todayUTC = getStartOfUTCDay();
+        const yestUTC = todayUTC - 86400000; // 24 * 60 * 60 * 1000
 
         const todayText = translations[currentLanguage].tableHeaderTodayVol;
         const prevText = translations[currentLanguage].tableHeaderPrevVol;
-        av.thToday.innerHTML=`${todayText}<span class="subl">(${fmtShort(today8)}&nbsp;~&nbsp;${fmtShort(endTs)})</span>`;
-        av.thPrev.innerHTML =`${prevText}<span class="subl">(${fmtShort(yest8)}&nbsp;~&nbsp;${fmtShort(today8-1)})</span>`;
+        av.thToday.innerHTML=`${todayText}<span class="subl">(${fmtShort(todayUTC)}&nbsp;~&nbsp;${fmtShort(endTs)})</span>`;
+        av.thPrev.innerHTML =`${prevText}<span class="subl">(${fmtShort(yestUTC)}&nbsp;~&nbsp;${fmtShort(todayUTC-1)})</span>`;
 
         try{
           if (fetchData) {
             alphaVolumeState.rows=await fetchList();
-            await fillQVAll(alphaVolumeState.rows,today8,yest8,endTs);
+            await fillQVAll(alphaVolumeState.rows, todayUTC, yestUTC, endTs);
           }
           renderAlphaVolume();
           const time = fmtFull(Date.now());
           av.lastUpEl.textContent = translations[currentLanguage].lastUpdated.replace('{time}', time);
-          alphaVolumeState.boundary = today8;
+          alphaVolumeState.boundary = todayUTC;
         }catch(e){
           console.error(e);
           av.tbody.innerHTML=`<tr><td colspan="8">${translations[currentLanguage].loadFailedText}</td></tr>`;
@@ -2150,7 +2097,7 @@
           const s=e.target.closest('.star');
           if(s){s.classList.add('bounce');setTimeout(()=>s.classList.remove('bounce'),150);toggleFav(s.closest('tr').dataset.sym);}
         });
-        document.querySelectorAll('#alphaVolumeCard th.sortable').forEach(th=>{
+        document.querySelectorAll('#alphaVolumeContent th.sortable').forEach(th=>{
           th.addEventListener('click',()=>{
             const key=th.dataset.key;
             alphaVolumeState.sortDir=(alphaVolumeState.sortKey===key&&alphaVolumeState.sortDir==='desc')?'asc':'desc';alphaVolumeState.sortKey=key;renderAlphaVolume();
@@ -2208,16 +2155,10 @@
         }
 
 
-        document.querySelectorAll(".neobrutalist-card").forEach((card) => {
-          const header = card.querySelector(".card-header");
-          const toggleButton = header
-            ? header.querySelector(".card-toggle-button")
-            : null;
-          const contentId = header ? header.dataset.collapsibleTarget : null;
-          const cardId = card.id;
-
-          if (header && toggleButton && contentId) {
-            header.addEventListener("click", function (event) {
+        document.querySelectorAll(".neobrutalist-card .card-header").forEach((header) => {
+          const toggleButton = header.querySelector(".card-toggle-button");
+          if(toggleButton) {
+              header.addEventListener("click", function (event) {
               if (
                 event.target === toggleButton ||
                 toggleButton.contains(event.target) ||
@@ -2230,39 +2171,42 @@
               }
             });
 
+            const contentId = header.dataset.collapsibleTarget;
             const contentElement = document.getElementById(contentId);
-            const iconElement =
-              toggleButton.querySelector("i.card-toggle-icon");
+            const iconElement = toggleButton.querySelector("i.card-toggle-icon");
 
-            if (contentElement && iconElement) {
-              let isInitiallyOpen =
-                cardId === "alphaScoreSimulatorCard" ||
-                cardId === "alphaVolumeCard";
-              
-              if(cardId === "volumeCalcCard"){
-                  isInitiallyOpen = false;
-              }
-              if(cardId === "alphaVolumeCard"){
-                  isInitiallyOpen = true;
-              }
-
-              if (cardId === "summaryCard" || cardId === "resultsCard") {
-                if (card) card.classList.add("hidden");
-                contentElement.classList.add("hidden");
+            if(contentElement && iconElement && contentElement.classList.contains('hidden')){
                 toggleButton.setAttribute("aria-expanded", "false");
                 iconElement.setAttribute("data-lucide", "chevron-down");
-              } else if (isInitiallyOpen) {
-                contentElement.classList.remove("hidden");
+            } else if (contentElement && iconElement) {
                 toggleButton.setAttribute("aria-expanded", "true");
                 iconElement.setAttribute("data-lucide", "chevron-up");
-              } else {
-                contentElement.classList.add("hidden");
-                toggleButton.setAttribute("aria-expanded", "false");
-                iconElement.setAttribute("data-lucide", "chevron-down");
-              }
             }
           }
         });
+
+        // --- TAB LOGIC ---
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const targetId = button.dataset.tabTarget;
+                
+                // Deactivate all tabs and content
+                tabButtons.forEach(btn => btn.classList.remove("active"));
+                tabContents.forEach(content => content.classList.remove("active"));
+
+                // Activate the clicked tab and corresponding content
+                button.classList.add("active");
+                document.querySelector(targetId).classList.add("active");
+            });
+        });
+
+        // Set default active tab
+        document.querySelector('.tab-button[data-tab-target="#alphaVolumeContent"]').classList.add('active');
+        document.querySelector('#alphaVolumeContent').classList.add('active');
+
         
         functionToRunOnDOMLoad();
         lucide.createIcons();
@@ -2273,4 +2217,6 @@
     </script>
   </body>
 </html>
+
+
 
